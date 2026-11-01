@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "settings": {
+    "org_name": "Example Rescue",
+    "logo_id": 0,
+    "contact_email": "hello@example.test",
+    "country": "CA",
+    "currency": "CAD",
+    "source": "fixture",
+    "shelter_id": 0,
+    "donate_paypal_url": "https://www.paypal.com/paypalme/ExampleRescue",
+    "donate_card_url": "https://example.test/donate",
+    "donate_etransfer_email": "donations@example.test",
+    "donate_etransfer_note": "Thank you for helping animals find homes.",
+    "color_primary": "#1F4E79",
+    "color_accent": "#B58B35",
+    "color_ink": "#2B2A28",
+    "color_background": "#F7F1E3",
+    "color_surface": "#FFFDF8",
+    "font_heading": "fraunces",
+    "font_body": "inter",
+    "posthog_key": "",
+    "posthog_region": "us",
+    "species": [
+      "dog",
+      "cat"
+    ]
+  },
+  "finish": {
+    "activate_theme": true,
+    "import_demo": false
+  }
+}

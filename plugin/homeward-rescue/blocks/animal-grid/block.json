@@ -1,0 +1,75 @@
+{
+  "apiVersion": 3,
+  "name": "homeward/animal-grid",
+  "title": "Animal Grid",
+  "category": "widgets",
+  "icon": "heart",
+  "textdomain": "homeward-rescue",
+  "attributes": {
+    "filters": {
+      "type": "boolean",
+      "default": true
+    },
+    "limit": {
+      "type": "number",
+      "default": 0
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "species": {
+      "type": "string",
+      "default": "",
+      "enum": [
+        "",
+        "dog",
+        "cat",
+        "other"
+      ]
+    },
+    "region": {
+      "type": "string",
+      "default": ""
+    },
+    "status": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "string"
+      }
+    },
+    "columns": {
+      "type": "number",
+      "default": 4
+    },
+    "courtesySection": {
+      "type": "boolean",
+      "default": true
+    },
+    "breedFilter": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "usesContext": [
+    "postId",
+    "postType"
+  ],
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "anchor": true,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    }
+  },
+  "editorScript": "homeward-editor",
+  "style": "homeward",
+  "render": "file:./render.php",
+  "viewScriptModule": "homeward-animals"
+}

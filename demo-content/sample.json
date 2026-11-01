@@ -1,0 +1,471 @@
+{
+  "version": 1,
+  "notice": "Entirely fictional sample content. Animals come from the bundled Petstablished fixture source. No downloads are needed.",
+  "images": [
+    {
+      "file": "demo-dog-blue.png",
+      "title": "Demo Nimbus Sprout illustration",
+      "alt": "Flat illustration of Nimbus Sprout, a fictional dog."
+    },
+    {
+      "file": "demo-dog-gold.png",
+      "title": "Demo Juniper Pixel illustration",
+      "alt": "Flat illustration of Juniper Pixel, a fictional dog."
+    },
+    {
+      "file": "demo-cat-blue.png",
+      "title": "Demo Mochi Comet illustration",
+      "alt": "Flat illustration of Mochi Comet, a fictional cat."
+    },
+    {
+      "file": "demo-dog-play.png",
+      "title": "Demo Waffle Orbit illustration",
+      "alt": "Flat illustration of Waffle Orbit, a fictional dog."
+    },
+    {
+      "file": "demo-dog-pointed.png",
+      "title": "Demo Clover Gadget illustration",
+      "alt": "Flat illustration of Clover Gadget, a fictional dog."
+    },
+    {
+      "file": "demo-dog-walk.png",
+      "title": "Demo Biscuit Rocket illustration",
+      "alt": "Flat illustration of Biscuit Rocket, a fictional dog."
+    },
+    {
+      "file": "demo-dog-curly.png",
+      "title": "Demo Pebble Widget illustration",
+      "alt": "Flat illustration of Pebble Widget, a fictional dog."
+    },
+    {
+      "file": "demo-dog-rest.png",
+      "title": "Demo Pippin Toggle illustration",
+      "alt": "Flat illustration of Pippin Toggle, a fictional dog."
+    },
+    {
+      "file": "demo-dog-spot.png",
+      "title": "Demo Tansy Toggle illustration",
+      "alt": "Flat illustration of Tansy Toggle, a fictional dog."
+    },
+    {
+      "file": "demo-dog-tall.png",
+      "title": "Demo Cosmo Doodle illustration",
+      "alt": "Flat illustration of Cosmo Doodle, a fictional dog."
+    },
+    {
+      "file": "demo-cat-gold.png",
+      "title": "Demo Noodle Glimmer illustration",
+      "alt": "Flat illustration of Noodle Glimmer, a fictional cat."
+    },
+    {
+      "file": "demo-dog-husky.png",
+      "title": "Demo Maple Gizmo illustration",
+      "alt": "Flat illustration of Maple Gizmo, a fictional dog."
+    }
+  ],
+  "animals": [
+    {
+      "id": 920001,
+      "name": "Nimbus Sprout",
+      "animal": "Dog",
+      "status": "Available",
+      "age": "Adult",
+      "date_of_birth": "4 years",
+      "sex": "Male",
+      "size": "Large",
+      "primary_breed": "Labrador Retriever",
+      "secondary_breed": "Mix",
+      "adoption_fee": "350",
+      "image": "demo-dog-blue.png",
+      "arrived_days_ago": 2,
+      "is_ok_with_other_dogs": true,
+      "is_ok_with_cats": false,
+      "is_ok_with_kids": true,
+      "is_housebroken": true,
+      "has_special_need": false,
+      "special_needs": "",
+      "is_bonded": false,
+      "description": "<p>A steady walking companion who enjoys sniffing trails and resting beside a chair. Fictional practice animal. This profile and fee are made-up examples.</p>"
+    },
+    {
+      "id": 920002,
+      "name": "Juniper Pixel",
+      "animal": "Dog",
+      "status": "Available",
+      "age": "Senior",
+      "date_of_birth": "10 years",
+      "sex": "Female",
+      "size": "Small",
+      "primary_breed": "Jack Russell Terrier",
+      "secondary_breed": "Mix",
+      "adoption_fee": "200",
+      "image": "demo-dog-gold.png",
+      "arrived_days_ago": 60,
+      "is_ok_with_other_dogs": false,
+      "is_ok_with_cats": null,
+      "is_ok_with_kids": false,
+      "is_housebroken": true,
+      "has_special_need": true,
+      "special_needs": "Fictional care plan: ask the practice team about daily medication.",
+      "is_bonded": false,
+      "description": "<p>A small senior who likes short strolls and a quiet place to nap. Fictional practice animal. This profile and fee are made-up examples.</p>"
+    },
+    {
+      "id": 920003,
+      "name": "Mochi Comet",
+      "animal": "Cat",
+      "status": "Available",
+      "age": "Young",
+      "date_of_birth": "1 year",
+      "sex": "Female",
+      "size": "Small",
+      "primary_breed": "Domestic Shorthair",
+      "secondary_breed": "",
+      "adoption_fee": "175",
+      "image": "demo-cat-blue.png",
+      "arrived_days_ago": 70,
+      "is_ok_with_other_dogs": null,
+      "is_ok_with_cats": true,
+      "is_ok_with_kids": null,
+      "is_housebroken": true,
+      "has_special_need": false,
+      "special_needs": "",
+      "is_bonded": false,
+      "description": "<p>A curious cat who enjoys a window perch and gentle play with a ribbon toy. Fictional practice animal. This profile and fee are made-up examples.</p>"
+    },
+    {
+      "id": 920004,
+      "name": "Waffle Orbit",
+      "animal": "Dog",
+      "status": "Available",
+      "age": "Puppy",
+      "date_of_birth": "5 months",
+      "sex": "Male",
+      "size": "Medium",
+      "primary_breed": "Border Collie",
+      "secondary_breed": "Mix",
+      "adoption_fee": "425",
+      "image": "demo-dog-play.png",
+      "arrived_days_ago": 2,
+      "is_ok_with_other_dogs": true,
+      "is_ok_with_cats": null,
+      "is_ok_with_kids": true,
+      "is_housebroken": null,
+      "has_special_need": false,
+      "special_needs": "",
+      "is_bonded": false,
+      "description": "<p>A bouncy puppy practising gentle greetings and settling after play. Fictional practice animal. This profile and fee are made-up examples.</p>"
+    },
+    {
+      "id": 920005,
+      "name": "Clover Gadget",
+      "animal": "Dog",
+      "status": "Available",
+      "age": "Adult",
+      "date_of_birth": "3 years",
+      "sex": "Female",
+      "size": "Large",
+      "primary_breed": "German Shepherd",
+      "secondary_breed": "Mix",
+      "adoption_fee": "350",
+      "image": "demo-dog-pointed.png",
+      "arrived_days_ago": 90,
+      "is_ok_with_other_dogs": true,
+      "is_ok_with_cats": false,
+      "is_ok_with_kids": null,
+      "is_housebroken": true,
+      "has_special_need": false,
+      "special_needs": "",
+      "is_bonded": false,
+      "description": "<p>A thoughtful dog who enjoys puzzle feeders and walks with time to explore. Fictional practice animal. This profile and fee are made-up examples.</p>"
+    },
+    {
+      "id": 920006,
+      "name": "Biscuit Rocket",
+      "animal": "Dog",
+      "status": "Available",
+      "age": "Young",
+      "date_of_birth": "18 months",
+      "sex": "Male",
+      "size": "Medium",
+      "primary_breed": "Beagle",
+      "secondary_breed": "Mix",
+      "adoption_fee": "325",
+      "image": "demo-dog-walk.png",
+      "arrived_days_ago": 100,
+      "is_ok_with_other_dogs": true,
+      "is_ok_with_cats": true,
+      "is_ok_with_kids": true,
+      "is_housebroken": true,
+      "has_special_need": false,
+      "special_needs": "",
+      "is_bonded": false,
+      "description": "<p>A cheerful scent explorer who likes food puzzles and company on a walk. Fictional practice animal. This profile and fee are made-up examples.</p>"
+    },
+    {
+      "id": 920007,
+      "name": "Pebble Widget",
+      "animal": "Dog",
+      "status": "Available",
+      "age": "Senior",
+      "date_of_birth": "9 years",
+      "sex": "Female",
+      "size": "Small",
+      "primary_breed": "Miniature Poodle",
+      "secondary_breed": "Mix",
+      "adoption_fee": "225",
+      "image": "demo-dog-curly.png",
+      "arrived_days_ago": 110,
+      "is_ok_with_other_dogs": null,
+      "is_ok_with_cats": true,
+      "is_ok_with_kids": false,
+      "is_housebroken": true,
+      "has_special_need": true,
+      "special_needs": "Fictional care plan: ask the practice team about daily medication.",
+      "is_bonded": false,
+      "description": "<p>A gentle companion who enjoys a familiar routine and a warm resting spot. Fictional practice animal. This profile and fee are made-up examples.</p>"
+    },
+    {
+      "id": 920008,
+      "name": "Pippin Toggle",
+      "animal": "Dog",
+      "status": "Available",
+      "age": "Adult",
+      "date_of_birth": "6 years",
+      "sex": "Male",
+      "size": "Medium",
+      "primary_breed": "Cocker Spaniel",
+      "secondary_breed": "Mix",
+      "adoption_fee": "275",
+      "image": "demo-dog-rest.png",
+      "arrived_days_ago": 120,
+      "is_ok_with_other_dogs": true,
+      "is_ok_with_cats": null,
+      "is_ok_with_kids": true,
+      "is_housebroken": true,
+      "has_special_need": false,
+      "special_needs": "",
+      "is_bonded": true,
+      "description": "<p>One of a fictional bonded pair, happiest sharing a sofa with Tansy Toggle. Fictional practice animal. This profile and fee are made-up examples.</p>"
+    },
+    {
+      "id": 920009,
+      "name": "Tansy Toggle",
+      "animal": "Dog",
+      "status": "Available",
+      "age": "Adult",
+      "date_of_birth": "5 years",
+      "sex": "Female",
+      "size": "Medium",
+      "primary_breed": "Cocker Spaniel",
+      "secondary_breed": "Mix",
+      "adoption_fee": "275",
+      "image": "demo-dog-spot.png",
+      "arrived_days_ago": 130,
+      "is_ok_with_other_dogs": true,
+      "is_ok_with_cats": false,
+      "is_ok_with_kids": null,
+      "is_housebroken": true,
+      "has_special_need": false,
+      "special_needs": "",
+      "is_bonded": true,
+      "description": "<p>Pippin Toggle’s fictional bonded companion, fond of soft toys and garden time. Fictional practice animal. This profile and fee are made-up examples.</p>"
+    },
+    {
+      "id": 920010,
+      "name": "Cosmo Doodle",
+      "animal": "Dog",
+      "status": "Pending",
+      "age": "Young",
+      "date_of_birth": "2 years",
+      "sex": "Male",
+      "size": "Extra Large",
+      "primary_breed": "Great Dane",
+      "secondary_breed": "Mix",
+      "adoption_fee": "375",
+      "image": "demo-dog-tall.png",
+      "arrived_days_ago": 140,
+      "is_ok_with_other_dogs": false,
+      "is_ok_with_cats": null,
+      "is_ok_with_kids": false,
+      "is_housebroken": true,
+      "has_special_need": false,
+      "special_needs": "",
+      "is_bonded": false,
+      "description": "<p>A tall, easygoing dog practising loose lead walking and calm introductions. Fictional practice animal. This profile and fee are made-up examples.</p>"
+    },
+    {
+      "id": 920011,
+      "name": "Noodle Glimmer",
+      "animal": "Cat",
+      "status": "Available",
+      "age": "Kitten",
+      "date_of_birth": "7 months",
+      "sex": "Male",
+      "size": "Small",
+      "primary_breed": "Domestic Longhair",
+      "secondary_breed": "",
+      "adoption_fee": "200",
+      "image": "demo-cat-gold.png",
+      "arrived_days_ago": 2,
+      "is_ok_with_other_dogs": null,
+      "is_ok_with_cats": true,
+      "is_ok_with_kids": true,
+      "is_housebroken": null,
+      "has_special_need": false,
+      "special_needs": "",
+      "is_bonded": false,
+      "description": "<p>A playful kitten who likes chasing a soft ball and climbing a sturdy scratcher. Fictional practice animal. This profile and fee are made-up examples.</p>"
+    },
+    {
+      "id": 920012,
+      "name": "Maple Gizmo",
+      "animal": "Dog",
+      "status": "Available",
+      "age": "Adult",
+      "date_of_birth": "7 years",
+      "sex": "Female",
+      "size": "Large",
+      "primary_breed": "Siberian Husky",
+      "secondary_breed": "Mix",
+      "adoption_fee": "300",
+      "image": "demo-dog-husky.png",
+      "arrived_days_ago": 160,
+      "is_ok_with_other_dogs": true,
+      "is_ok_with_cats": false,
+      "is_ok_with_kids": null,
+      "is_housebroken": true,
+      "has_special_need": false,
+      "special_needs": "",
+      "is_bonded": false,
+      "description": "<p>A bright walking companion who enjoys cool mornings and a food puzzle at home. Fictional practice animal. This profile and fee are made-up examples.</p>"
+    }
+  ],
+  "pages": [
+    {
+      "slug": "adopt",
+      "title": "Adopt",
+      "patterns": [
+        "homeward/how-to-adopt"
+      ],
+      "content": "<!-- wp:paragraph --><p>Demo page. All names, accounts and instructions here are fictional examples. Replace this text with your rescue information before sharing the site.</p><!-- /wp:paragraph -->\n<!-- wp:group {\"tagName\":\"section\",\"anchor\":\"adopt\",\"className\":\"homeward-section\",\"layout\":{\"type\":\"constrained\"}} -->\n<section id=\"adopt\" class=\"wp-block-group homeward-section\">\n<!-- wp:heading --><h2 class=\"wp-block-heading\">How adoption works</h2><!-- /wp:heading -->\n<!-- wp:paragraph --><p>These are example steps. Replace them with your rescue’s process and fees.</p><!-- /wp:paragraph -->\n<!-- wp:list {\"ordered\":true,\"className\":\"homeward-steps\"} --><ol class=\"wp-block-list homeward-steps\">\n<!-- wp:list-item --><li><strong>Read an animal’s profile.</strong> Look at their needs and think about your household.</li><!-- /wp:list-item -->\n<!-- wp:list-item --><li><strong>Send an application.</strong> Tell the team about your home and experience.</li><!-- /wp:list-item -->\n<!-- wp:list-item --><li><strong>Talk with the team.</strong> Ask questions and discuss the next steps together.</li><!-- /wp:list-item -->\n</ol><!-- /wp:list -->\n<!-- wp:homeward/apply-button {\"type\":\"adopt\"} /-->\n</section><!-- /wp:group -->\n<!-- wp:homeward/animal-grid {\"columns\":3,\"filters\":true} /-->\n<!-- wp:homeward/story-cards {\"kind\":\"story\",\"count\":3} /-->"
+    },
+    {
+      "slug": "foster",
+      "title": "Foster",
+      "patterns": [
+        "homeward/mission"
+      ],
+      "content": "<!-- wp:paragraph --><p>Demo page. All names, accounts and instructions here are fictional examples. Replace this text with your rescue information before sharing the site.</p><!-- /wp:paragraph -->\n<!-- wp:group {\"tagName\":\"section\",\"anchor\":\"foster\",\"className\":\"homeward-section\",\"layout\":{\"type\":\"constrained\"}} -->\n<section id=\"foster\" class=\"wp-block-group homeward-section\">\n<!-- wp:heading --><h2 class=\"wp-block-heading\">A temporary home</h2><!-- /wp:heading -->\n<!-- wp:paragraph --><p>Sample foster plan: a volunteer provides a quiet space and keeps notes about meals and rest. Replace this with your requirements, supplies and support arrangements.</p><!-- /wp:paragraph -->\n</section><!-- /wp:group -->\n<!-- wp:homeward/apply-button {\"type\":\"foster\"} /-->\n<!-- wp:homeward/contact-form {\"topic\":\"foster\",\"heading\":\"Ask about fostering\"} /-->"
+    },
+    {
+      "slug": "donate",
+      "title": "Donate",
+      "patterns": [
+        "homeward/give-cards"
+      ],
+      "content": "<!-- wp:paragraph --><p>Demo page. These are made-up examples. Add your rescue donation details before sharing this page.</p><!-- /wp:paragraph -->\n<!-- wp:group {\"align\":\"wide\"} --><div class=\"wp-block-group alignwide\">\n<!-- wp:homeward/donate-panel {\"heading\":\"Help with daily care\",\"methods\":[\"card\",\"paypal\",\"etransfer\"]} /-->\n</div><!-- /wp:group -->"
+    },
+    {
+      "slug": "contact",
+      "title": "Contact",
+      "patterns": [
+        "homeward/contact"
+      ],
+      "content": "<!-- wp:paragraph --><p>Demo page. All names, accounts and instructions here are fictional examples. Replace this text with your rescue information before sharing the site.</p><!-- /wp:paragraph -->\n<!-- wp:group {\"tagName\":\"section\",\"anchor\":\"contact\",\"className\":\"homeward-section\",\"layout\":{\"type\":\"constrained\"}} -->\n<section id=\"contact\" class=\"wp-block-group homeward-section\">\n<!-- wp:heading --><h2 class=\"wp-block-heading\">Contact the team</h2><!-- /wp:heading -->\n<!-- wp:homeward/contact-form /-->\n</section><!-- /wp:group -->\n<!-- wp:paragraph --><p>Example contact: hello@example.test. This address cannot receive messages. Add your public contact details and normal reply times.</p><!-- /wp:paragraph -->"
+    },
+    {
+      "slug": "about",
+      "title": "About",
+      "patterns": [
+        "homeward/mission"
+      ],
+      "content": "<!-- wp:paragraph --><p>Demo page. All names, accounts and instructions here are fictional examples. Replace this text with your rescue information before sharing the site.</p><!-- /wp:paragraph -->\n<!-- wp:group {\"tagName\":\"section\",\"anchor\":\"mission\",\"className\":\"homeward-section\",\"layout\":{\"type\":\"constrained\"}} -->\n<section id=\"mission\" class=\"wp-block-group homeward-section\">\n<!-- wp:heading --><h2 class=\"wp-block-heading\">What we do</h2><!-- /wp:heading -->\n<!-- wp:paragraph {\"fontSize\":\"large\"} --><p class=\"has-large-font-size\">Sample mission: We help animals find suitable homes and support the people who care for them.</p><!-- /wp:paragraph -->\n<!-- wp:paragraph --><p>Replace this example with where you work, which animals you help, and how people can reach your team.</p><!-- /wp:paragraph -->\n</section><!-- /wp:group -->\n<!-- wp:homeward/story-cards {\"kind\":\"story\",\"count\":3} /-->\n<!-- wp:homeward/story-cards {\"kind\":\"testimonial\",\"count\":3} /-->"
+    },
+    {
+      "slug": "volunteer",
+      "title": "Volunteer",
+      "patterns": [
+        "homeward/mission"
+      ],
+      "content": "<!-- wp:paragraph --><p>Demo page. All names, accounts and instructions here are fictional examples. Replace this text with your rescue information before sharing the site.</p><!-- /wp:paragraph -->\n<!-- wp:group {\"tagName\":\"section\",\"anchor\":\"volunteer\",\"className\":\"homeward-section\",\"layout\":{\"type\":\"constrained\"}} -->\n<section id=\"volunteer\" class=\"wp-block-group homeward-section\">\n<!-- wp:heading --><h2 class=\"wp-block-heading\">Ways to help</h2><!-- /wp:heading -->\n<!-- wp:paragraph --><p>Sample roles: write animal updates, sort supplies or help with transport. Replace these with roles your team needs and explain the time involved.</p><!-- /wp:paragraph -->\n</section><!-- /wp:group -->\n<!-- wp:homeward/apply-button {\"type\":\"volunteer\"} /-->\n<!-- wp:homeward/contact-form {\"topic\":\"volunteer\",\"heading\":\"Ask about volunteering\"} /-->"
+    }
+  ],
+  "stories": [
+    {
+      "slug": "demo-nimbus-routine",
+      "title": "Nimbus Sprout settles in (demo)",
+      "kind": "story",
+      "image": "demo-dog-blue.png",
+      "intro": "Fictional adoption update",
+      "text": "In this fictional update, Nimbus learned where to rest and when to expect a walk. The example family kept the first week quiet and asked the team about his routine. This is sample content, not an account of a real adoption.",
+      "pull_quote": "We kept the first week quiet.",
+      "family": "Example family, fictional",
+      "featured": true,
+      "animal_demo_id": 920001
+    },
+    {
+      "slug": "demo-juniper-quiet-home",
+      "title": "Juniper Pixel settles in (demo)",
+      "kind": "story",
+      "image": "demo-dog-gold.png",
+      "intro": "Fictional adoption update",
+      "text": "In this fictional update, Juniper had a separate resting space. The example family introduced one room at a time and wrote down questions for the team. This is sample content, not an account of a real adoption.",
+      "pull_quote": "A resting space helped us settle in.",
+      "family": "Example family, fictional",
+      "featured": false,
+      "animal_demo_id": 920002
+    },
+    {
+      "slug": "demo-mochi-window-seat",
+      "title": "Mochi Comet settles in (demo)",
+      "kind": "story",
+      "image": "demo-cat-blue.png",
+      "intro": "Fictional adoption update",
+      "text": "In this fictional update, Mochi explored a small room before meeting the rest of the household. The example family set out a bed and toys and let her choose when to approach. This is sample content, not an account of a real adoption.",
+      "pull_quote": "We let her choose when to approach.",
+      "family": "Example family, fictional",
+      "featured": false,
+      "animal_demo_id": 920003
+    },
+    {
+      "slug": "demo-nimbus-routine-testimonial",
+      "title": "Example family for Nimbus Sprout (demo)",
+      "kind": "testimonial",
+      "story": "demo-nimbus-routine",
+      "image": "demo-dog-blue.png",
+      "intro": "Fictional adopter testimonial",
+      "text": "Fictional quote: \"We kept the first week quiet. The team answered our questions about Nimbus Sprout.\" This is an invented example, not a real endorsement.",
+      "pull_quote": "We kept the first week quiet.",
+      "family": "Example family, fictional",
+      "featured": false,
+      "animal_demo_id": 920001
+    },
+    {
+      "slug": "demo-juniper-quiet-home-testimonial",
+      "title": "Example family for Juniper Pixel (demo)",
+      "kind": "testimonial",
+      "story": "demo-juniper-quiet-home",
+      "image": "demo-dog-gold.png",
+      "intro": "Fictional adopter testimonial",
+      "text": "Fictional quote: \"A resting space helped us settle in. The team answered our questions about Juniper Pixel.\" This is an invented example, not a real endorsement.",
+      "pull_quote": "A resting space helped us settle in.",
+      "family": "Example family, fictional",
+      "featured": false,
+      "animal_demo_id": 920002
+    },
+    {
+      "slug": "demo-mochi-window-seat-testimonial",
+      "title": "Example family for Mochi Comet (demo)",
+      "kind": "testimonial",
+      "story": "demo-mochi-window-seat",
+      "image": "demo-cat-blue.png",
+      "intro": "Fictional adopter testimonial",
+      "text": "Fictional quote: \"We let her choose when to approach. The team answered our questions about Mochi Comet.\" This is an invented example, not a real endorsement.",
+      "pull_quote": "We let her choose when to approach.",
+      "family": "Example family, fictional",
+      "featured": false,
+      "animal_demo_id": 920003
+    }
+  ]
+}

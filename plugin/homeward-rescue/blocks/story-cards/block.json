@@ -1,0 +1,55 @@
+{
+  "apiVersion": 3,
+  "name": "homeward/story-cards",
+  "title": "Story Cards",
+  "category": "widgets",
+  "icon": "heart",
+  "textdomain": "homeward-rescue",
+  "attributes": {
+    "count": {
+      "type": "number",
+      "default": 3
+    },
+    "kind": {
+      "type": "string",
+      "default": "story",
+      "enum": [
+        "story",
+        "testimonial",
+        "all"
+      ]
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "layout": {
+      "type": "string",
+      "default": "grid",
+      "enum": [
+        "grid",
+        "feature"
+      ]
+    }
+  },
+  "usesContext": [
+    "postId",
+    "postType"
+  ],
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "anchor": true,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    }
+  },
+  "editorScript": "homeward-editor",
+  "style": "homeward",
+  "render": "file:./render.php",
+  "viewScriptModule": "homeward-stories"
+}

@@ -1,0 +1,22 @@
+{
+  "pet": {
+    "id": 910002,
+    "name": "Juniper Pixel",
+    "animal": "Dog",
+    "status": "Available",
+    "age": "Young",
+    "sex": "Female",
+    "size": "Small",
+    "has_special_need": true,
+    "special_needs": "Sample animal: happiest with a calm, quiet routine.",
+    "is_ok_with_kids": false,
+    "description": "<h2>MY STORY</h2><p>I am an entirely fictional animal. I am playful and curious and enjoy long, gentle walks.</p><p>This is a made-up sample story. Imagine happy days filled with toys, naps and new friends.</p>",
+    "internal_notes": "FAKE_PRIVATE_NOTE_NEVER_STORE",
+    "latitude": "FAKE_LATITUDE_NEVER_STORE",
+    "foster_postal_code": "FAKE_POSTAL_NEVER_STORE",
+    "coordinator": {
+      "email": "fake-sensitive@example.test"
+    },
+    "adoption_fee": "125"
+  }
+}

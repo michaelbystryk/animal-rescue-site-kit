@@ -1,0 +1,63 @@
+{
+  "shelter_pets_total_page": 2,
+  "shelter_pets": [
+    {
+      "id": 910001,
+      "name": "Nimbus Sprout",
+      "animal": "Dog",
+      "status": "Available",
+      "age": "Adult",
+      "sex": "Male",
+      "size": "Medium",
+      "primary_breed": "Mixed Breed",
+      "date_received": "2020-03-04",
+      "is_ok_with_other_dogs": true,
+      "description": "<p>Meet a made-up sample animal who loves gentle walks and time with friends.</p>",
+      "internal_notes": "FAKE_PRIVATE_NOTE_NEVER_STORE",
+      "latitude": "FAKE_LATITUDE_NEVER_STORE",
+      "foster_postal_code": "FAKE_POSTAL_NEVER_STORE",
+      "coordinator": {
+        "email": "fake-sensitive@example.test"
+      },
+      "adoption_fee": "125"
+    },
+    {
+      "id": 910002,
+      "name": "Juniper Pixel",
+      "animal": "Dog",
+      "status": "Available",
+      "age": "Young",
+      "sex": "Female",
+      "size": "Small",
+      "has_special_need": true,
+      "special_needs": "Sample animal: happiest with a calm, quiet routine.",
+      "is_ok_with_kids": false,
+      "description": "<p>Meet a made-up sample animal who loves gentle walks and time with friends.</p>",
+      "internal_notes": "FAKE_PRIVATE_NOTE_NEVER_STORE",
+      "latitude": "FAKE_LATITUDE_NEVER_STORE",
+      "foster_postal_code": "FAKE_POSTAL_NEVER_STORE",
+      "coordinator": {
+        "email": "fake-sensitive@example.test"
+      },
+      "adoption_fee": "125"
+    },
+    {
+      "id": 910003,
+      "name": "Mochi Comet",
+      "animal": "Cat",
+      "status": "Available",
+      "age": "Kitten",
+      "sex": "Female",
+      "size": "Small",
+      "is_ok_with_cats": true,
+      "description": "<p>Meet a made-up sample animal who loves gentle walks and time with friends.</p>",
+      "internal_notes": "FAKE_PRIVATE_NOTE_NEVER_STORE",
+      "latitude": "FAKE_LATITUDE_NEVER_STORE",
+      "foster_postal_code": "FAKE_POSTAL_NEVER_STORE",
+      "coordinator": {
+        "email": "fake-sensitive@example.test"
+      },
+      "adoption_fee": "125"
+    }
+  ]
+}

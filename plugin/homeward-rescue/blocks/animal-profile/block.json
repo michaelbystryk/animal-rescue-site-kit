@@ -1,0 +1,58 @@
+{
+  "apiVersion": 3,
+  "name": "homeward/animal-profile",
+  "title": "Animal Profile",
+  "category": "widgets",
+  "icon": "heart",
+  "textdomain": "homeward-rescue",
+  "attributes": {
+    "gallery": {
+      "type": "boolean",
+      "default": true
+    },
+    "video": {
+      "type": "boolean",
+      "default": true
+    },
+    "facts": {
+      "type": "boolean",
+      "default": true
+    },
+    "compatibility": {
+      "type": "boolean",
+      "default": true
+    },
+    "description": {
+      "type": "boolean",
+      "default": true
+    },
+    "apply": {
+      "type": "boolean",
+      "default": true
+    },
+    "moreFromRegion": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "usesContext": [
+    "postId",
+    "postType"
+  ],
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "anchor": true,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    }
+  },
+  "editorScript": "homeward-editor",
+  "style": "homeward",
+  "render": "file:./render.php",
+  "viewScriptModule": "homeward-animals"
+}

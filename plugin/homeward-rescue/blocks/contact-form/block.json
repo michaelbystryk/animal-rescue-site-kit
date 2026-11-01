@@ -1,0 +1,56 @@
+{
+  "apiVersion": 3,
+  "name": "homeward/contact-form",
+  "title": "Contact form",
+  "category": "widgets",
+  "icon": "email",
+  "description": "A private message to the rescue, saved in Messages.",
+  "textdomain": "homeward-rescue",
+  "editorScript": "homeward-editor",
+  "style": "homeward-contact",
+  "attributes": {
+    "topic": {
+      "type": "string",
+      "enum": [
+        "general",
+        "adopt",
+        "foster",
+        "volunteer",
+        "transport",
+        "animal",
+        "website"
+      ],
+      "default": "general"
+    },
+    "heading": {
+      "type": "string",
+      "default": "Send us a message",
+      "role": "content"
+    },
+    "intro": {
+      "type": "string",
+      "default": "",
+      "role": "content"
+    },
+    "button": {
+      "type": "string",
+      "default": "Send message",
+      "role": "content"
+    },
+    "privacy": {
+      "type": "string",
+      "default": "We use your details only to answer you.",
+      "role": "content"
+    },
+    "animal": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "supports": {
+    "html": false,
+    "__experimentalRole": "content"
+  },
+  "render": "file:./render.php",
+  "viewScript": "homeward-contact"
+}

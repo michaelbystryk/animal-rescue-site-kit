@@ -1,0 +1,469 @@
+/* Homeward layout. Colours and font roles come from theme.json. */
+:where(.wp-site-blocks, .editor-styles-wrapper) {
+	overflow-wrap: anywhere;
+}
+
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-padding-top: 2rem;
+}
+
+body {
+	margin: 0;
+}
+
+img, video {
+	max-width: 100%;
+	height: auto;
+}
+
+a {
+	text-underline-offset: 0.2em;
+	text-decoration-thickness: 0.08em;
+}
+
+button, input, textarea, select {
+	font: inherit;
+}
+
+button, .wp-element-button {
+	cursor: pointer;
+}
+
+:where(button, .wp-element-button, input:not([type="checkbox"]):not([type="radio"]), select) {
+	min-height: 44px;
+}
+
+:where(input, textarea, select) {
+	max-width: 100%;
+	padding: 0.65rem;
+	border: 1px solid var(--wp--preset--color--primary);
+	border-radius: var(--wp--custom--radius);
+	color: var(--wp--preset--color--ink);
+	background: var(--wp--preset--color--surface);
+}
+
+::placeholder {
+	color: var(--wp--preset--color--ink);
+	opacity: 1;
+}
+
+:where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+	outline: 3px solid var(--wp--preset--color--primary);
+	outline-offset: 4px;
+	box-shadow: 0 0 0 3px var(--wp--preset--color--surface);
+}
+
+main:focus {
+	outline: none;
+}
+
+main {
+	min-height: 50vh;
+}
+
+.homeward-skip-link {
+	position: fixed;
+	inset-block-start: 1rem;
+	inset-inline-start: 1rem;
+	transform: translateY(-250%);
+	padding: 0.8rem 1.2rem;
+	color: var(--wp--preset--color--surface);
+	background: var(--wp--preset--color--primary);
+	/* Above the core navigation overlay, so the skip target stays reachable. */
+	z-index: 100001;
+}
+
+.homeward-skip-link:focus {
+	transform: none;
+}
+
+.homeward-header {
+	padding-block: 1rem;
+	border-bottom: 1px solid var(--wp--preset--color--primary);
+}
+
+.homeward-header__row {
+	gap: 1rem 2rem;
+}
+
+.homeward-logo-slot {
+	flex-shrink: 0;
+}
+
+.homeward-logo-slot img {
+	max-height: 64px;
+	width: auto;
+	object-fit: contain;
+}
+
+.homeward-header .wp-block-site-title {
+	margin-block: 0;
+}
+
+.homeward-header .wp-block-navigation {
+	margin-inline-start: auto;
+}
+
+.wp-block-navigation a, .wp-block-navigation .wp-block-navigation-submenu__toggle {
+	min-height: 44px;
+	display: flex;
+	align-items: center;
+}
+
+.wp-block-navigation .wp-block-navigation__submenu-icon {
+	min-width: 44px;
+	min-height: 44px;
+}
+
+.wp-block-navigation .wp-block-navigation__submenu-container {
+	color: var(--wp--preset--color--primary);
+	background: var(--wp--preset--color--surface);
+	border-color: var(--wp--preset--color--primary);
+	min-width: 14rem;
+	padding: 0.5rem;
+}
+
+.wp-block-navigation .wp-block-navigation-item__content:hover {
+	text-decoration: underline;
+}
+
+.wp-block-navigation:not(.has-background) .wp-block-navigation__responsive-container.is-menu-open {
+	color: var(--wp--preset--color--ink);
+	background: var(--wp--preset--color--background);
+}
+
+.homeward-section {
+	padding-block: var(--wp--preset--spacing--50);
+}
+
+.homeward-main {
+	padding-block: var(--wp--preset--spacing--50);
+}
+
+.homeward-hero {
+	padding-block: var(--wp--preset--spacing--50);
+}
+
+.homeward-hero__layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+	gap: clamp(2rem, 5vw, 5rem);
+	align-items: center;
+}
+
+.homeward-hero h1 {
+	max-width: 11ch;
+	font-size: var(--wp--preset--font-size--huge);
+}
+
+.homeward-hero__media {
+	margin-block-start: 0;
+}
+
+.homeward-hero .wp-block-cover {
+	min-height: 24rem;
+	border-radius: var(--wp--custom--radius);
+	border: 1px solid var(--wp--preset--color--accent);
+}
+
+.homeward-hero .wp-block-cover__image-background,
+.homeward-hero .wp-block-cover__video-background {
+	object-fit: cover;
+	object-position: 50% 50%;
+}
+
+.homeward-hero .wp-block-cover__inner-container {
+	color: var(--wp--preset--color--ink);
+}
+
+.homeward-sample-label {
+	font-size: var(--wp--preset--font-size--small);
+	color: var(--wp--preset--color--ink);
+}
+
+.homeward-two-up {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 2rem;
+}
+
+.homeward-two-up > * {
+	margin-block-start: 0;
+}
+
+.homeward-card {
+	padding: clamp(1.25rem, 3vw, 2rem);
+	border: 1px solid var(--wp--preset--color--primary);
+	border-radius: var(--wp--custom--radius);
+	background: var(--wp--preset--color--surface);
+}
+
+.homeward-card > :first-child {
+	margin-block-start: 0;
+}
+
+.homeward-card > :last-child {
+	margin-block-end: 0;
+}
+
+.homeward-steps {
+	counter-reset: adoption;
+	list-style: none;
+	padding: 0;
+}
+
+.homeward-steps > li {
+	counter-increment: adoption;
+	padding: 1.25rem 0 1.25rem 3.5rem;
+	position: relative;
+}
+
+.homeward-steps > li::before {
+	content: counter(adoption);
+	position: absolute;
+	inset-inline-start: 0;
+	inset-block-start: 1.25rem;
+	display: grid;
+	place-items: center;
+	width: 2.5rem;
+	height: 2.5rem;
+	border: 1px solid var(--wp--preset--color--accent);
+	border-radius: var(--wp--custom--radius);
+	color: var(--wp--preset--color--primary);
+	font-weight: 700;
+}
+
+.homeward-steps > li + li {
+	border-top: 1px solid var(--wp--preset--color--accent);
+}
+
+.homeward-quotes {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 2rem;
+}
+
+.homeward-quotes blockquote {
+	margin: 0;
+}
+
+.homeward-quotes cite {
+	display: block;
+	font-family: var(--wp--preset--font-family--body);
+	font-size: var(--wp--preset--font-size--small);
+	font-style: normal;
+}
+
+.homeward-control {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.65rem 1rem;
+	border: 1px solid var(--wp--preset--color--primary);
+	border-radius: var(--wp--custom--radius);
+	color: var(--wp--preset--color--primary);
+	background: var(--wp--preset--color--surface);
+	font-weight: 600;
+}
+
+.homeward-control:hover {
+	text-decoration: underline;
+}
+
+.homeward-toast {
+	min-height: 1.65em;
+	margin-block: 0.5rem 0;
+	font-size: var(--wp--preset--font-size--small);
+}
+
+.homeward-unavailable {
+	padding: 1rem 1.25rem;
+	border-inline-start: 3px solid var(--wp--preset--color--accent);
+	background: var(--wp--preset--color--surface);
+}
+
+.homeward-footer {
+	margin-block-start: var(--wp--preset--spacing--50);
+	padding-block: var(--wp--preset--spacing--40);
+	border-top: 2px solid var(--wp--preset--color--accent);
+}
+
+.homeward-footer__row {
+	gap: 1rem 3rem;
+	align-items: start;
+}
+
+.homeward-footer .wp-block-site-title {
+	margin-block-start: 0;
+}
+
+.homeward-posts .wp-block-post {
+	padding-block: 2rem;
+	border-bottom: 1px solid var(--wp--preset--color--accent);
+}
+
+.homeward-posts .wp-block-post-title {
+	margin-block: 0 0.75rem;
+}
+
+.wp-block-post-featured-image img {
+	border-radius: var(--wp--custom--radius);
+}
+
+.wp-block-query-pagination {
+	gap: 1rem;
+}
+
+.wp-block-query-pagination a, .wp-block-query-pagination .page-numbers {
+	display: inline-flex;
+	min-width: 44px;
+	min-height: 44px;
+	align-items: center;
+	justify-content: center;
+}
+
+.wp-block-search__inside-wrapper {
+	gap: 0.5rem;
+	flex-wrap: wrap;
+}
+
+.wp-block-search__input {
+	min-width: 10rem;
+}
+
+[hidden] {
+	display: none !important;
+}
+
+/* Use the host palette for the optional plugin's neutral component tokens. */
+.homeward-kit, .homeward-animal-lightbox, .homeward-story-dialog, .homeward-animal-share {
+	--homeward-text: var(--wp--preset--color--ink);
+	--homeward-tint: var(--wp--preset--color--background);
+	--homeward-border: var(--wp--preset--color--accent);
+	--homeward-border-strong: var(--wp--preset--color--primary);
+	--homeward-control-border: var(--wp--preset--color--primary);
+	--homeward-muted: var(--wp--preset--color--ink);
+	--homeward-preset-shadow-soft: none;
+	--homeward-preset-shadow-lift: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.homeward-motion-ready .homeward-logo-slot img {
+		animation: homeward-logo-arrive 600ms ease-out both;
+	}
+	@keyframes homeward-logo-arrive {
+		from {
+			opacity: 0;
+			transform: translateY(6px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+}
+
+.homeward-motion-paused .homeward-logo-slot img {
+	animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.homeward-logo-slot img {
+		animation: none !important;
+	}
+	.homeward-hero *, .homeward-hero *::before, .homeward-hero *::after {
+		animation: none !important;
+		transition: none !important;
+		scroll-behavior: auto !important;
+	}
+}
+
+@media (max-width: 48rem) {
+	.homeward-hero__layout, .homeward-two-up, .homeward-quotes {
+		grid-template-columns: minmax(0, 1fr);
+	}
+	.homeward-hero h1 {
+		max-width: 16ch;
+	}
+	.homeward-hero .wp-block-cover {
+		min-height: 17rem;
+	}
+	.homeward-header__row {
+		flex-wrap: nowrap;
+	}
+	.homeward-header .wp-block-site-title {
+		font-size: 1.25rem;
+	}
+	.homeward-logo-slot img {
+		max-height: 48px;
+		max-width: 8rem;
+	}
+	.homeward-header .wp-block-navigation__responsive-container:not(.is-menu-open) {
+		display: none;
+	}
+	.homeward-header .wp-block-navigation__responsive-container-open:not(.always-shown) {
+		display: flex;
+	}
+	.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content {
+		align-items: stretch;
+	}
+}
+
+@media print {
+	.homeward-skip-link, .homeward-header nav, .homeward-control {
+		display: none !important;
+	}
+	.homeward-logo-slot img {
+		animation: none !important;
+	}
+}
+
+/* Keep top-level labels and submenu toggles centered on the same text line. */
+.homeward-header .wp-block-navigation__container {
+	align-items: center;
+}
+
+.homeward-header .wp-block-navigation-item {
+	align-items: center;
+}
+
+.homeward-header .wp-block-navigation-item__content {
+	line-height: 1.4;
+}
+
+.homeward-header .wp-block-navigation .wp-block-navigation-submenu__toggle {
+	align-self: center;
+	margin-block: 0;
+	padding-block: 0;
+}
+
+.homeward-header .wp-block-navigation .wp-block-navigation__submenu-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin-block: 0;
+}
+
+/* Keep footer links compact even when core inherits the global block gap. */
+.homeward-footer .homeward-footer-navigation .wp-block-navigation__container,
+.homeward-footer .homeward-footer-navigation .wp-block-page-list {
+	display: flex;
+	flex-flow: row wrap;
+	gap: 0.25rem 1.25rem;
+}
+
+.homeward-footer .homeward-footer-navigation .wp-block-navigation-item {
+	margin: 0;
+}
+
+/* Doubled class beats core's .wp-block-navigation-item__content colour rule. */
+.homeward-primary-navigation .homeward-navigation-donate > a.wp-block-navigation-item__content.wp-block-navigation-item__content {
+	padding: 0.5rem 1rem;
+	border-radius: var(--wp--custom--radius);
+	background: var(--wp--preset--color--primary);
+	color: var(--wp--preset--color--surface);
+	font-weight: 600;
+}

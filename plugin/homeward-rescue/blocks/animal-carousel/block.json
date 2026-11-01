@@ -1,0 +1,47 @@
+{
+  "apiVersion": 3,
+  "name": "homeward/animal-carousel",
+  "title": "Animal Carousel",
+  "category": "widgets",
+  "icon": "heart",
+  "textdomain": "homeward-rescue",
+  "attributes": {
+    "limit": {
+      "type": "number",
+      "default": 8
+    },
+    "heading": {
+      "type": "string",
+      "default": ""
+    },
+    "source": {
+      "type": "string",
+      "default": "featured",
+      "enum": [
+        "featured",
+        "newest",
+        "needs-foster"
+      ]
+    }
+  },
+  "usesContext": [
+    "postId",
+    "postType"
+  ],
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "anchor": true,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    }
+  },
+  "editorScript": "homeward-editor",
+  "style": "homeward",
+  "render": "file:./render.php",
+  "viewScriptModule": "homeward-animals"
+}

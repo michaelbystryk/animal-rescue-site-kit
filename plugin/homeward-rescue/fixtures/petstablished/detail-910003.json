@@ -1,0 +1,20 @@
+{
+  "pet": {
+    "id": 910003,
+    "name": "Mochi Comet",
+    "animal": "Cat",
+    "status": "Available",
+    "age": "Kitten",
+    "sex": "Female",
+    "size": "Small",
+    "is_ok_with_cats": true,
+    "description": "<h2>MY STORY</h2><p>I am an entirely fictional animal. I am playful and curious and enjoy long, gentle walks.</p><p>This is a made-up sample story. Imagine happy days filled with toys, naps and new friends.</p>",
+    "internal_notes": "FAKE_PRIVATE_NOTE_NEVER_STORE",
+    "latitude": "FAKE_LATITUDE_NEVER_STORE",
+    "foster_postal_code": "FAKE_POSTAL_NEVER_STORE",
+    "coordinator": {
+      "email": "fake-sensitive@example.test"
+    },
+    "adoption_fee": "125"
+  }
+}

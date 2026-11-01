@@ -1,0 +1,195 @@
+/* Theme form tokens with standalone fallbacks for other themes and POST errors. */
+.homeward-contact {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 42rem;
+	min-width: 0;
+	margin-inline: auto;
+	padding: clamp(1rem, 4vw, 2.5rem);
+	color: var(--homeward-ink, #332219);
+	background: #fff;
+	border: 1px solid var(--wp--preset--color--border, #e9dad5);
+	border-radius: 1rem;
+	box-shadow: 0 8px 24px #3322190a;
+	font-family: var(--wp--preset--font-family--body, sans-serif);
+	overflow-wrap: anywhere;
+	scroll-margin-top: 2rem;
+}
+
+.homeward-contact *, .homeward-contact *::before, .homeward-contact *::after {
+	box-sizing: border-box;
+}
+
+.homeward-contact h2 {
+	margin: 0 0 1rem;
+	font-family: var(--wp--preset--font-family--heading, Georgia, serif);
+	font-size: clamp(1.5rem, 4vw, 2rem);
+}
+
+.homeward-contact__field {
+	margin-block: 1.25rem;
+	min-width: 0;
+}
+
+.homeward-contact label {
+	display: block;
+	margin-bottom: .5rem;
+	font-weight: 600;
+}
+
+.homeward-contact input:not([type="hidden"]), .homeward-contact textarea {
+	display: block;
+	width: 100%;
+	min-width: 0;
+	min-height: 52px;
+	max-width: 100%;
+	padding: .75rem 1rem;
+	border: 1px solid var(--wp--preset--color--muted-foreground, #6b594e);
+	border-radius: .75rem;
+	background: var(--wp--preset--color--background, #f4f6f4);
+	color: inherit;
+	font: inherit;
+	font-size: 1rem;
+	line-height: 1.5;
+}
+
+.homeward-contact textarea {
+	min-height: 144px;
+	resize: vertical;
+}
+
+.homeward-contact .homeward-contact__submit {
+	min-height: 48px;
+	min-width: 44px;
+	max-width: 100%;
+	padding: .75rem 1.6rem;
+	border: 0;
+	border-radius: 999px;
+	background: var(--homeward-primary, #345a48);
+	color: var(--homeward-primary-foreground, #fff);
+	font: inherit;
+	font-weight: 700;
+	cursor: pointer;
+	white-space: normal;
+}
+
+.homeward-contact__submit:disabled {
+	cursor: wait;
+}
+
+.homeward-contact :is(input, textarea, button, [tabindex]):focus-visible {
+	outline: 3px solid var(--homeward-primary, #345a48);
+	outline-offset: 3px;
+}
+
+.homeward-contact__privacy {
+	font-size: .875rem;
+	color: var(--wp--preset--color--muted-foreground, #6b594e);
+}
+
+.homeward-contact__error {
+	margin: .4rem 0 0;
+	font-size: .875rem;
+	color: var(--wp--preset--color--accent-foreground, #1F4E79);
+}
+
+.homeward-contact__error:empty {
+	display: none;
+}
+
+.homeward-contact__status {
+	min-height: 1.6em;
+	line-height: 1.6;
+}
+
+.homeward-contact [aria-invalid="true"] {
+	border: 2px solid #1F4E79;
+}
+
+.homeward-contact__trap {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+}
+
+.homeward-contact__animal {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+}
+
+.homeward-contact__animal img {
+	width: 64px;
+	height: 64px;
+	object-fit: cover;
+	border-radius: .75rem;
+	flex-shrink: 0;
+}
+
+.homeward-contact__animal p {
+	min-width: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.homeward-contact, .homeward-contact * {
+		scroll-behavior: auto;
+		animation: none;
+		transition: none;
+	}
+}
+
+/* After a successful send: the thank-you replaces the fields; "Send another message" brings them back. */
+.homeward-contact__again {
+	display: none;
+	margin: 0;
+}
+
+.homeward-contact form.is-sent .homeward-contact__again {
+	display: block;
+}
+
+.homeward-contact form.is-sent > :not(
+	.homeward-contact__status
+):not(
+	.homeward-contact__again
+):not(input[type="hidden"]):not(h2):not(h3):not(.homeward-contact__animal) {
+	display: none;
+}
+
+.homeward-contact form.is-sent .homeward-contact__status {
+	padding: 1rem 1.25rem;
+	border-radius: 14px;
+	background: #eef7ef;
+	color: #1f4d2a;
+	font-weight: 600;
+	font-size: 1.05rem;
+}
+
+.homeward-contact__again-btn {
+	min-height: 44px;
+	margin-top: .75rem;
+	padding: .6rem 1.25rem;
+	border-radius: 999px;
+	border: 1px solid rgba(43, 31, 27, .18);
+	background: #fff;
+	color: inherit;
+	font: inherit;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.homeward-contact__again-btn:focus-visible {
+	outline: 3px solid #345a48;
+	outline-offset: 2px;
+}
+
+/* Cloudflare Turnstile: hidden unless Cloudflare needs the visitor to tick a box. */
+.homeward-contact__turnstile:empty {
+	display: none;
+}
+
+.homeward-contact__turnstile {
+	margin: .25rem 0 1rem;
+}

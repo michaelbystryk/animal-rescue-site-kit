@@ -1,0 +1,47 @@
+{
+  "shelter_pets_total_page": 2,
+  "shelter_pets": [
+    {
+      "id": 910004,
+      "name": "A generic adoption application",
+      "animal": "Dog",
+      "status": "Available",
+      "description": "<p>Meet a made-up sample animal who loves gentle walks and time with friends.</p>",
+      "internal_notes": "FAKE_PRIVATE_NOTE_NEVER_STORE",
+      "latitude": "FAKE_LATITUDE_NEVER_STORE",
+      "foster_postal_code": "FAKE_POSTAL_NEVER_STORE",
+      "coordinator": {
+        "email": "fake-sensitive@example.test"
+      },
+      "adoption_fee": "125"
+    },
+    {
+      "id": 910005,
+      "name": "Tumble Acorn (Courtesy Post)",
+      "animal": "Dog",
+      "status": "Pending Adoption",
+      "description": "<p>Meet a made-up sample animal who loves gentle walks and time with friends.</p>",
+      "internal_notes": "FAKE_PRIVATE_NOTE_NEVER_STORE",
+      "latitude": "FAKE_LATITUDE_NEVER_STORE",
+      "foster_postal_code": "FAKE_POSTAL_NEVER_STORE",
+      "coordinator": {
+        "email": "fake-sensitive@example.test"
+      },
+      "adoption_fee": "125"
+    },
+    {
+      "id": 910006,
+      "name": "Velvet Orbit",
+      "animal": "Dog",
+      "status": "Hold",
+      "description": "<p>Meet a made-up sample animal who loves gentle walks and time with friends.</p>",
+      "internal_notes": "FAKE_PRIVATE_NOTE_NEVER_STORE",
+      "latitude": "FAKE_LATITUDE_NEVER_STORE",
+      "foster_postal_code": "FAKE_POSTAL_NEVER_STORE",
+      "coordinator": {
+        "email": "fake-sensitive@example.test"
+      },
+      "adoption_fee": "125"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+.DS_Store
+node_modules/
+vendor/
+dist/
+tests/test-output.txt
+CLAUDE.md
+AGENTS.md
+.claude/
+.codex/
+.scan-secrets.local

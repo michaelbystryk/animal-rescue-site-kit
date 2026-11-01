@@ -1,0 +1,875 @@
+{
+  "$schema": "https://schemas.wp.org/wp/6.7/theme.json",
+  "version": 3,
+  "settings": {
+    "appearanceTools": true,
+    "useRootPaddingAwareAlignments": true,
+    "layout": {
+      "contentSize": "46rem",
+      "wideSize": "75rem"
+    },
+    "color": {
+      "defaultPalette": false,
+      "defaultGradients": false,
+      "customGradient": false,
+      "palette": [
+        {
+          "slug": "primary",
+          "name": "Deep blue",
+          "color": "#1F4E79"
+        },
+        {
+          "slug": "accent",
+          "name": "Golden ochre",
+          "color": "#B58B35"
+        },
+        {
+          "slug": "ink",
+          "name": "Warm ink",
+          "color": "#2B2A28"
+        },
+        {
+          "slug": "background",
+          "name": "Cream",
+          "color": "#F7F1E3"
+        },
+        {
+          "slug": "surface",
+          "name": "Paper",
+          "color": "#FFFDF8"
+        }
+      ]
+    },
+    "typography": {
+      "fontFamilies": [
+        {
+          "name": "Heading (Fraunces)",
+          "slug": "heading",
+          "fontFamily": "var(--wp--preset--font-family--fraunces)"
+        },
+        {
+          "name": "Body (Inter)",
+          "slug": "body",
+          "fontFamily": "var(--wp--preset--font-family--inter)"
+        },
+        {
+          "name": "Fraunces",
+          "slug": "fraunces",
+          "fontFamily": "'Fraunces Variable', 'Fraunces', Georgia, serif",
+          "fontFace": [
+            {
+              "fontFamily": "Fraunces",
+              "fontWeight": "400",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/fraunces-latin-400-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Fraunces",
+              "fontWeight": "600",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/fraunces-latin-600-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Fraunces",
+              "fontWeight": "700",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/fraunces-latin-700-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Fraunces",
+              "fontWeight": "400",
+              "fontStyle": "italic",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/fraunces-latin-400-italic.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Fraunces Variable",
+              "fontWeight": "100 900",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/fraunces-latin-wght-normal.woff2"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Lora",
+          "slug": "lora",
+          "fontFamily": "'Lora Variable', 'Lora', Georgia, serif",
+          "fontFace": [
+            {
+              "fontFamily": "Lora",
+              "fontWeight": "400",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/lora-latin-400-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Lora",
+              "fontWeight": "600",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/lora-latin-600-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Lora",
+              "fontWeight": "700",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/lora-latin-700-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Lora",
+              "fontWeight": "400",
+              "fontStyle": "italic",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/lora-latin-400-italic.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Lora Variable",
+              "fontWeight": "400 700",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/lora-latin-wght-normal.woff2"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Source Serif 4",
+          "slug": "source-serif-4",
+          "fontFamily": "'Source Serif 4 Variable', 'Source Serif 4', Georgia, serif",
+          "fontFace": [
+            {
+              "fontFamily": "Source Serif 4",
+              "fontWeight": "400",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/source-serif-4-latin-400-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Source Serif 4",
+              "fontWeight": "600",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/source-serif-4-latin-600-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Source Serif 4",
+              "fontWeight": "700",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/source-serif-4-latin-700-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Source Serif 4",
+              "fontWeight": "400",
+              "fontStyle": "italic",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/source-serif-4-latin-400-italic.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Source Serif 4 Variable",
+              "fontWeight": "200 900",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/source-serif-4-latin-wght-normal.woff2"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Inter",
+          "slug": "inter",
+          "fontFamily": "'Inter Variable', 'Inter', system-ui, sans-serif",
+          "fontFace": [
+            {
+              "fontFamily": "Inter",
+              "fontWeight": "400",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/inter-latin-400-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Inter",
+              "fontWeight": "600",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/inter-latin-600-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Inter",
+              "fontWeight": "700",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/inter-latin-700-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Inter",
+              "fontWeight": "400",
+              "fontStyle": "italic",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/inter-latin-400-italic.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Inter Variable",
+              "fontWeight": "100 900",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/inter-latin-wght-normal.woff2"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Atkinson Hyperlegible",
+          "slug": "atkinson-hyperlegible",
+          "fontFamily": "'Atkinson Hyperlegible', system-ui, sans-serif",
+          "fontFace": [
+            {
+              "fontFamily": "Atkinson Hyperlegible",
+              "fontWeight": "400",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Atkinson Hyperlegible",
+              "fontWeight": "700",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/atkinson-hyperlegible-latin-700-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Atkinson Hyperlegible",
+              "fontWeight": "400",
+              "fontStyle": "italic",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/atkinson-hyperlegible-latin-400-italic.woff2"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Nunito Sans",
+          "slug": "nunito-sans",
+          "fontFamily": "'Nunito Sans Variable', 'Nunito Sans', system-ui, sans-serif",
+          "fontFace": [
+            {
+              "fontFamily": "Nunito Sans",
+              "fontWeight": "400",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/nunito-sans-latin-400-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Nunito Sans",
+              "fontWeight": "600",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/nunito-sans-latin-600-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Nunito Sans",
+              "fontWeight": "700",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/nunito-sans-latin-700-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Nunito Sans",
+              "fontWeight": "400",
+              "fontStyle": "italic",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/nunito-sans-latin-400-italic.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Nunito Sans Variable",
+              "fontWeight": "200 1000",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/nunito-sans-latin-wght-normal.woff2"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Playfair Display",
+          "slug": "playfair-display",
+          "fontFamily": "'Playfair Display Variable', 'Playfair Display', Georgia, serif",
+          "fontFace": [
+            {
+              "fontFamily": "Playfair Display",
+              "fontWeight": "400",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/playfair-display-latin-400-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Playfair Display",
+              "fontWeight": "600",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/playfair-display-latin-600-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Playfair Display",
+              "fontWeight": "700",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/playfair-display-latin-700-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Playfair Display",
+              "fontWeight": "400",
+              "fontStyle": "italic",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/playfair-display-latin-400-italic.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Playfair Display Variable",
+              "fontWeight": "400 900",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/playfair-display-latin-wght-normal.woff2"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "DM Serif Display",
+          "slug": "dm-serif-display",
+          "fontFamily": "'DM Serif Display', Georgia, serif",
+          "fontFace": [
+            {
+              "fontFamily": "DM Serif Display",
+              "fontWeight": "400",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/dm-serif-display-latin-400-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "DM Serif Display",
+              "fontWeight": "400",
+              "fontStyle": "italic",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/dm-serif-display-latin-400-italic.woff2"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Merriweather",
+          "slug": "merriweather",
+          "fontFamily": "'Merriweather Variable', 'Merriweather', Georgia, serif",
+          "fontFace": [
+            {
+              "fontFamily": "Merriweather",
+              "fontWeight": "400",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/merriweather-latin-400-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Merriweather",
+              "fontWeight": "600",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/merriweather-latin-600-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Merriweather",
+              "fontWeight": "700",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/merriweather-latin-700-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Merriweather",
+              "fontWeight": "400",
+              "fontStyle": "italic",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/merriweather-latin-400-italic.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Merriweather Variable",
+              "fontWeight": "300 900",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/merriweather-latin-wght-normal.woff2"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Figtree",
+          "slug": "figtree",
+          "fontFamily": "'Figtree Variable', 'Figtree', system-ui, sans-serif",
+          "fontFace": [
+            {
+              "fontFamily": "Figtree",
+              "fontWeight": "400",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/figtree-latin-400-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Figtree",
+              "fontWeight": "600",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/figtree-latin-600-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Figtree",
+              "fontWeight": "700",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/figtree-latin-700-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Figtree",
+              "fontWeight": "400",
+              "fontStyle": "italic",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/figtree-latin-400-italic.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Figtree Variable",
+              "fontWeight": "300 900",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/figtree-latin-wght-normal.woff2"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Work Sans",
+          "slug": "work-sans",
+          "fontFamily": "'Work Sans Variable', 'Work Sans', system-ui, sans-serif",
+          "fontFace": [
+            {
+              "fontFamily": "Work Sans",
+              "fontWeight": "400",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/work-sans-latin-400-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Work Sans",
+              "fontWeight": "600",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/work-sans-latin-600-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Work Sans",
+              "fontWeight": "700",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/work-sans-latin-700-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Work Sans",
+              "fontWeight": "400",
+              "fontStyle": "italic",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/work-sans-latin-400-italic.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Work Sans Variable",
+              "fontWeight": "100 900",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/work-sans-latin-wght-normal.woff2"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Nunito",
+          "slug": "nunito",
+          "fontFamily": "'Nunito Variable', 'Nunito', system-ui, sans-serif",
+          "fontFace": [
+            {
+              "fontFamily": "Nunito",
+              "fontWeight": "400",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/nunito-latin-400-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Nunito",
+              "fontWeight": "600",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/nunito-latin-600-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Nunito",
+              "fontWeight": "700",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/nunito-latin-700-normal.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Nunito",
+              "fontWeight": "400",
+              "fontStyle": "italic",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/nunito-latin-400-italic.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Nunito Variable",
+              "fontWeight": "200 1000",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/nunito-latin-wght-normal.woff2"
+              ]
+            }
+          ]
+        }
+      ],
+      "defaultFontSizes": false,
+      "fluid": true,
+      "fontSizes": [
+        {
+          "slug": "small",
+          "name": "Small",
+          "size": "0.9375rem",
+          "fluid": false
+        },
+        {
+          "slug": "medium",
+          "name": "Body",
+          "size": "1.0625rem",
+          "fluid": false
+        },
+        {
+          "slug": "large",
+          "name": "Lead",
+          "size": "1.375rem",
+          "fluid": {
+            "min": "1.125rem",
+            "max": "1.375rem"
+          }
+        },
+        {
+          "slug": "x-large",
+          "name": "Section title",
+          "size": "2.5rem",
+          "fluid": {
+            "min": "1.75rem",
+            "max": "2.5rem"
+          }
+        },
+        {
+          "slug": "xx-large",
+          "name": "Page title",
+          "size": "3.5rem",
+          "fluid": {
+            "min": "2.25rem",
+            "max": "3.5rem"
+          }
+        },
+        {
+          "slug": "huge",
+          "name": "Hero title",
+          "size": "4.5rem",
+          "fluid": {
+            "min": "2.625rem",
+            "max": "4.5rem"
+          }
+        }
+      ]
+    },
+    "spacing": {
+      "units": [
+        "px",
+        "rem",
+        "em",
+        "%",
+        "vw"
+      ],
+      "defaultSpacingSizes": false,
+      "spacingSizes": [
+        {
+          "slug": "20",
+          "name": "Small",
+          "size": "0.5rem"
+        },
+        {
+          "slug": "30",
+          "name": "Medium",
+          "size": "1rem"
+        },
+        {
+          "slug": "40",
+          "name": "Large",
+          "size": "2rem"
+        },
+        {
+          "slug": "50",
+          "name": "Section",
+          "size": "clamp(2.5rem, 5vw, 4rem)"
+        },
+        {
+          "slug": "60",
+          "name": "Wide section",
+          "size": "clamp(3rem, 7vw, 6rem)"
+        }
+      ]
+    },
+    "custom": {
+      "radius": "0.375rem"
+    }
+  },
+  "styles": {
+    "color": {
+      "background": "var:preset|color|background",
+      "text": "var:preset|color|ink"
+    },
+    "typography": {
+      "fontFamily": "var:preset|font-family|body",
+      "fontSize": "var:preset|font-size|medium",
+      "lineHeight": "1.65"
+    },
+    "spacing": {
+      "blockGap": "1.5rem",
+      "padding": {
+        "left": "clamp(1rem, 4vw, 3rem)",
+        "right": "clamp(1rem, 4vw, 3rem)"
+      }
+    },
+    "elements": {
+      "heading": {
+        "color": {
+          "text": "var:preset|color|primary"
+        },
+        "typography": {
+          "fontFamily": "var:preset|font-family|heading",
+          "fontWeight": "600",
+          "lineHeight": "1.15"
+        }
+      },
+      "h1": {
+        "typography": {
+          "fontSize": "var:preset|font-size|xx-large"
+        }
+      },
+      "h2": {
+        "typography": {
+          "fontSize": "var:preset|font-size|x-large"
+        }
+      },
+      "h3": {
+        "typography": {
+          "fontSize": "1.5rem"
+        }
+      },
+      "link": {
+        "color": {
+          "text": "var:preset|color|primary"
+        },
+        "typography": {
+          "textDecoration": "underline"
+        },
+        ":hover": {
+          "color": {
+            "text": "var:preset|color|ink"
+          }
+        }
+      },
+      "button": {
+        "color": {
+          "background": "var:preset|color|primary",
+          "text": "var:preset|color|surface"
+        },
+        "border": {
+          "radius": "0.375rem"
+        },
+        "spacing": {
+          "padding": {
+            "top": "0.75rem",
+            "bottom": "0.75rem",
+            "left": "1.25rem",
+            "right": "1.25rem"
+          }
+        },
+        "typography": {
+          "fontFamily": "var:preset|font-family|body",
+          "fontSize": "1rem",
+          "fontWeight": "600",
+          "lineHeight": "1.5"
+        }
+      }
+    },
+    "blocks": {
+      "core/site-title": {
+        "typography": {
+          "fontFamily": "var:preset|font-family|heading",
+          "fontSize": "1.5rem",
+          "fontWeight": "600"
+        },
+        "elements": {
+          "link": {
+            "typography": {
+              "textDecoration": "none"
+            }
+          }
+        }
+      },
+      "core/navigation": {
+        "typography": {
+          "fontFamily": "var:preset|font-family|body",
+          "fontSize": "1rem",
+          "fontWeight": "600"
+        },
+        "color": {
+          "text": "var:preset|color|primary"
+        }
+      },
+      "core/post-title": {
+        "elements": {
+          "link": {
+            "typography": {
+              "textDecoration": "none"
+            }
+          }
+        }
+      },
+      "core/quote": {
+        "border": {
+          "left": {
+            "color": "var:preset|color|accent",
+            "width": "3px"
+          }
+        },
+        "spacing": {
+          "padding": {
+            "left": "1.5rem"
+          }
+        }
+      },
+      "core/separator": {
+        "color": {
+          "text": "var:preset|color|accent"
+        }
+      }
+    }
+  },
+  "templateParts": [
+    {
+      "name": "header",
+      "title": "Header",
+      "area": "header"
+    },
+    {
+      "name": "footer",
+      "title": "Footer",
+      "area": "footer"
+    }
+  ]
+}

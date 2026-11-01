@@ -1,0 +1,45 @@
+{
+  "apiVersion": 3,
+  "name": "homeward/donate-panel",
+  "title": "Donate Panel",
+  "category": "widgets",
+  "icon": "heart",
+  "textdomain": "homeward-rescue",
+  "attributes": {
+    "methods": {
+      "type": "array",
+      "default": [
+        "card",
+        "paypal",
+        "etransfer"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "heading": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "usesContext": [
+    "postId",
+    "postType"
+  ],
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "anchor": true,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    }
+  },
+  "editorScript": "homeward-editor",
+  "style": "homeward",
+  "render": "file:./render.php",
+  "viewScriptModule": "homeward-donate"
+}
