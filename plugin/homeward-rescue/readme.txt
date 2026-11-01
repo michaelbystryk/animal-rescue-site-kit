@@ -2,7 +2,7 @@
 Requires at least: 6.7
 Tested up to: 6.7
 Requires PHP: 8.1
-Stable tag: 0.1.0
+Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -93,6 +93,10 @@ To remove everything, tick "Delete all Homeward data when the plugin is
 deleted" in Settings > Homeward Rescue before you delete the plugin.
 
 == Changelog ==
+
+= 0.2.0 =
+Printable kennel cards and full page adoption posters with a QR code to each animal, from the profile or in bulk from the Animals list.
+Health icons: spayed or neutered, and vaccinations up to date, from Petstablished data or set by hand. Microchip and rabies numbers are never stored.
 
 = 0.1.0 =
 First public release.
