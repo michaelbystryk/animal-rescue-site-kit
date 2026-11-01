@@ -1,0 +1,207 @@
+/* Physical sheet dimensions keep two kennel cards together on either paper size. */
+@page {
+	size: Letter;
+	margin: 10mm;
+}
+@page homeward-letter {
+	size: Letter;
+	margin: 10mm;
+}
+@page homeward-a4 {
+	size: A4;
+	margin: 10mm;
+}
+.homeward-print {
+	--sheet-width: 195.9mm;
+	--sheet-height: 259mm;
+	page: homeward-letter;
+	margin: 0;
+	background: #eee;
+	color: #111;
+	font-size: 11pt;
+	line-height: 1.3;
+}
+.homeward-print[data-paper="a4"] {
+	--sheet-width: 190mm;
+	--sheet-height: 276.5mm;
+	page: homeward-a4;
+}
+.homeward-print * {
+	box-sizing: border-box;
+}
+.homeward-print-controls {
+	max-width: 48rem;
+	margin: 1rem auto;
+	padding: 1rem;
+	background: #fff;
+}
+.homeward-print-controls select,
+.homeward-print-controls button {
+	font: inherit;
+	padding: 0.4rem;
+}
+.homeward-print-sheet {
+	display: grid;
+	grid-template-rows: repeat(2, 1fr);
+	gap: 4mm;
+	width: var(--sheet-width);
+	height: var(--sheet-height);
+	margin: 1rem auto;
+	break-after: page;
+	page-break-after: always;
+}
+.homeward-print-sheet:last-child {
+	break-after: auto;
+	page-break-after: auto;
+}
+.homeward-print-card {
+	display: grid;
+	grid-template-columns: 42% minmax(0, 1fr);
+	grid-template-rows: 10mm minmax(0, 1fr) 30mm;
+	gap: 3mm 5mm;
+	min-height: 0;
+	padding: 5mm;
+	border: 0.4mm solid var(--homeward-primary, #1f4e79);
+	background: #fff;
+	break-inside: avoid;
+	page-break-inside: avoid;
+}
+.homeward-print-card header {
+	grid-column: 1 / -1;
+	display: flex;
+	align-items: center;
+	gap: 3mm;
+	font-size: 13pt;
+}
+.homeward-print-logo {
+	width: 12mm;
+	height: 10mm;
+	object-fit: contain;
+}
+.homeward-print-photo {
+	grid-column: 1;
+	grid-row: 2 / 4;
+	width: 100%;
+	height: 100%;
+	min-height: 0;
+	object-fit: cover;
+	object-position: 50% 33%;
+}
+.homeward-print-info {
+	grid-column: 2;
+	grid-row: 2;
+	min-width: 0;
+}
+.homeward-print-info h1 {
+	margin: 0 0 2mm;
+	font: 700 24pt/1.05 var(--homeward-heading-font, Georgia, serif);
+	color: var(--homeward-link, #1f4e79);
+	overflow-wrap: anywhere;
+}
+.homeward-print-card p {
+	margin: 1.5mm 0;
+}
+.homeward-print-description {
+	font-size: 10pt;
+}
+.homeward-print-card .homeward-animal-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1mm 3mm;
+	margin: 2mm 0;
+	padding: 0;
+	list-style: none;
+}
+.homeward-print-card .homeward-animal-chip {
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: #111;
+	font-size: 9pt;
+	line-height: 1.2;
+}
+.homeward-print-qr {
+	grid-column: 2;
+	grid-row: 3;
+	display: grid;
+	grid-template-columns: 28mm minmax(0, 1fr);
+	align-content: center;
+	align-items: center;
+	gap: 1mm 2mm;
+	margin: 0;
+	font-size: 10pt;
+	overflow-wrap: anywhere;
+}
+.homeward-print-qr img {
+	grid-row: 1 / 3;
+	width: 28mm;
+	height: 28mm;
+}
+.homeward-print-qr a {
+	font-size: 8pt;
+	color: #111;
+	text-decoration: none;
+}
+.homeward-print [hidden] {
+	display: none;
+}
+.homeward-print[data-layout="poster"] .homeward-print-sheet {
+	display: contents;
+}
+.homeward-print[data-layout="poster"] .homeward-print-card {
+	grid-template-columns: minmax(0, 1fr) 44mm;
+	grid-template-rows: 14mm minmax(0, 1fr) auto;
+	width: var(--sheet-width);
+	height: var(--sheet-height);
+	margin: 1rem auto;
+	padding: 8mm;
+	gap: 5mm;
+	break-after: page;
+	page-break-after: always;
+}
+.homeward-print[data-layout="poster"] .homeward-print-photo {
+	grid-column: 1 / -1;
+	grid-row: 2;
+}
+.homeward-print[data-layout="poster"] .homeward-print-info {
+	grid-column: 1;
+	grid-row: 3;
+}
+.homeward-print[data-layout="poster"] h1 {
+	font-size: 38pt;
+}
+.homeward-print[data-layout="poster"] .homeward-print-qr {
+	grid-template-columns: 1fr;
+	text-align: center;
+	justify-items: center;
+}
+.homeward-print[data-layout="poster"] .homeward-print-qr img {
+	grid-row: auto;
+	width: 38mm;
+	height: 38mm;
+}
+.homeward-print[data-layout="poster"] .homeward-print-copy {
+	display: none;
+}
+@media print {
+	.homeward-print {
+		background: #fff;
+	}
+	.homeward-print-controls {
+		display: none;
+	}
+	.homeward-print-sheet,
+	.homeward-print[data-layout="poster"] .homeward-print-card {
+		margin: 0;
+	}
+	.homeward-print-card {
+		border-color: #111;
+	}
+	.homeward-print-info h1 {
+		color: #111;
+	}
+	.homeward-print[data-layout="poster"] .homeward-print-card:last-child {
+		break-after: auto;
+		page-break-after: auto;
+	}
+}

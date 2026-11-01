@@ -37,6 +37,7 @@ class Plugin {
 			'media',
 			'brand',
 			'render',
+			'kennel-print',
 			'content-render',
 			'donations',
 			'frontend',
@@ -100,6 +101,7 @@ class Plugin {
 		Meta_Boxes::init();
 		Importer::init();
 		Animal::init();
+		Kennel_Print::init();
 		Seo::init();
 		Email_Guard::init();
 		Redirects::init();

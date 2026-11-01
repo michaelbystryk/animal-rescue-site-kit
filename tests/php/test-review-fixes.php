@@ -279,7 +279,7 @@ Frontend::register_assets();
 foreach (array('animals', 'stories', 'donate') as $name) {
 	equals(
 		'classic script depends on config',
-		array('homeward-config'),
+		'animals' === $name ? array('homeward-config', 'homeward-qr') : array('homeward-config'),
 		$GLOBALS['scripts']['homeward-' . $name][2],
 	);
 	Frontend::script($name);

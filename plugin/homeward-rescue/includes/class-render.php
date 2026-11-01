@@ -579,17 +579,38 @@ class Render {
 	 * @param bool  $card   Limit cards to two known kids/animals/cats traits.
 	 * @return string
 	 */
-	private static function chips( $animal, $card = false ) {
+	public static function chips( $animal, $card = false ) {
 		$defs = array(
-			'ok_dogs'     => array( __( 'Good with dogs', 'homeward-rescue' ), __( 'Not good with dogs', 'homeward-rescue' ) ),
-			'ok_cats'     => array( __( 'Good with cats', 'homeward-rescue' ), __( 'Not good with cats', 'homeward-rescue' ) ),
-			'ok_kids'     => array( __( 'Good with kids', 'homeward-rescue' ), __( 'Not good with kids', 'homeward-rescue' ) ),
-			'housebroken' => array( __( 'Housebroken', 'homeward-rescue' ), __( 'Not housebroken yet', 'homeward-rescue' ) ),
+			'ok_dogs'          => array(
+				__( 'Good with dogs', 'homeward-rescue' ),
+				__( 'Not good with dogs', 'homeward-rescue' ),
+			),
+			'ok_cats'          => array(
+				__( 'Good with cats', 'homeward-rescue' ),
+				__( 'Not good with cats', 'homeward-rescue' ),
+			),
+			'ok_kids'          => array(
+				__( 'Good with kids', 'homeward-rescue' ),
+				__( 'Not good with kids', 'homeward-rescue' ),
+			),
+			'is_spayed'        => array(
+				__( 'Spayed or neutered', 'homeward-rescue' ),
+				__( 'Not spayed or neutered', 'homeward-rescue' ),
+			),
+			'shots_up_to_date' => array(
+				__( 'Vaccinations up to date', 'homeward-rescue' ),
+				__( 'Vaccinations not up to date', 'homeward-rescue' ),
+			),
+			'housebroken'      => array(
+				__( 'Housebroken', 'homeward-rescue' ),
+				__( 'Not housebroken yet', 'homeward-rescue' ),
+			),
 		);
 		$items = '';
 		$count = 0;
 		foreach ( $defs as $key => $labels ) {
-			if ( ! is_bool( $animal[ $key ] ?? null ) || ( $card && 'housebroken' === $key ) ) {
+			$profile_only = in_array( $key, array( 'housebroken', 'is_spayed', 'shots_up_to_date' ), true );
+			if ( ! is_bool( $animal[ $key ] ?? null ) || ( $card && $profile_only ) ) {
 				continue;
 			}
 			$yes = (bool) $animal[ $key ];
@@ -601,7 +622,7 @@ class Render {
 			}
 		}
 		return $items ? '<ul class="homeward-animal-chips" role="list" aria-label="'
-			. esc_attr__( 'Compatibility', 'homeward-rescue' ) . '">' . $items . '</ul>' : '';
+			. esc_attr__( 'Compatibility and health', 'homeward-rescue' ) . '">' . $items . '</ul>' : '';
 	}
 
 	/**
@@ -824,6 +845,7 @@ class Render {
 		if ( $animal['special_needs'] ) {
 			$out .= '<p>' . esc_html( $animal['special_needs'] ) . '</p>';
 		}
+		$out .= Kennel_Print::link( $animal['id'] );
 		$out .= '<div class="homeward-animal-actions">';
 		if ( $can_apply ) {
 			$out .= Applications::button( 'adopt', $animal['id'] );

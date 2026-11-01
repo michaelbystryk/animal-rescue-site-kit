@@ -60,6 +60,29 @@ Grid, Story Cards and Donate Panel get their information from the plugin, so
 edit the records or settings behind them. Application buttons need your real
 application destinations in Homeward settings.
 
+## Print kennel cards and adoption posters
+
+Staff with permission to edit posts can choose **Print kennel card** on an animal
+profile or its row in Animals. The print address is the profile URL with
+`?homeward_print=1`. Select half page cards (two per sheet) or a full page poster,
+then Letter or A4. Match the paper size in your print dialog and turn off browser
+headers and footers. Printing waits for the local QR code, photos and fonts.
+A single animal fills both half page cards; a poster prints once.
+
+In Animals, select rows and use **Print kennel cards** in Bulk actions.
+**Print all available** prints available animals on the current filtered admin
+page. Repeat for further pages. Cards include the rescue identity, photo, public
+facts, fee in your site currency, short description and a QR code linking to the
+animal's page. Photo crops favour the upper third. An optional
+`homeward_focal_point` post or featured-image meta value with normalized `x` and
+`y` coordinates overrides that crop.
+
+Profiles and printouts show confirmed spay/neuter and vaccination status beside
+compatibility. Unknown status has no icon. Edit these two yes/no/unknown fields
+on manual animals; Petstablished animals use the public detail toggles. Control
+visibility under the public fields in Homeward settings. Microchip IDs, rabies
+tag numbers and other source identifiers are discarded by the public allow-list.
+
 ## Connect an animal, a story and an adopter's words
 
 An animal profile describes the animal. An adoption story is a separate update

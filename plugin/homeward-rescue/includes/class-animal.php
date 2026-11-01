@@ -255,15 +255,17 @@ class Animal {
 				(string) ( $d['primary_breed'] ?? '' ),
 				(string) ( $d['secondary_breed'] ?? '' )
 			),
-			'origin'        => $origin,
-			'ok_dogs'       => $d['ok_dogs'] ?? null,
-			'ok_cats'       => $d['ok_cats'] ?? null,
-			'ok_kids'       => $d['ok_kids'] ?? null,
-			'housebroken'   => $d['housebroken'] ?? null,
-			'special'       => $special,
-			'special_needs' => (string) ( $d['special_needs'] ?? '' ),
-			'bonded'        => $bonded,
-			'fee'           => (string) ( $d['adoption_fee'] ?? '' ),
+			'origin'           => $origin,
+			'ok_dogs'          => $d['ok_dogs'] ?? null,
+			'ok_cats'          => $d['ok_cats'] ?? null,
+			'ok_kids'          => $d['ok_kids'] ?? null,
+			'housebroken'      => $d['housebroken'] ?? null,
+			'is_spayed'        => $d['is_spayed'] ?? null,
+			'shots_up_to_date' => $d['shots_up_to_date'] ?? null,
+			'special'          => $special,
+			'special_needs'    => (string) ( $d['special_needs'] ?? '' ),
+			'bonded'           => $bonded,
+			'fee'              => (string) ( $d['adoption_fee'] ?? '' ),
 		);
 	}
 
@@ -311,10 +313,12 @@ class Animal {
 			'video'              => array( 'youtube' ),
 			'compat'             => array( 'ok_dogs', 'ok_cats', 'ok_kids' ),
 			'housebroken'        => array( 'housebroken' ),
+			'is_spayed'          => array( 'is_spayed' ),
+			'shots_up_to_date'   => array( 'shots_up_to_date' ),
 			) as $field => $keys ) {
 			if ( ! in_array( $field, $fields, true ) ) {
 				foreach ( $keys as $key ) {
-					$animal[ $key ] = in_array( $key, array( 'ok_dogs', 'ok_cats', 'ok_kids', 'housebroken' ), true ) ? null : '';
+					$animal[ $key ] = is_bool( $animal[ $key ] ) || null === $animal[ $key ] ? null : '';
 				}
 			}
 		}

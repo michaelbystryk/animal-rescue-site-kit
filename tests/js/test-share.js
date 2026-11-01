@@ -122,7 +122,9 @@ function setup(options = {}) {
       calls.push(data);
       if (options.shareError) throw { name: options.shareError };
     };
-  vm.runInNewContext(source, { window, document, navigator, URL, URLSearchParams, TextEncoder });
+  const context = vm.createContext({ window, document, navigator, URL, URLSearchParams, TextEncoder });
+  vm.runInContext(fs.readFileSync(require.resolve('../../plugin/homeward-rescue/assets/js/qr.js'), 'utf8'), context);
+  vm.runInContext(source, context);
   const panel = document.body.children[0];
   const find = (cls) => {
     const walk = (node) => (node.className === cls ? node : node.children.map(walk).find(Boolean));

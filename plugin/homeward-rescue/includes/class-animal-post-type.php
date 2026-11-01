@@ -254,18 +254,20 @@ class Animal_Post_Type {
 	 */
 	public static function manual_fields() {
 		return array(
-			'status'        => array( 'available', 'pending', 'gone' ),
-			'species'       => array( 'dog', 'cat', 'other' ),
-			'sex'           => array( '', 'Male', 'Female' ),
-			'age_group'     => array( '', 'Puppy', 'Kitten', 'Young', 'Adult', 'Senior' ),
-			'size'          => array( '', 'Small', 'Medium', 'Large', 'Extra Large' ),
-			'primary_breed' => 'Breed',
-			'adoption_fee'  => 'Adoption fee',
-			'ok_dogs'       => array( '', 'yes', 'no' ),
-			'ok_cats'       => array( '', 'yes', 'no' ),
-			'ok_kids'       => array( '', 'yes', 'no' ),
-			'housebroken'   => array( '', 'yes', 'no' ),
-			'description'   => 'Description',
+			'status'           => array( 'available', 'pending', 'gone' ),
+			'species'          => array( 'dog', 'cat', 'other' ),
+			'sex'              => array( '', 'Male', 'Female' ),
+			'age_group'        => array( '', 'Puppy', 'Kitten', 'Young', 'Adult', 'Senior' ),
+			'size'             => array( '', 'Small', 'Medium', 'Large', 'Extra Large' ),
+			'primary_breed'    => 'Breed',
+			'adoption_fee'     => 'Adoption fee',
+			'ok_dogs'          => array( '', 'yes', 'no' ),
+			'ok_cats'          => array( '', 'yes', 'no' ),
+			'ok_kids'          => array( '', 'yes', 'no' ),
+			'housebroken'      => array( '', 'yes', 'no' ),
+			'is_spayed'        => array( '', 'yes', 'no' ),
+			'shots_up_to_date' => array( '', 'yes', 'no' ),
+			'description'      => 'Description',
 		);
 	}
 
@@ -275,11 +277,17 @@ class Animal_Post_Type {
 		$data['description'] = $post->post_content;
 		foreach ( self::manual_fields() as $key => $choices ) {
 			$value = $data[ $key ] ?? '';
-			if ( in_array( $key, array( 'ok_dogs', 'ok_cats', 'ok_kids', 'housebroken' ), true ) ) {
+			$tri = array( 'ok_dogs', 'ok_cats', 'ok_kids', 'housebroken', 'is_spayed', 'shots_up_to_date' );
+			if ( in_array( $key, $tri, true ) ) {
 				$value = null === $value || '' === $value ? '' : ( $value ? 'yes' : 'no' );
 			}
 			$name = 'homeward_manual[' . $key . ']';
-			echo '<p><label>' . esc_html( is_array( $choices ) ? ucfirst( str_replace( '_', ' ', $key ) ) : $choices ) . '<br>';
+			$labels = array(
+				'is_spayed'        => __( 'Spayed or neutered', 'homeward-rescue' ),
+				'shots_up_to_date' => __( 'Vaccinations up to date', 'homeward-rescue' ),
+			);
+			$label = $labels[ $key ] ?? ( is_array( $choices ) ? ucfirst( str_replace( '_', ' ', $key ) ) : $choices );
+			echo '<p><label>' . esc_html( $label ) . '<br>';
 			if ( is_array( $choices ) ) {
 				echo '<select name="' . esc_attr( $name ) . '">';
 				foreach ( $choices as $choice ) {
@@ -310,7 +318,8 @@ class Animal_Post_Type {
 			if ( is_array( $choices ) ) {
 				$value = in_array( $value, $choices, true ) ? $value : $choices[0];
 			}
-			if ( in_array( $key, array( 'ok_dogs', 'ok_cats', 'ok_kids', 'housebroken' ), true ) ) {
+			$tri = array( 'ok_dogs', 'ok_cats', 'ok_kids', 'housebroken', 'is_spayed', 'shots_up_to_date' );
+			if ( in_array( $key, $tri, true ) ) {
 				$value = '' === $value ? null : 'yes' === $value;
 			}
 			if ( 'description' !== $key ) {

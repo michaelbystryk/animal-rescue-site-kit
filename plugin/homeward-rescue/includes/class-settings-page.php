@@ -274,6 +274,8 @@ class Settings_Page {
 				'fee'                => __( 'Adoption fee', 'homeward-rescue' ),
 				'weight'             => __( 'Weight', 'homeward-rescue' ),
 				'age'                => __( 'Age', 'homeward-rescue' ),
+				'is_spayed'          => __( 'Spayed or neutered', 'homeward-rescue' ),
+				'shots_up_to_date'   => __( 'Vaccinations up to date', 'homeward-rescue' ),
 				'compat'             => __( 'Compatibility', 'homeward-rescue' ),
 				'housebroken'        => __( 'House training', 'homeward-rescue' ),
 				'special_needs_text' => __( 'Special needs', 'homeward-rescue' ),

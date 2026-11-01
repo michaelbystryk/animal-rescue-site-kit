@@ -40,6 +40,8 @@ class Pet_Data {
 		'ok_cats',
 		'ok_kids',
 		'housebroken',
+		'is_spayed',
+		'shots_up_to_date',
 		'adoption_fee',
 		'description',
 		'photos',
@@ -143,9 +145,11 @@ class Pet_Data {
 			'is_ok_with_other_cats' => 'ok_cats',
 			'is_ok_with_other_kids' => 'ok_kids',
 			// Prefer these names when present, including explicit unknown values.
-			'is_ok_with_cats' => 'ok_cats',
-			'is_ok_with_kids' => 'ok_kids',
-			'is_housebroken'  => 'housebroken',
+			'is_ok_with_cats'  => 'ok_cats',
+			'is_ok_with_kids'  => 'ok_kids',
+			'is_housebroken'   => 'housebroken',
+			'is_spayed'        => 'is_spayed',
+			'shots_up_to_date' => 'shots_up_to_date',
 		);
 		foreach ( $bools as $from => $to ) {
 			if ( array_key_exists( $from, $raw ) ) {

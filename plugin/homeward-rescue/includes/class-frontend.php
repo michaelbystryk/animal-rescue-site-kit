@@ -38,11 +38,14 @@ class Frontend {
 	public static function register_assets() {
 		wp_register_style( 'homeward', HOMEWARD_URL . 'assets/css/homeward.css', array(), HOMEWARD_VERSION );
 		wp_register_script( 'homeward-config', false, array(), HOMEWARD_VERSION, true );
+		wp_register_script(
+			'homeward-qr', HOMEWARD_URL . 'assets/js/qr.js', array(), HOMEWARD_VERSION, true
+		);
 		foreach ( array( 'animals', 'stories', 'donate' ) as $script ) {
 			wp_register_script(
 				'homeward-' . $script,
 				HOMEWARD_URL . 'assets/js/' . $script . '.js',
-				array( 'homeward-config' ),
+				'animals' === $script ? array( 'homeward-config', 'homeward-qr' ) : array( 'homeward-config' ),
 				HOMEWARD_VERSION,
 				array( 'strategy' => 'defer', 'in_footer' => true )
 			);

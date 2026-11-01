@@ -85,7 +85,9 @@
       "has_special_need": false,
       "special_needs": "",
       "is_bonded": false,
-      "description": "<p>A steady walking companion who enjoys sniffing trails and resting beside a chair. Fictional practice animal. This profile and fee are made-up examples.</p>"
+      "description": "<p>A steady walking companion who enjoys sniffing trails and resting beside a chair. Fictional practice animal. This profile and fee are made-up examples.</p>",
+      "is_spayed": true,
+      "shots_up_to_date": true
     },
     {
       "id": 920002,
@@ -108,7 +110,9 @@
       "has_special_need": true,
       "special_needs": "Fictional care plan: ask the practice team about daily medication.",
       "is_bonded": false,
-      "description": "<p>A small senior who likes short strolls and a quiet place to nap. Fictional practice animal. This profile and fee are made-up examples.</p>"
+      "description": "<p>A small senior who likes short strolls and a quiet place to nap. Fictional practice animal. This profile and fee are made-up examples.</p>",
+      "is_spayed": true,
+      "shots_up_to_date": true
     },
     {
       "id": 920003,
@@ -131,7 +135,9 @@
       "has_special_need": false,
       "special_needs": "",
       "is_bonded": false,
-      "description": "<p>A curious cat who enjoys a window perch and gentle play with a ribbon toy. Fictional practice animal. This profile and fee are made-up examples.</p>"
+      "description": "<p>A curious cat who enjoys a window perch and gentle play with a ribbon toy. Fictional practice animal. This profile and fee are made-up examples.</p>",
+      "is_spayed": true,
+      "shots_up_to_date": true
     },
     {
       "id": 920004,
@@ -154,7 +160,9 @@
       "has_special_need": false,
       "special_needs": "",
       "is_bonded": false,
-      "description": "<p>A bouncy puppy practising gentle greetings and settling after play. Fictional practice animal. This profile and fee are made-up examples.</p>"
+      "description": "<p>A bouncy puppy practising gentle greetings and settling after play. Fictional practice animal. This profile and fee are made-up examples.</p>",
+      "is_spayed": true,
+      "shots_up_to_date": true
     },
     {
       "id": 920005,
@@ -177,7 +185,9 @@
       "has_special_need": false,
       "special_needs": "",
       "is_bonded": false,
-      "description": "<p>A thoughtful dog who enjoys puzzle feeders and walks with time to explore. Fictional practice animal. This profile and fee are made-up examples.</p>"
+      "description": "<p>A thoughtful dog who enjoys puzzle feeders and walks with time to explore. Fictional practice animal. This profile and fee are made-up examples.</p>",
+      "is_spayed": null,
+      "shots_up_to_date": true
     },
     {
       "id": 920006,
@@ -200,7 +210,9 @@
       "has_special_need": false,
       "special_needs": "",
       "is_bonded": false,
-      "description": "<p>A cheerful scent explorer who likes food puzzles and company on a walk. Fictional practice animal. This profile and fee are made-up examples.</p>"
+      "description": "<p>A cheerful scent explorer who likes food puzzles and company on a walk. Fictional practice animal. This profile and fee are made-up examples.</p>",
+      "is_spayed": true,
+      "shots_up_to_date": "Not Sure"
     },
     {
       "id": 920007,
@@ -223,7 +235,9 @@
       "has_special_need": true,
       "special_needs": "Fictional care plan: ask the practice team about daily medication.",
       "is_bonded": false,
-      "description": "<p>A gentle companion who enjoys a familiar routine and a warm resting spot. Fictional practice animal. This profile and fee are made-up examples.</p>"
+      "description": "<p>A gentle companion who enjoys a familiar routine and a warm resting spot. Fictional practice animal. This profile and fee are made-up examples.</p>",
+      "is_spayed": true,
+      "shots_up_to_date": true
     },
     {
       "id": 920008,
@@ -246,7 +260,9 @@
       "has_special_need": false,
       "special_needs": "",
       "is_bonded": true,
-      "description": "<p>One of a fictional bonded pair, happiest sharing a sofa with Tansy Toggle. Fictional practice animal. This profile and fee are made-up examples.</p>"
+      "description": "<p>One of a fictional bonded pair, happiest sharing a sofa with Tansy Toggle. Fictional practice animal. This profile and fee are made-up examples.</p>",
+      "is_spayed": true,
+      "shots_up_to_date": true
     },
     {
       "id": 920009,
@@ -269,7 +285,9 @@
       "has_special_need": false,
       "special_needs": "",
       "is_bonded": true,
-      "description": "<p>Pippin Toggle’s fictional bonded companion, fond of soft toys and garden time. Fictional practice animal. This profile and fee are made-up examples.</p>"
+      "description": "<p>Pippin Toggle’s fictional bonded companion, fond of soft toys and garden time. Fictional practice animal. This profile and fee are made-up examples.</p>",
+      "is_spayed": true,
+      "shots_up_to_date": true
     },
     {
       "id": 920010,
@@ -292,7 +310,9 @@
       "has_special_need": false,
       "special_needs": "",
       "is_bonded": false,
-      "description": "<p>A tall, easygoing dog practising loose lead walking and calm introductions. Fictional practice animal. This profile and fee are made-up examples.</p>"
+      "description": "<p>A tall, easygoing dog practising loose lead walking and calm introductions. Fictional practice animal. This profile and fee are made-up examples.</p>",
+      "is_spayed": null,
+      "shots_up_to_date": true
     },
     {
       "id": 920011,
@@ -315,7 +335,9 @@
       "has_special_need": false,
       "special_needs": "",
       "is_bonded": false,
-      "description": "<p>A playful kitten who likes chasing a soft ball and climbing a sturdy scratcher. Fictional practice animal. This profile and fee are made-up examples.</p>"
+      "description": "<p>A playful kitten who likes chasing a soft ball and climbing a sturdy scratcher. Fictional practice animal. This profile and fee are made-up examples.</p>",
+      "is_spayed": true,
+      "shots_up_to_date": true
     },
     {
       "id": 920012,
@@ -338,7 +360,9 @@
       "has_special_need": false,
       "special_needs": "",
       "is_bonded": false,
-      "description": "<p>A bright walking companion who enjoys cool mornings and a food puzzle at home. Fictional practice animal. This profile and fee are made-up examples.</p>"
+      "description": "<p>A bright walking companion who enjoys cool mornings and a food puzzle at home. Fictional practice animal. This profile and fee are made-up examples.</p>",
+      "is_spayed": true,
+      "shots_up_to_date": "Not Sure"
     }
   ],
   "pages": [

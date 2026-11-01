@@ -7,7 +7,10 @@ defined( 'ABSPATH' ) || exit;
  * Validate rescue settings and coordinate source configuration changes.
  */
 class Settings {
-	const PUBLIC_FIELDS = array( 'fee', 'weight', 'age', 'compat', 'housebroken', 'special_needs_text', 'video', 'breed' );
+	const PUBLIC_FIELDS = array(
+		'fee', 'weight', 'age', 'compat', 'housebroken', 'special_needs_text', 'video', 'breed',
+		'is_spayed', 'shots_up_to_date',
+	);
 	private static $source_lock = null;
 	const PLACEHOLDER = '/^\s*a\s+(generic|foster)\b|\bapplication\b/i';
 

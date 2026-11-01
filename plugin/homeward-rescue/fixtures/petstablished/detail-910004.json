@@ -11,6 +11,8 @@
     "coordinator": {
       "email": "fake-sensitive@example.test"
     },
-    "adoption_fee": "125"
+    "adoption_fee": "125",
+    "is_spayed": true,
+    "shots_up_to_date": "True"
   }
 }

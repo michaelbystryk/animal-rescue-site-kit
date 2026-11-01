@@ -31,7 +31,8 @@ The kit has two parts: **Homeward Rescue** (`plugin/homeward-rescue/`), the plug
 | --- | --- |
 | **Animal sync** | Adoptable animals come from Petstablished and refresh on a schedule. |
 | **Filters** | Visitors filter by species, age, size and breed family. |
-| **Animal profiles** | Photos, details, share buttons and a QR code for posters. |
+| **Animal profiles** | Photos, compatibility and health icons, share buttons and a local QR code. |
+| **Kennel cards and posters** | Staff print half page cards or full page posters on Letter or A4, including bulk printing. |
 | **Stories and testimonials** | Adoption stories and adopter quotes, each linked to the animal. |
 | **Events** | Post adoption days and fundraisers in the normal editor. |
 | **Donate panel** | PayPal, a card link, and e-Transfer details with a copy button. |

@@ -388,6 +388,7 @@ function current_user_can(...$a) {
 }
 
 function wp_verify_nonce($n, $a) {
+	$GLOBALS['last_nonce_action'] = $a;
 	return $n === 'valid';
 }
 
