@@ -32,7 +32,7 @@ The kit has two parts: **Homeward Rescue** (`plugin/homeward-rescue/`), the plug
 | **Animal sync** | Adoptable animals come from Petstablished and refresh on a schedule. |
 | **Filters** | Visitors filter by species, age, size and breed family. |
 | **Animal profiles** | Photos, compatibility and health icons, share buttons and a local QR code. |
-| **Kennel cards and posters** | Staff print half page cards or full page posters on Letter or A4, including bulk printing. |
+| **Kennel cards and posters** | Staff print half page cards or full page posters on Letter or A4, each with a QR code to the animal's page, one at a time or in bulk. |
 | **Stories and testimonials** | Adoption stories and adopter quotes, each linked to the animal. |
 | **Events** | Post adoption days and fundraisers in the normal editor. |
 | **Donate panel** | PayPal, a card link, and e-Transfer details with a copy button. |
@@ -70,6 +70,14 @@ The plugin fetches your public listings on a schedule and saves each animal as a
     <td width="50%"><img src="docs/screenshots/kit/donate.png" alt="Donate page"><br><sub><b>Donate.</b> PayPal, card, and e-Transfer with a copy button.</sub></td>
   </tr>
 </table>
+
+### Kennel cards and posters
+
+Print a card or a full page poster for any animal, for kennels, adoption events and noticeboards. The QR code opens the animal's page, so people can apply from their phone.
+
+<p align="center">
+  <img src="docs/screenshots/kit/kennel-poster.png" alt="A printable adoption poster with photo, key facts, health and compatibility icons, fee and QR code" width="380">
+</p>
 
 ### Setup in six steps
 
