@@ -409,6 +409,15 @@ class Settings_Fields {
 					'feature_household_share_button' => array( __( 'Household card button', 'homeward-rescue' ), $name, 'text' ),
 				)
 			),
+			self::feature(
+				'adoption-path',
+				__( 'Adoption steps on profiles', 'homeward-rescue' ),
+				__( 'A numbered list of the steps from first look to home, on profiles that take applications.', 'homeward-rescue' ),
+				array(
+					'feature_adoption_path_heading' => array( __( 'Adoption steps heading', 'homeward-rescue' ), $name, 'text' ),
+					'feature_adoption_path_steps'   => array( __( 'Adoption steps', 'homeward-rescue' ), __( 'One step per line, written as Title | short line. {name} becomes the animal name.', 'homeward-rescue' ), 'lines' ),
+				)
+			),
 		);
 	}
 

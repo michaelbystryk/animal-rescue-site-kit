@@ -795,6 +795,7 @@ class Render {
 		$out .= self::profile_glance( $animal, $id, $opts, $can_apply );
 		$out .= '<div class="homeward-animal-body">';
 		$out .= self::profile_story( $animal, $post, $opts );
+		$out .= Features::adoption_path( $animal, $can_apply );
 		$out .= Features::donate_card( $animal );
 		$out .= '</div></div>' . Content_Render::linked_stories( $animal['id'] )
 			. Testimonials::render_linked( $animal['id'] ) . '</div>';

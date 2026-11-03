@@ -2794,3 +2794,45 @@ dd) a:not(:where(.homeward-animal-btn,
 :where(.homeward-household-share .homeward-animal-btn) {
 	width: 100%;
 }
+
+:where(.homeward-adoption-path__steps) {
+	display: grid;
+	gap: .9rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+:where(.homeward-adoption-path__step) {
+	display: flex;
+	gap: .9rem;
+	align-items: flex-start;
+}
+
+:where(.homeward-adoption-path__number) {
+	display: inline-flex;
+	flex: 0 0 auto;
+	align-items: center;
+	justify-content: center;
+	width: 2.25rem;
+	height: 2.25rem;
+	border: 2px solid var(--homeward-border-strong);
+	border-radius: 50%;
+	font-weight: 700;
+}
+
+:where(.homeward-adoption-path__step.is-current .homeward-adoption-path__number) {
+	background: var(--homeward-primary);
+	border-color: var(--homeward-primary);
+	color: var(--homeward-primary-foreground);
+}
+
+:where(.homeward-adoption-path__text) {
+	display: grid;
+	gap: .15rem;
+	min-width: 0;
+}
+
+:where(.homeward-adoption-path__text span) {
+	color: var(--homeward-muted);
+}

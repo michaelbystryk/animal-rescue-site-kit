@@ -32,6 +32,7 @@
       "Microchip"
     ],
     "feature_household_share": false,
+    "feature_adoption_path": false,
     "ask_hint": "What would you like to know about {name}?",
     "species": [
       "dog",
