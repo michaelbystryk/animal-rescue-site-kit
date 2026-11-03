@@ -21,10 +21,14 @@
     "font_body": "inter",
     "posthog_key": "",
     "posthog_region": "us",
+    "posthog_cookies": false,
     "feature_donate_card": true,
+    "feature_donate_card_ab": false,
     "feature_adopted_donate": true,
+    "feature_adopted_donate_ab": false,
     "feature_donate_url": "/donate/",
     "feature_fee_explainer": false,
+    "feature_fee_explainer_ab": false,
     "feature_fee_explainer_items": [
       "Vet check",
       "Vaccinations",
@@ -32,8 +36,11 @@
       "Microchip"
     ],
     "feature_household_share": false,
+    "feature_household_share_ab": false,
     "feature_adoption_path": false,
+    "feature_adoption_path_ab": false,
     "feature_waiting_counter": false,
+    "feature_waiting_counter_ab": false,
     "feature_waiting_counter_min_days": 14,
     "ask_hint": "What would you like to know about {name}?",
     "species": [

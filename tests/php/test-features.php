@@ -10,6 +10,7 @@ set_error_handler(function ($severity, $message, $file, $line) {
 	return false;
 });
 
+define('PH_KEY', 'phc_' . str_repeat('Z', 24));
 
 // Settings page doubles, as in the site services suite.
 function settings_errors() {}
@@ -62,6 +63,9 @@ foreach ($off_by_default as $key) {
 	equals("$key defaults off", false, $defaults[Features::option($key)]);
 }
 equals('donate link defaults to the donate page', 'https://example.invalid/donate/', Features::donate_url());
+foreach (Features::KEYS as $key) {
+	equals("$key A/B defaults off", false, $defaults[Features::option($key) . '_ab']);
+}
 equals('fee checklist has four generic items', array('Vet check', 'Vaccinations', 'Spay or neuter', 'Microchip'), $defaults['feature_fee_explainer_items']);
 equals('adoption steps are neutral', array('Get to know', 'Apply', 'Review', 'Meet', 'Home'), array_map(fn($step) => explode(' {', $step[0])[0], Features::steps()));
 equals('waiting minimum defaults to 14', 14, $defaults['feature_waiting_counter_min_days']);
@@ -87,6 +91,7 @@ foreach ($renders as $key => $render) {
 	$html = $render();
 	contains("$key on renders its wrapper", $html, 'data-homeward-feature="' . $key . '"');
 	check("$key on is visible at once", !str_contains($html, ' hidden>') || 'household-share' === $key);
+	check("$key on has no flag", !str_contains($html, 'data-homeward-flag'));
 	check("$key escapes the animal name", !str_contains($html, 'Pepper & "Co"'));
 	check("$key has no em dash", !str_contains($html, "\u{2014}"));
 }
@@ -164,10 +169,23 @@ contains('minimum of 0 shows new arrivals', Features::waiting_counter(fx_animal(
 fx_settings(array('feature_waiting_counter_min_days' => 99999));
 equals('minimum is capped', 3650, Settings::get('feature_waiting_counter_min_days'));
 
+// A/B override: hidden markup with the flag and the switch as the fallback, only when PostHog is set up.
+fx_settings(array_merge($all_on, array('feature_fee_explainer' => false, 'feature_fee_explainer_ab' => true, 'feature_donate_card_ab' => true)));
+check('A/B needs PostHog: no key keeps the switch', !str_contains(Features::donate_card($animal), 'data-homeward-flag'));
+equals('A/B without PostHog and switch off renders nothing', '', Features::fee_explainer($animal));
+fx_settings(array('posthog_key' => PH_KEY));
+foreach (array('donate-card' => 'on', 'fee-explainer' => 'off') as $key => $fallback) {
+	$html = $renders[$key]();
+	contains("$key A/B markup carries the flag", $html, 'data-homeward-flag="homeward-' . $key . '"');
+	contains("$key A/B markup falls back to the switch", $html, 'data-homeward-fallback="' . $fallback . '" hidden>');
+	check("$key A/B markup is hidden", (bool) preg_match('/^<[a-z]+ [^>]* hidden>/', $html));
+}
+check('features without A/B stay visible with PostHog', !str_contains(Features::household_share($animal), 'data-homeward-flag'));
 
 // Editors preview everything, or listed keys, without PostHog deciding.
 setup_reset();
 fx_settings(array_map(fn() => false, $all_on));
+fx_settings(array('posthog_key' => PH_KEY, 'feature_donate_card_ab' => true, 'feature_adopted_donate_ab' => true));
 $_GET['homeward_preview'] = 'all';
 foreach ($renders as $key => $render) {
 	$html = $render();
@@ -207,6 +225,7 @@ $sections = \Homeward\Settings_Fields::sections();
 check('features section exists', isset($sections['features']));
 foreach (Features::KEYS as $key) {
 	check("settings switch for $key", isset($sections['features'][2][Features::option($key)]));
+	check("settings A/B choice for $key", isset($sections['features'][2][Features::option($key) . '_ab']));
 }
 ob_start();
 Settings_Page::screen();
@@ -214,6 +233,16 @@ $screen = ob_get_clean();
 contains('settings render the features section', $screen, 'id="homeward-section-features"');
 contains('settings explain previews', $screen, '?homeward_preview=all');
 check('settings page has no em dash', !str_contains($screen, "\u{2014}"));
+contains('settings link the A/B guide', $screen, Features::DOCS_URL);
+contains('settings explain the persistence caveat', $screen, 'A/B tests need Recognize returning visitors turned on under Statistics.');
+fx_settings(array('feature_waiting_counter_ab' => true));
+ob_start();
+Settings_Page::screen();
+contains('warning when A/B has no PostHog key', ob_get_clean(), 'no PostHog project key is saved');
+fx_settings(array('feature_waiting_counter_ab' => true, 'posthog_key' => PH_KEY, 'posthog_cookies' => false));
+ob_start();
+Settings_Page::screen();
+contains('warning when A/B runs without returning visitors', ob_get_clean(), 'without Recognize returning visitors');
 
 // Contact form: the hint shows only when asking about one animal, and can be cleared.
 setup_reset();
@@ -242,11 +271,14 @@ equals('fee checklist imports', array('Vet check', 'Microchip'), Config_Import::
 check('feature lines must be text', is_wp_error(Config_Import::validate_settings(array('feature_fee_explainer_items' => array(1, 2)))));
 equals('waiting minimum imports', 21, Config_Import::validate_settings(array('feature_waiting_counter_min_days' => 21))['feature_waiting_counter_min_days']);
 check('feature minimum must be a whole number', is_wp_error(Config_Import::validate_settings(array('feature_waiting_counter_min_days' => '14'))));
+check('example config sets returning visitors', array_key_exists('posthog_cookies', $example));
+check('A/B choices and returning visitors import', is_array(Config_Import::validate_settings(array('feature_donate_card_ab' => true, 'posthog_cookies' => true))));
 
 // No reference rescue names, no em dashes and no dog-only wording in the new files.
 foreach (array(
 	HOMEWARD_DIR . 'includes/class-features.php',
 	HOMEWARD_DIR . 'assets/js/features.js',
+	dirname(__DIR__, 2) . '/docs/posthog-experiments.md',
 ) as $file) {
 	$text = file_get_contents($file);
 	check('no em dash in ' . basename($file), !str_contains($text, "\u{2014}"));

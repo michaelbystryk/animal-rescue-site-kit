@@ -1,13 +1,26 @@
 /**
- * Optional profile features (includes/class-features.php): what each feature does in the browser, and its
- * events. Pages work without this script.
+ * Optional profile features (includes/class-features.php): PostHog A/B decisions and feature events.
  *
- * Server markup: <div data-homeward-feature="donate-card">...</div> for each feature that is switched on.
+ * Server markup:
+ *   <div data-homeward-feature="fee-explainer">...</div>                    switched on, shown at once
+ *   <div data-homeward-feature="fee-explainer" data-homeward-flag="homeward-fee-explainer"
+ *        data-homeward-fallback="on|off" hidden>...</div>                    PostHog decides
+ *
+ * Decisions follow the rules that keep a test fair:
+ * - Only features on this page are asked about, so PostHog records an exposure ($feature_flag_called)
+ *   only where the visitor could see the feature.
+ * - Flags saved by posthog-js decide as soon as the real library has loaded; a first visit waits for
+ *   onFeatureFlags. Undefined means "not evaluated yet".
+ * - test shows the feature, control removes it. No PostHog (logged in, Do Not Track, Global Privacy
+ *   Control, blocked), opted out, a missing flag or no answer within the timeout: the page follows the
+ *   on/off switch (data-homeward-fallback). A late answer is ignored.
  * Events go through window.homewardAnalytics, which exists only when visitor statistics are running.
  */
 (function (window, document) {
   'use strict';
 
+  const POLL = 100;
+  let decided = {};
   let started = false;
 
   const capture = (key, event, props) => {
@@ -146,17 +159,112 @@
     if (behaviours[key]) behaviours[key](el, key);
   };
 
+  // variant is 'test', 'control' or 'fallback'.
+  const decide = (key, variant, elements) => {
+    if (decided[key]) return;
+    decided[key] = variant;
+    elements.forEach((el) => {
+      const show =
+        variant === 'test' || (variant === 'fallback' && el.getAttribute('data-homeward-fallback') === 'on');
+      if (show) {
+        el.hidden = false;
+        activate(el);
+      } else {
+        el.remove();
+      }
+    });
+  };
+
+  // The real posthog-js, or null while only the snippet's queueing stub is there. Always read it fresh:
+  // window.posthog is replaced once the library loads.
+  const live = () => {
+    const ph = window.posthog;
+    return ph && ph.__loaded && typeof ph.getFeatureFlag === 'function' ? ph : null;
+  };
+
+  const optedOut = (ph) => typeof ph.has_opted_out_capturing === 'function' && ph.has_opted_out_capturing();
+
+  // A flag's value without recording an exposure. undefined means "not evaluated yet".
+  const peek = (ph, name) => {
+    const all = typeof ph.getAllFeatureFlags === 'function' ? ph.getAllFeatureFlags() : null;
+    // Newer posthog-js returns a list of { key, enabled, variant }; older versions a { key: value } map.
+    if (Array.isArray(all)) {
+      const flag = all.find((item) => item && item.key === name);
+      if (flag) return flag.variant !== undefined && flag.variant !== null ? flag.variant : flag.enabled;
+    } else if (all && typeof all === 'object' && name in all) {
+      return all[name];
+    }
+    return ph.getFeatureFlag(name, { send_event: false });
+  };
+
   function start() {
     if (started) return;
     started = true;
-    document.querySelectorAll('[data-homeward-feature]').forEach(activate);
+    const all = Array.from(document.querySelectorAll('[data-homeward-feature]'));
+    all.filter((el) => !el.hasAttribute('data-homeward-flag')).forEach(activate);
+    const groups = {};
+    all
+      .filter((el) => el.hasAttribute('data-homeward-flag'))
+      .forEach((el) => {
+        const flag = el.getAttribute('data-homeward-flag');
+        (groups[flag] = groups[flag] || []).push(el);
+      });
+    const flags = Object.keys(groups);
+    if (!flags.length) return;
+    const keyOf = (flag) => groups[flag][0].getAttribute('data-homeward-feature');
+    let done = false,
+      timer = null,
+      poller = null;
+    const settle = (variantFor) => {
+      done = true;
+      window.clearTimeout(timer);
+      window.clearTimeout(poller);
+      flags.forEach((flag) => decide(keyOf(flag), variantFor(flag), groups[flag]));
+    };
+    const ph = window.posthog;
+    if (!ph || typeof ph.onFeatureFlags !== 'function' || (live() && optedOut(live()))) {
+      settle(() => 'fallback');
+      return;
+    }
+    const attempt = (flagsLoaded) => {
+      if (done) return true;
+      const current = window.posthog;
+      const real =
+        live() || (flagsLoaded && current && typeof current.getFeatureFlag === 'function' ? current : null);
+      if (!real) return false;
+      if (optedOut(real)) {
+        settle(() => 'fallback');
+        return true;
+      }
+      const values = {};
+      for (const flag of flags) {
+        values[flag] = peek(real, flag);
+        if (values[flag] === undefined && !flagsLoaded) return false;
+      }
+      const known = (flag) => values[flag] === 'test' || values[flag] === 'control';
+      // Record the exposure once per flag on the page, with the value the decision uses.
+      flags.filter(known).forEach((flag) => real.getFeatureFlag(flag));
+      settle((flag) => (known(flag) ? values[flag] : 'fallback'));
+      return true;
+    };
+    const poll = () => {
+      if (!attempt(false)) poller = window.setTimeout(poll, POLL);
+    };
+    timer = window.setTimeout(() => {
+      if (!done) settle(() => 'fallback');
+    }, api.timeout);
+    ph.onFeatureFlags(() => attempt(true));
+    poll();
   }
 
   const api = {
+    timeout: 3000,
     now: () => Date.now(),
     start,
+    variant: (key) => decided[key] || null,
     capture,
     _reset: () => {
+      decided = {};
       started = false;
     },
   };

@@ -72,6 +72,13 @@ function feature(key, inner = [], extra = {}) {
   return new El({ 'data-homeward-feature': key, ...extra }, inner);
 }
 
+function flagged(key, fallback, inner = []) {
+  return feature(key, inner, {
+    'data-homeward-flag': 'homeward-' + key,
+    'data-homeward-fallback': fallback,
+    hidden: '',
+  });
+}
 
 function setup(nodes, options = {}) {
   const timers = [];
@@ -118,6 +125,23 @@ function setup(nodes, options = {}) {
   return { window, document, root, api, events, advance };
 }
 
+function livePostHog(flags, options = {}) {
+  const exposures = [];
+  const ph = {
+    __loaded: options.loaded !== false,
+    getAllFeatureFlags: () => (options.list ? Object.keys(flags).map((key) => ({ key, enabled: true, variant: flags[key] })) : flags),
+    getFeatureFlag(name, opts) {
+      if (!opts) exposures.push(name);
+      return flags[name];
+    },
+    onFeatureFlags(fn) {
+      ph.flagsCallback = fn;
+    },
+    has_opted_out_capturing: () => Boolean(options.optedOut),
+    capture() {},
+  };
+  return { ph, exposures };
+}
 
 // Switched-on features (no flag) are active at once and never wait.
 {
@@ -130,6 +154,94 @@ function setup(nodes, options = {}) {
   equals('donate click is captured with the feature key', events, [
     ['donate_click', { feature: 'donate-card', page: '/animals/pepper/', source: 'profile' }],
   ]);
+}
+
+// No PostHog (logged in, Do Not Track, Global Privacy Control): the switch decides immediately.
+{
+  const on = flagged('fee-explainer', 'on');
+  const off = flagged('adoption-path', 'off');
+  const { api, advance } = setup([on, off]);
+  advance(0);
+  check('no PostHog: fallback on shows', !on.hidden && !on.removed);
+  check('no PostHog: fallback off removes', off.removed);
+  equals('no PostHog: decided as fallback', api.variant('fee-explainer'), 'fallback');
+}
+
+// The snippet stub loads nothing (blocked): fallback after the 3 second timeout, not before.
+{
+  const el = flagged('waiting-counter', 'on');
+  const stub = { onFeatureFlags() {}, capture() {}, getFeatureFlag() {} };
+  const { api, advance } = setup([el], { posthog: stub });
+  advance(2900);
+  check('blocked PostHog keeps the feature hidden while waiting', el.hidden && !el.removed);
+  equals('default timeout is 3 seconds', api.timeout, 3000);
+  advance(200);
+  check('timeout falls back to the switch', !el.hidden);
+}
+
+// Saved flags decide at once: test shows, control removes, exposure recorded once per flag.
+for (const list of [false, true]) {
+  const test = flagged('fee-explainer', 'off');
+  const control = flagged('household-share', 'on');
+  const { ph, exposures } = livePostHog({ 'homeward-fee-explainer': 'test', 'homeward-household-share': 'control' }, { list });
+  const { api, advance } = setup([test, control], { posthog: ph });
+  advance(0);
+  const form = list ? 'list' : 'map';
+  check(`test variant shows (${form})`, !test.hidden && !test.removed);
+  check(`control variant removes even when the switch is on (${form})`, control.removed);
+  equals(`exposure recorded once per flag (${form})`, exposures.sort(), ['homeward-fee-explainer', 'homeward-household-share']);
+  equals(`variant reported (${form})`, [api.variant('fee-explainer'), api.variant('household-share')], ['test', 'control']);
+}
+
+// First visit: wait for onFeatureFlags; a flag PostHog does not know falls back to the switch.
+{
+  const known = flagged('adoption-path', 'off');
+  const unknown = flagged('waiting-counter', 'on');
+  const flags = {};
+  const { ph, exposures } = livePostHog(flags, { loaded: false });
+  const { advance } = setup([known, unknown], { posthog: ph });
+  advance(500);
+  check('first visit waits for flags', known.hidden && unknown.hidden);
+  flags['homeward-adoption-path'] = 'test';
+  ph.__loaded = true;
+  ph.flagsCallback();
+  check('onFeatureFlags decides', !known.hidden);
+  check('missing flag follows the switch', !unknown.hidden && !unknown.removed);
+  equals('no exposure for a missing flag', exposures, ['homeward-adoption-path']);
+}
+
+// A late answer after the timeout changes nothing.
+{
+  const el = flagged('donate-card', 'off');
+  const { ph, exposures } = livePostHog({}, { loaded: false });
+  const { advance } = setup([el], { posthog: ph });
+  advance(3000);
+  check('timed out to fallback off', el.removed);
+  ph.__loaded = true;
+  ph.getAllFeatureFlags = () => ({ 'homeward-donate-card': 'test' });
+  ph.flagsCallback();
+  check('late test answer is ignored', el.removed);
+  equals('late answer records no exposure', exposures, []);
+}
+
+// A visitor who opted out of capturing is not tested.
+{
+  const el = flagged('donate-card', 'on');
+  const { ph, exposures } = livePostHog({ 'homeward-donate-card': 'control' }, { optedOut: true });
+  setup([el], { posthog: ph }).advance(0);
+  check('opted out follows the switch', !el.hidden && !el.removed);
+  equals('opted out records no exposure', exposures, []);
+}
+
+// Removed features never wire their events.
+{
+  const link = new El({ 'data-homeward-donate-link': 'adopted' });
+  const el = flagged('adopted-donate', 'on', [link]);
+  const { ph } = livePostHog({ 'homeward-adopted-donate': 'control' });
+  const { events, advance } = setup([el], { posthog: ph });
+  advance(0);
+  link.click();
+  equals('control group sends no feature events', events, []);
 }
 
 
