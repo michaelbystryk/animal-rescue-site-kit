@@ -31,7 +31,8 @@ The kit has two parts: **Homeward Rescue** (`plugin/homeward-rescue/`), the plug
 | --- | --- |
 | **Animal sync** | Adoptable animals come from Petstablished and refresh on a schedule. |
 | **Filters** | Visitors filter by species, age, size and breed family. |
-| **Animal profiles** | Photos, compatibility and health icons, share buttons and a local QR code. |
+| **Animal profiles** | Swipeable photos, compatibility and health icons, share buttons and a local QR code. |
+| **Profile features** | Donate prompts, a fee explainer, adoption steps, a household share card and a waiting counter, each switched on or off in Settings. |
 | **Kennel cards and posters** | Staff print half page cards or full page posters on Letter or A4, each with a QR code to the animal's page, one at a time or in bulk. |
 | **Stories and testimonials** | Adoption stories and adopter quotes, each linked to the animal. |
 | **Events** | Post adoption days and fundraisers in the normal editor. |
@@ -40,7 +41,7 @@ The kit has two parts: **Homeward Rescue** (`plugin/homeward-rescue/`), the plug
 | **Setup wizard** | Six short steps, saved as you go. No code. |
 | **Practice content** | Fictional pages and animals so you can see the finished site first. |
 | **Volunteer guide** | A plain-language guide to every page and block. |
-| **Statistics (optional)** | Optional PostHog visitor statistics, off until you add a key. |
+| **Statistics (optional)** | Optional PostHog visitor statistics, off until you add a key, and A/B tests for the profile features. |
 | **Fonts and access** | Twelve self-hosted fonts, readable colours, accessible and mobile friendly. |
 
 ## How it works
@@ -70,6 +71,28 @@ The plugin fetches your public listings on a schedule and saves each animal as a
     <td width="50%"><img src="docs/screenshots/kit/donate.png" alt="Donate page"><br><sub><b>Donate.</b> PayPal, card, and e-Transfer with a copy button.</sub></td>
   </tr>
 </table>
+
+### On phones
+
+Filters fold into one button next to Sort, so the animals come first. Photos open in a full screen viewer you can swipe through.
+
+<p align="center">
+  <img src="docs/screenshots/kit/phone-viewer.png" alt="Three phone screens: the animal listing with a Filters button next to Sort, a profile with the waiting counter and the fee explainer open, and the full screen photo viewer on photo 2 of 3" width="900">
+</p>
+
+### Profile features you can switch on
+
+Each one is an on/off switch in Settings, with wording you can edit. The donate prompts start on and the rest start off. No analytics account is needed.
+
+<p align="center">
+  <img src="docs/screenshots/kit/profile-features.png" alt="Three phone screens: a household share card, the adoption steps, and a donate card on an animal profile" width="900">
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/kit/settings-features.png" alt="The Profile features and A/B tests section in Settings, with switches and editable wording" width="900">
+</p>
+
+If you use PostHog, you can A/B test any of them first. See the [A/B test guide](docs/posthog-experiments.md).
 
 ### Kennel cards and posters
 
