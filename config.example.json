@@ -33,6 +33,8 @@
     ],
     "feature_household_share": false,
     "feature_adoption_path": false,
+    "feature_waiting_counter": false,
+    "feature_waiting_counter_min_days": 14,
     "ask_hint": "What would you like to know about {name}?",
     "species": [
       "dog",

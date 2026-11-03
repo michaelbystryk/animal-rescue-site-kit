@@ -21,6 +21,7 @@ class Features {
 		'fee-explainer',
 		'household-share',
 		'adoption-path',
+		'waiting-counter',
 	);
 
 	/**
@@ -80,6 +81,9 @@ class Features {
 				__( 'Meet | Meet {name} and ask your last questions.', 'homeward-rescue' ),
 				__( 'Home | {name} comes home with you.', 'homeward-rescue' ),
 			),
+			'feature_waiting_counter'          => false,
+			'feature_waiting_counter_text'     => __( 'Waiting for a home: {days} days', 'homeward-rescue' ),
+			'feature_waiting_counter_min_days' => 14,
 			'ask_hint'                         => __( 'What would you like to know about {name}?', 'homeward-rescue' ),
 		);
 	}
@@ -110,6 +114,7 @@ class Features {
 			}
 		}
 		$out['feature_donate_url'] = self::sanitize_url( $out['feature_donate_url'] ?? '' );
+		$out['feature_waiting_counter_min_days'] = min( 3650, max( 0, (int) ( $out['feature_waiting_counter_min_days'] ?? 14 ) ) );
 	}
 
 	/**
@@ -355,6 +360,57 @@ class Features {
 				. '</span></li>';
 		}
 		return self::wrap( 'adoption-path', $html . '</ol></section>' );
+	}
+
+	/**
+	 * Whole UTC calendar days between a wait start and now.
+	 *
+	 * @param int      $since Wait start timestamp.
+	 * @param int|null $now   Current time override.
+	 * @return int
+	 */
+	public static function days_waiting( $since, $now = null ) {
+		$now = null === $now ? time() : (int) $now;
+		$today = gmmktime( 0, 0, 0, (int) gmdate( 'n', $now ), (int) gmdate( 'j', $now ), (int) gmdate( 'Y', $now ) );
+		$start = gmmktime( 0, 0, 0, (int) gmdate( 'n', $since ), (int) gmdate( 'j', $since ), (int) gmdate( 'Y', $since ) );
+		return (int) floor( ( $today - $start ) / DAY_IN_SECONDS );
+	}
+
+	/**
+	 * Fill the counter wording, writing "1 day" rather than "1 days".
+	 *
+	 * @param string $template Wording with {days}.
+	 * @param int    $days     Days waiting.
+	 * @return string
+	 */
+	public static function days_label( $template, $days ) {
+		if ( 1 === $days ) {
+			$template = preg_replace( '/\{days\}(\s+\S+?)s(?=$|[\s,.;:!?])/u', '{days}$1', $template );
+		}
+		return str_replace( '{days}', number_format_i18n( $days ), $template );
+	}
+
+	/**
+	 * "Waiting for a home: N days" for available animals who have waited at least the minimum.
+	 *
+	 * @param array    $animal Public animal view model.
+	 * @param int|null $now    Current time override.
+	 * @return string
+	 */
+	public static function waiting_counter( $animal, $now = null ) {
+		$since = (int) ( $animal['waiting_since'] ?? 0 );
+		if ( 'available' !== ( $animal['status'] ?? '' ) || empty( $animal['listed'] ) || ! Animal::plausible_wait( $since ) ) {
+			return '';
+		}
+		$days = self::days_waiting( $since, $now );
+		if ( $days < (int) Settings::get( 'feature_waiting_counter_min_days' ) ) {
+			return '';
+		}
+		$template = self::fill( self::text( 'feature_waiting_counter_text' ), $animal['name'] ?? '' );
+		$html = '<span class="homeward-waiting-counter" data-homeward-waiting-counter data-since="'
+			. esc_attr( gmdate( 'Y-m-d', $since ) ) . '" data-days="' . esc_attr( (string) $days ) . '" data-template="'
+			. esc_attr( $template ) . '">' . esc_html( self::days_label( $template, $days ) ) . '</span>';
+		return self::wrap( 'waiting-counter', $html, 'p' );
 	}
 
 	/**

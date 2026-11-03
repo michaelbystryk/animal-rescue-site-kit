@@ -417,7 +417,7 @@ class Animal {
 	 * @param int $since Unix time.
 	 * @return bool
 	 */
-	private static function plausible_wait( $since ) {
+	public static function plausible_wait( $since ) {
 		$years = (float) apply_filters( 'homeward_max_waiting_years', 3 );
 		return $since > 0 && $since <= time() && $since >= time() - (int) round( $years * 365.25 * DAY_IN_SECONDS );
 	}

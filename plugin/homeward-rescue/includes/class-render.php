@@ -831,6 +831,7 @@ class Render {
 			. '</p><span class="homeward-animal-badge homeward-animal-badge--' . esc_attr( $animal['badge'][ 1 ] ) . '">'
 			. esc_html( $animal['badge'][ 0 ] ) . '</span><h1 id="' . esc_attr( $id ) . '" class="homeward-animal-glance__name">'
 			. esc_html( $name ) . '</h1>';
+		$out .= Features::waiting_counter( $animal );
 		if ( $animal['blurb'] ) {
 			$out .= '<p class="homeward-animal-lead">' . esc_html( $animal['blurb'] ) . '</p>';
 		}

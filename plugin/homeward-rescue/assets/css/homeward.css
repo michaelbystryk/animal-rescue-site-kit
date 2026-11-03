@@ -2836,3 +2836,18 @@ dd) a:not(:where(.homeward-animal-btn,
 :where(.homeward-adoption-path__text span) {
 	color: var(--homeward-muted);
 }
+
+:where(.homeward-feature--waiting-counter) {
+	margin: 0 0 .75rem;
+}
+
+:where(.homeward-waiting-counter) {
+	display: inline-block;
+	padding: .3rem .8rem;
+	background: var(--homeward-tint);
+	border: 1px solid var(--homeward-border);
+	border-radius: 999px;
+	color: var(--homeward-text);
+	font-size: .9375rem;
+	font-weight: 600;
+}

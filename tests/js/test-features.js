@@ -188,6 +188,42 @@ function setup(nodes, options = {}) {
   equals('adoption_path_viewed fires once', events.map((e) => e[0]), ['adoption_path_viewed']);
 }
 
+// The waiting counter recounts from its start date and reports a view once.
+{
+  const observers = [];
+  class IO {
+    constructor(fn) {
+      this.fn = fn;
+      observers.push(this);
+    }
+    observe() {}
+    disconnect() {}
+  }
+  const pill = new El({
+    'data-homeward-waiting-counter': '',
+    'data-since': '2026-01-01',
+    'data-days': '10',
+    'data-template': 'Waiting for a home: {days} days',
+  });
+  const { events, advance } = setup([feature('waiting-counter', [pill])], { io: IO, now: Date.UTC(2026, 0, 31, 12) });
+  advance(0);
+  equals('waiting counter is not viewed before it scrolls into view', events, []);
+  observers.forEach((io) => io.fn([{ isIntersecting: true }]));
+  observers.forEach((io) => io.fn([{ isIntersecting: true }]));
+  equals('waiting_counter_viewed fires once', events.map((e) => e[0]), ['waiting_counter_viewed']);
+  equals('waiting counter recounts from the start date', pill.textContent, 'Waiting for a home: 30 days');
+  equals('waiting_counter_viewed reports the days shown', events[0][1].days, 30);
+}
+
+// A visitor clock behind the cached page keeps the server count; one day is singular.
+{
+  const pill = new El({ 'data-homeward-waiting-counter': '', 'data-since': '2026-01-01', 'data-days': '40', 'data-template': '{days} days' });
+  setup([feature('waiting-counter', [pill])], { now: Date.UTC(2026, 0, 2) }).advance(0);
+  check('slow clock keeps the server text', pill.textContent === '');
+  const one = new El({ 'data-homeward-waiting-counter': '', 'data-since': '2026-01-01', 'data-days': '0', 'data-template': 'Waiting for a home: {days} days' });
+  setup([feature('waiting-counter', [one])], { now: Date.UTC(2026, 0, 2, 9) }).advance(0);
+  equals('one day is singular', one.textContent, 'Waiting for a home: 1 day');
+}
 
 // Without visitor statistics (no homewardAnalytics) clicks still work and send nothing.
 {

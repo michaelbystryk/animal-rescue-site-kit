@@ -64,6 +64,7 @@ foreach ($off_by_default as $key) {
 equals('donate link defaults to the donate page', 'https://example.invalid/donate/', Features::donate_url());
 equals('fee checklist has four generic items', array('Vet check', 'Vaccinations', 'Spay or neuter', 'Microchip'), $defaults['feature_fee_explainer_items']);
 equals('adoption steps are neutral', array('Get to know', 'Apply', 'Review', 'Meet', 'Home'), array_map(fn($step) => explode(' {', $step[0])[0], Features::steps()));
+equals('waiting minimum defaults to 14', 14, $defaults['feature_waiting_counter_min_days']);
 
 // Each feature on and off.
 $animal = fx_animal();
@@ -75,6 +76,7 @@ $renders = array(
 $renders['fee-explainer'] = fn() => Features::fee_explainer($animal);
 $renders['household-share'] = fn() => Features::household_share($animal);
 $renders['adoption-path'] = fn() => Features::adoption_path($animal, true);
+$renders['waiting-counter'] = fn() => Features::waiting_counter($animal);
 fx_settings(array_map(fn() => false, $all_on));
 foreach ($renders as $key => $render) {
 	equals("$key off renders nothing", '', $render());
@@ -148,6 +150,19 @@ equals('adoption path needs applications', '', Features::adoption_path($animal, 
 $form = Settings_Page::sanitize_form(array('feature_adoption_path_steps' => "Look | Read\nApply"));
 equals('settings form splits step lines', array('Look | Read', 'Apply'), $form['feature_adoption_path_steps']);
 
+$counter = Features::waiting_counter($animal);
+contains('waiting counter wording', $counter, 'Waiting for a home: 40 days');
+contains('waiting counter carries the start date', $counter, 'data-since="' . gmdate('Y-m-d', $animal['waiting_since']) . '"');
+equals('under the minimum shows nothing', '', Features::waiting_counter(fx_animal(array('waiting_since' => time() - 5 * DAY_IN_SECONDS))));
+equals('pending animals show no counter', '', Features::waiting_counter(fx_animal(array('status' => 'pending'))));
+equals('unlisted animals show no counter', '', Features::waiting_counter(fx_animal(array('listed' => false))));
+equals('implausible wait shows no counter', '', Features::waiting_counter(fx_animal(array('waiting_since' => time() - 9 * 365 * DAY_IN_SECONDS))));
+equals('days are whole UTC days', 2, Features::days_waiting(gmmktime(23, 0, 0, 3, 1, 2026), gmmktime(1, 0, 0, 3, 3, 2026)));
+equals('one day is singular', 'Waiting for a home: 1 day', Features::days_label('Waiting for a home: {days} days', 1));
+fx_settings(array_merge($all_on, array('feature_waiting_counter_min_days' => 0)));
+contains('minimum of 0 shows new arrivals', Features::waiting_counter(fx_animal(array('waiting_since' => time() - DAY_IN_SECONDS))), 'Waiting for a home: 1 day<');
+fx_settings(array('feature_waiting_counter_min_days' => 99999));
+equals('minimum is capped', 3650, Settings::get('feature_waiting_counter_min_days'));
 
 
 // Editors preview everything, or listed keys, without PostHog deciding.
@@ -181,6 +196,7 @@ check('fee explainer follows the facts', strpos($page, 'homeward-animal-facts') 
 check('household card follows the Share button', strpos($page, 'data-homeward-share ') < strpos($page, 'data-homeward-feature="household-share"'));
 check('normal Share button stays', str_contains($page, 'data-homeward-share '));
 check('adoption steps follow the story', strpos($page, 'homeward-animal-story') < strpos($page, 'data-homeward-feature="adoption-path"'));
+check('waiting counter sits under the name', strpos($page, 'homeward-animal-glance__name') < strpos($page, 'data-homeward-feature="waiting-counter"'));
 list($gone_animal, $gone_post) = fx_profile(array('name' => 'Juniper'), 'gone');
 $gone_page = Render::animal_page($gone_animal, $gone_post);
 contains('adopted profile shows the prompt', $gone_page, 'data-homeward-feature="adopted-donate"');
@@ -224,6 +240,8 @@ check('feature donate link must be safe', is_wp_error(Config_Import::validate_se
 check('ask hint imports', is_array(Config_Import::validate_settings(array('ask_hint' => 'Questions about {name}?'))));
 equals('fee checklist imports', array('Vet check', 'Microchip'), Config_Import::validate_settings(array('feature_fee_explainer_items' => array('Vet check', 'Microchip')))['feature_fee_explainer_items']);
 check('feature lines must be text', is_wp_error(Config_Import::validate_settings(array('feature_fee_explainer_items' => array(1, 2)))));
+equals('waiting minimum imports', 21, Config_Import::validate_settings(array('feature_waiting_counter_min_days' => 21))['feature_waiting_counter_min_days']);
+check('feature minimum must be a whole number', is_wp_error(Config_Import::validate_settings(array('feature_waiting_counter_min_days' => '14'))));
 
 // No reference rescue names, no em dashes and no dog-only wording in the new files.
 foreach (array(
