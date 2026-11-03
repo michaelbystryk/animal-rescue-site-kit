@@ -548,6 +548,13 @@ class Sync {
 		update_post_meta( $id, Animal::M_SOURCE, (int) Settings::get( 'shelter_id' ) );
 		update_post_meta( $id, Animal::M_ADAPTER, Settings::get( 'source' ) );
 		$old = Animal::data( $id );
+		// Up for adoption before this update (pending still counts: the animal kept waiting).
+		$was_up = in_array( (string) get_post_meta( $id, Animal::M_STATUS, true ), array( '', 'available', 'pending' ), true )
+			&& '0' !== get_post_meta( $id, Animal::M_LISTED, true );
+		// An animal missing from the feed for a short while (a source blip) has not been relisted.
+		$gone_at = (int) get_post_meta( $id, Animal::M_GONE, true );
+		$min_away = (int) apply_filters( 'homeward_relist_min_days', 3 ) * DAY_IN_SECONDS;
+		$away_long = $gone_at ? time() - $gone_at >= $min_away : true;
 		$description = array_key_exists( 'description', $data ) ? Pet_Data::kses( $data['description'] ) : null;
 		unset( $data['description'] );
 		$new = array_intersect_key( array_merge( $old, $data ), array_flip( Pet_Data::WHITELIST ) );
@@ -582,6 +589,10 @@ class Sync {
 		}
 		wp_update_post( wp_slash( $change ) );
 		Animal::refresh_derived( $id );
+		// Back from adoption, a hold or delisting: the wait starts again now.
+		if ( ! $was_up && $away_long && 'available' === $status && '1' === get_post_meta( $id, Animal::M_LISTED, true ) ) {
+			update_post_meta( $id, Animal::M_RELISTED, time() );
+		}
 	}
 
 	private static function mark_gone( $id ) {

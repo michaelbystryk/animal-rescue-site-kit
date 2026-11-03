@@ -50,6 +50,7 @@ class Pet_Data {
 		'youtube_url',
 		'created_at',
 		'date_received',
+		'date_aquired',
 		'updated_at',
 	);
 	/**
@@ -238,7 +239,7 @@ class Pet_Data {
 			}
 			$out['youtube_url'] = $yt;
 		}
-		foreach ( array( 'created_at', 'date_received', 'updated_at' ) as $k ) {
+		foreach ( array( 'created_at', 'date_received', 'date_aquired', 'updated_at' ) as $k ) {
 			if ( array_key_exists( $k, $raw ) ) {
 				$out[ $k ] = self::date_timestamp( $raw[ $k ] ) ? trim( $raw[ $k ] ) : '';
 			}
