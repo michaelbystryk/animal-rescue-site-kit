@@ -31,6 +31,7 @@
       "Spay or neuter",
       "Microchip"
     ],
+    "feature_household_share": false,
     "ask_hint": "What would you like to know about {name}?",
     "species": [
       "dog",

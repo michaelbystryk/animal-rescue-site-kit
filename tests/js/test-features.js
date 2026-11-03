@@ -151,6 +151,22 @@ function setup(nodes, options = {}) {
   check('Escape closes and returns focus', !details.open && summary.focused);
 }
 
+// Household share: shows only with a Share button, opens it and is captured.
+{
+  const open = new El({ 'data-homeward-household-open': '' });
+  const card = new El({ 'data-homeward-household-share': '', hidden: '' }, [open]);
+  const share = new El({ 'data-homeward-share': '' });
+  const { events, advance } = setup([share, feature('household-share', [card])]);
+  advance(0);
+  check('household card appears with a Share button', !card.hidden);
+  const event = open.fire('click', {});
+  check('household click opens the usual Share box', share.clicks === 1);
+  check('household click does not reach the outside-click handler', event.stopped);
+  equals('household_share_clicked captured', events[0][0], 'household_share_clicked');
+  const lonely = new El({ 'data-homeward-household-share': '', hidden: '' }, [new El({ 'data-homeward-household-open': '' })]);
+  setup([feature('household-share', [lonely])]).advance(0);
+  check('household card stays hidden without a Share button', lonely.hidden);
+}
 
 
 

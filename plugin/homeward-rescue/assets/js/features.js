@@ -69,6 +69,22 @@
         }
       });
     },
+    'household-share': (el, key) => {
+      const card = el.querySelector('[data-homeward-household-share]');
+      const open = el.querySelector('[data-homeward-household-open]');
+      const page = (el.closest && el.closest('.homeward-animal-page')) || document;
+      const share = page.querySelector('[data-homeward-share]');
+      // Without the page's Share button there is nothing to open: the card stays hidden.
+      if (!card || !open || !share) return;
+      card.hidden = false;
+      open.addEventListener('click', (event) => {
+        // The Share box closes on outside clicks, which would include this one.
+        if (event && typeof event.stopPropagation === 'function') event.stopPropagation();
+        capture(key, 'household_share_clicked', {});
+        // Inside the same tap, so phones still allow the native share sheet.
+        share.click();
+      });
+    },
   };
 
   function donate(el, key) {
