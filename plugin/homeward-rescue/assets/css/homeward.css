@@ -2725,3 +2725,57 @@ dd) a:not(:where(.homeward-animal-btn,
 :where(.homeward-feature-donate) {
 	border-left: 4px solid var(--homeward-accent);
 }
+
+:where(.homeward-fee-explainer) {
+	margin: .75rem 0 0;
+}
+
+:where(.homeward-fee-explainer__toggle) {
+	display: inline-flex;
+	align-items: center;
+	gap: .4rem;
+	min-height: 44px;
+	padding: .25rem 0;
+	color: var(--homeward-link);
+	font-weight: 600;
+	text-decoration: underline;
+	text-underline-offset: .2em;
+	cursor: pointer;
+	list-style: none;
+}
+
+:where(.homeward-fee-explainer__toggle)::-webkit-details-marker {
+	display: none;
+}
+
+:where(.homeward-fee-explainer__toggle):focus-visible {
+	outline: 3px solid var(--homeward-primary);
+	outline-offset: 3px;
+}
+
+:where(.homeward-fee-explainer__panel) {
+	margin-top: .5rem;
+	padding: 1rem 1.25rem;
+	background: var(--homeward-tint);
+	border-radius: .75rem;
+}
+
+:where(.homeward-fee-explainer__list) {
+	display: grid;
+	gap: .4rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+:where(.homeward-fee-explainer__list li) {
+	display: flex;
+	gap: .5rem;
+	align-items: baseline;
+}
+
+:where(.homeward-fee-explainer__closing) {
+	margin: .75rem 0 0;
+	color: var(--homeward-muted);
+	font-size: .9375rem;
+}

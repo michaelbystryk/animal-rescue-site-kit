@@ -846,6 +846,7 @@ class Render {
 					)
 				)
 			) . '</p>' . self::facts( $animal );
+			$out .= Features::fee_explainer( $animal );
 		}
 		if ( $opts['compatibility'] ) {
 			$out .= self::chips( $animal );

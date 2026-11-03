@@ -24,6 +24,13 @@
     "feature_donate_card": true,
     "feature_adopted_donate": true,
     "feature_donate_url": "/donate/",
+    "feature_fee_explainer": false,
+    "feature_fee_explainer_items": [
+      "Vet check",
+      "Vaccinations",
+      "Spay or neuter",
+      "Microchip"
+    ],
     "ask_hint": "What would you like to know about {name}?",
     "species": [
       "dog",
