@@ -550,24 +550,24 @@ class Animal {
 	}
 
 	/**
-	 * Home carousel: featured animals, else the newest.
+	 * Home carousel: featured animals first, then the newest, up to $limit.
 	 *
 	 * @param int $limit Max animals.
 	 * @return array[]
 	 */
 	public static function carousel( $limit = 8 ) {
 		$featured = self::query( array( 'featured' => true, 'limit' => $limit, ) );
-		if ( $featured ) {
+		if ( count( $featured ) >= $limit ) {
 			return $featured;
 		}
-		$all = self::query();
+		$all = self::query( array( 'exclude' => array_column( $featured, 'id' ) ) );
 		usort(
 			$all,
 			function ( $a, $b ) {
 				return array( $b['created'], $b['id'] ) <=> array( $a['created'], $a['id'] );
 			}
 		);
-		return array_slice( $all, 0, $limit );
+		return array_merge( $featured, array_slice( $all, 0, $limit - count( $featured ) ) );
 	}
 
 	/**
