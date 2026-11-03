@@ -20,6 +20,7 @@ class Features {
 		'adopted-donate',
 		'fee-explainer',
 		'household-share',
+		'adoption-path',
 	);
 
 	/**
@@ -27,6 +28,7 @@ class Features {
 	 */
 	const LINE_FIELDS = array(
 		'feature_fee_explainer_items',
+		'feature_adoption_path_steps',
 	);
 
 	/**
@@ -69,6 +71,15 @@ class Features {
 			'feature_household_share'          => false,
 			'feature_household_share_text'     => __( 'Deciding with someone?', 'homeward-rescue' ),
 			'feature_household_share_button'   => __( 'Share {name}’s page', 'homeward-rescue' ),
+			'feature_adoption_path'            => false,
+			'feature_adoption_path_heading'    => __( 'How adopting {name} works', 'homeward-rescue' ),
+			'feature_adoption_path_steps'      => array(
+				__( 'Get to know {name} | Read the profile and ask us anything.', 'homeward-rescue' ),
+				__( 'Apply | Send in the adoption application.', 'homeward-rescue' ),
+				__( 'Review | We read your application and get in touch.', 'homeward-rescue' ),
+				__( 'Meet | Meet {name} and ask your last questions.', 'homeward-rescue' ),
+				__( 'Home | {name} comes home with you.', 'homeward-rescue' ),
+			),
 			'ask_hint'                         => __( 'What would you like to know about {name}?', 'homeward-rescue' ),
 		);
 	}
@@ -300,6 +311,50 @@ class Features {
 			. Render::icon( 'share' ) . '<span>' . esc_html( self::fill( self::text( 'feature_household_share_button' ), $name ) )
 			. '</span></button></div>';
 		return self::wrap( 'household-share', $html );
+	}
+
+	/**
+	 * Split the adoption path settings into title and line pairs.
+	 *
+	 * @return array[]
+	 */
+	public static function steps() {
+		$steps = array();
+		foreach ( (array) self::text( 'feature_adoption_path_steps' ) as $row ) {
+			$parts = array_map( 'trim', explode( '|', (string) $row, 2 ) );
+			if ( '' !== $parts[0] ) {
+				$steps[] = array( $parts[0], $parts[1] ?? '' );
+			}
+		}
+		return $steps;
+	}
+
+	/**
+	 * Numbered steps from first look to home.
+	 *
+	 * @param array $animal    Public animal view model.
+	 * @param bool  $can_apply Whether the profile takes applications.
+	 * @return string
+	 */
+	public static function adoption_path( $animal, $can_apply ) {
+		$steps = self::steps();
+		if ( ! $can_apply || ! $steps ) {
+			return '';
+		}
+		$name = (string) $animal['name'];
+		$hid = self::uid( 'homeward-adoption-path' );
+		$html = '<section class="homeward-feature-card homeward-adoption-path" aria-labelledby="' . esc_attr( $hid ) . '">'
+			. '<h2 id="' . esc_attr( $hid ) . '" class="homeward-feature-card__heading">'
+			. esc_html( self::fill( self::text( 'feature_adoption_path_heading' ), $name ) ) . '</h2>'
+			. '<ol class="homeward-adoption-path__steps" data-homeward-adoption-path>';
+		foreach ( $steps as $i => $step ) {
+			$html .= '<li class="homeward-adoption-path__step' . ( 0 === $i ? ' is-current' : '' ) . '"'
+				. ( 0 === $i ? ' aria-current="step"' : '' ) . '><span class="homeward-adoption-path__number" aria-hidden="true">'
+				. ( $i + 1 ) . '</span><span class="homeward-adoption-path__text"><strong>' . esc_html( self::fill( $step[0], $name ) )
+				. '</strong>' . ( '' !== $step[1] ? '<span>' . esc_html( self::fill( $step[1], $name ) ) . '</span>' : '' )
+				. '</span></li>';
+		}
+		return self::wrap( 'adoption-path', $html . '</ol></section>' );
 	}
 
 	/**

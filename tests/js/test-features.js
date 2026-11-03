@@ -168,6 +168,25 @@ function setup(nodes, options = {}) {
   check('household card stays hidden without a Share button', lonely.hidden);
 }
 
+// The adoption steps report a view once, when they scroll into view.
+{
+  const observers = [];
+  class IO {
+    constructor(fn) {
+      this.fn = fn;
+      observers.push(this);
+    }
+    observe() {}
+    disconnect() {}
+  }
+  const steps = new El({ 'data-homeward-adoption-path': '' });
+  const { events, advance } = setup([feature('adoption-path', [steps])], { io: IO });
+  advance(0);
+  equals('adoption steps are not viewed before they scroll into view', events, []);
+  observers.forEach((io) => io.fn([{ isIntersecting: true }]));
+  observers.forEach((io) => io.fn([{ isIntersecting: true }]));
+  equals('adoption_path_viewed fires once', events.map((e) => e[0]), ['adoption_path_viewed']);
+}
 
 
 // Without visitor statistics (no homewardAnalytics) clicks still work and send nothing.

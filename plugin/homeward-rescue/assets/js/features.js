@@ -85,6 +85,10 @@
         share.click();
       });
     },
+    'adoption-path': (el, key) => {
+      const list = el.querySelector('[data-homeward-adoption-path]') || el;
+      whenSeen(list, () => capture(key, 'adoption_path_viewed', {}));
+    },
   };
 
   function donate(el, key) {

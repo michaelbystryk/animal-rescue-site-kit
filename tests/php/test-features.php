@@ -63,6 +63,7 @@ foreach ($off_by_default as $key) {
 }
 equals('donate link defaults to the donate page', 'https://example.invalid/donate/', Features::donate_url());
 equals('fee checklist has four generic items', array('Vet check', 'Vaccinations', 'Spay or neuter', 'Microchip'), $defaults['feature_fee_explainer_items']);
+equals('adoption steps are neutral', array('Get to know', 'Apply', 'Review', 'Meet', 'Home'), array_map(fn($step) => explode(' {', $step[0])[0], Features::steps()));
 
 // Each feature on and off.
 $animal = fx_animal();
@@ -73,6 +74,7 @@ $renders = array(
 );
 $renders['fee-explainer'] = fn() => Features::fee_explainer($animal);
 $renders['household-share'] = fn() => Features::household_share($animal);
+$renders['adoption-path'] = fn() => Features::adoption_path($animal, true);
 fx_settings(array_map(fn() => false, $all_on));
 foreach ($renders as $key => $render) {
 	equals("$key off renders nothing", '', $render());
@@ -138,6 +140,13 @@ contains('household card waits for the Share button', $share, 'data-homeward-hou
 check('household button is a real button', str_contains($share, '<button type="button" class="homeward-animal-btn homeward-animal-btn--secondary" data-homeward-household-open>'));
 equals('household card skips gone animals', '', Features::household_share($gone));
 
+$path = Features::adoption_path($animal, true);
+check('adoption path lists five steps', 5 === substr_count($path, '<li class="homeward-adoption-path__step'));
+contains('adoption path marks the first step', $path, 'aria-current="step"');
+contains('adoption path fills the name', $path, 'Get to know Pepper &amp; &quot;Co&quot;');
+equals('adoption path needs applications', '', Features::adoption_path($animal, false));
+$form = Settings_Page::sanitize_form(array('feature_adoption_path_steps' => "Look | Read\nApply"));
+equals('settings form splits step lines', array('Look | Read', 'Apply'), $form['feature_adoption_path_steps']);
 
 
 
@@ -171,6 +180,7 @@ $page = Render::animal_page($profile_animal, $post);
 check('fee explainer follows the facts', strpos($page, 'homeward-animal-facts') < strpos($page, 'data-homeward-feature="fee-explainer"'));
 check('household card follows the Share button', strpos($page, 'data-homeward-share ') < strpos($page, 'data-homeward-feature="household-share"'));
 check('normal Share button stays', str_contains($page, 'data-homeward-share '));
+check('adoption steps follow the story', strpos($page, 'homeward-animal-story') < strpos($page, 'data-homeward-feature="adoption-path"'));
 list($gone_animal, $gone_post) = fx_profile(array('name' => 'Juniper'), 'gone');
 $gone_page = Render::animal_page($gone_animal, $gone_post);
 contains('adopted profile shows the prompt', $gone_page, 'data-homeward-feature="adopted-donate"');
