@@ -72,6 +72,7 @@ $renders = array(
 	'adopted-donate' => fn() => Features::adopted_donate($gone),
 );
 $renders['fee-explainer'] = fn() => Features::fee_explainer($animal);
+$renders['household-share'] = fn() => Features::household_share($animal);
 fx_settings(array_map(fn() => false, $all_on));
 foreach ($renders as $key => $render) {
 	equals("$key off renders nothing", '', $render());
@@ -130,6 +131,12 @@ check('empty closing line is left out', !str_contains($fee, 'homeward-fee-explai
 $form = Settings_Page::sanitize_form(array('feature_fee_explainer_items' => "One\n\nTwo\r\nThree"));
 equals('settings form splits checklist lines', array('One', 'Two', 'Three'), $form['feature_fee_explainer_items']);
 
+$share = Features::household_share($animal);
+contains('household card text', $share, 'Deciding with someone?');
+contains('household card button names the page', $share, 'Share Pepper &amp; &quot;Co&quot;’s page');
+contains('household card waits for the Share button', $share, 'data-homeward-household-share hidden');
+check('household button is a real button', str_contains($share, '<button type="button" class="homeward-animal-btn homeward-animal-btn--secondary" data-homeward-household-open>'));
+equals('household card skips gone animals', '', Features::household_share($gone));
 
 
 
@@ -162,6 +169,8 @@ check('donate card comes after the story', strpos($page, 'homeward-animal-story'
 fx_settings(array_merge($all_on, array('feature_waiting_counter_min_days' => 0, 'adopt_url' => 'https://apply.example.invalid/form')));
 $page = Render::animal_page($profile_animal, $post);
 check('fee explainer follows the facts', strpos($page, 'homeward-animal-facts') < strpos($page, 'data-homeward-feature="fee-explainer"'));
+check('household card follows the Share button', strpos($page, 'data-homeward-share ') < strpos($page, 'data-homeward-feature="household-share"'));
+check('normal Share button stays', str_contains($page, 'data-homeward-share '));
 list($gone_animal, $gone_post) = fx_profile(array('name' => 'Juniper'), 'gone');
 $gone_page = Render::animal_page($gone_animal, $gone_post);
 contains('adopted profile shows the prompt', $gone_page, 'data-homeward-feature="adopted-donate"');

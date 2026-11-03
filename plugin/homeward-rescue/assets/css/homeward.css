@@ -2466,3 +2466,18 @@ dd) a:not(:where(.homeward-animal-btn,
 	color: var(--homeward-muted);
 	font-size: .9375rem;
 }
+
+:where(.homeward-household-share) {
+	margin-top: 1.25rem;
+	padding-top: 1.25rem;
+	border-top: 1px solid var(--homeward-border);
+}
+
+:where(.homeward-household-share__text) {
+	margin: 0 0 .75rem;
+	font-weight: 600;
+}
+
+:where(.homeward-household-share .homeward-animal-btn) {
+	width: 100%;
+}

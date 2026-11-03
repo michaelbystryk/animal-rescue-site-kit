@@ -400,6 +400,15 @@ class Settings_Fields {
 					'feature_fee_explainer_closing' => array( __( 'Line under the checklist', 'homeward-rescue' ), __( 'Leave blank to show only the checklist.', 'homeward-rescue' ), 'text' ),
 				)
 			),
+			self::feature(
+				'household-share',
+				__( 'Share with the household card', 'homeward-rescue' ),
+				__( 'A card under the profile buttons that opens the usual Share box. The normal Share button stays.', 'homeward-rescue' ),
+				array(
+					'feature_household_share_text'   => array( __( 'Household card text', 'homeward-rescue' ), $name, 'text' ),
+					'feature_household_share_button' => array( __( 'Household card button', 'homeward-rescue' ), $name, 'text' ),
+				)
+			),
 		);
 	}
 

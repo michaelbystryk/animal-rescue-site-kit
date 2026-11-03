@@ -19,6 +19,7 @@ class Features {
 		'donate-card',
 		'adopted-donate',
 		'fee-explainer',
+		'household-share',
 	);
 
 	/**
@@ -65,6 +66,9 @@ class Features {
 				__( 'Microchip', 'homeward-rescue' ),
 			),
 			'feature_fee_explainer_closing'    => __( 'The fee covers part of the cost of care. Donations make up the rest.', 'homeward-rescue' ),
+			'feature_household_share'          => false,
+			'feature_household_share_text'     => __( 'Deciding with someone?', 'homeward-rescue' ),
+			'feature_household_share_button'   => __( 'Share {name}’s page', 'homeward-rescue' ),
 			'ask_hint'                         => __( 'What would you like to know about {name}?', 'homeward-rescue' ),
 		);
 	}
@@ -276,6 +280,26 @@ class Features {
 			. ( '' !== $closing ? '<p class="homeward-fee-explainer__closing">' . esc_html( self::fill( $closing, $animal['name'] ?? '' ) ) . '</p>' : '' )
 			. '</div></details>';
 		return self::wrap( 'fee-explainer', $html );
+	}
+
+	/**
+	 * Card that opens the page's Share box for someone deciding with their household.
+	 *
+	 * @param array $animal Public animal view model.
+	 * @return string
+	 */
+	public static function household_share( $animal ) {
+		if ( 'gone' === ( $animal['status'] ?? '' ) || '' === (string) ( $animal['name'] ?? '' ) ) {
+			return '';
+		}
+		$name = (string) $animal['name'];
+		// Hidden until features.js finds the page's Share button, which needs JavaScript too.
+		$html = '<div class="homeward-household-share" data-homeward-household-share hidden>'
+			. '<p class="homeward-household-share__text">' . esc_html( self::fill( self::text( 'feature_household_share_text' ), $name ) ) . '</p>'
+			. '<button type="button" class="homeward-animal-btn homeward-animal-btn--secondary" data-homeward-household-open>'
+			. Render::icon( 'share' ) . '<span>' . esc_html( self::fill( self::text( 'feature_household_share_button' ), $name ) )
+			. '</span></button></div>';
+		return self::wrap( 'household-share', $html );
 	}
 
 	/**

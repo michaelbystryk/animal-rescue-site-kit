@@ -862,6 +862,7 @@ class Render {
 			. ' data-homeward-share data-title="'
 			. esc_attr( $name ) . '" data-url="' . esc_url( $animal['url'] ) . '">' . esc_html__( 'Share', 'homeward-rescue' )
 			. '</button><p role="status" data-homeward-share-status></p></div>';
+		$out .= Features::household_share( $animal );
 		$out .= '</div></aside>';
 		return $out;
 	}
