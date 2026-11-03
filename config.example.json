@@ -24,6 +24,7 @@
     "feature_donate_card": true,
     "feature_adopted_donate": true,
     "feature_donate_url": "/donate/",
+    "ask_hint": "What would you like to know about {name}?",
     "species": [
       "dog",
       "cat"

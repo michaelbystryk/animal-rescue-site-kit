@@ -303,6 +303,11 @@ class Settings_Fields {
 				__( 'The saved secret stays hidden; leave this blank to keep it, or enter a replacement.', 'homeward-rescue' ),
 				'contact',
 			),
+			'ask_hint' => array(
+				__( 'Hint in the message box', 'homeward-rescue' ),
+				__( 'Grey text shown in an empty message box when someone asks about one animal; {name} becomes the animal name. Leave blank for no hint.', 'homeward-rescue' ),
+				'text',
+			),
 			'email_guard' => array(
 				__( 'Protect public email addresses', 'homeward-rescue' ),
 				__( 'Make email addresses harder for spam bots to collect while keeping them usable for visitors.', 'homeward-rescue' ),

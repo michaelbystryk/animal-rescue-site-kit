@@ -346,7 +346,7 @@ class Contact_Form {
 		$out .= '<div class="homeward-contact__trap" aria-hidden="true"><label for="' . $id . '-website">'
 			. esc_html__( 'Leave this field empty', 'homeward-rescue' ) . '</label><input id="' . $id
 			. '-website" name="website" tabindex="-1" autocomplete="off"></div>';
-		$out .= self::form_fields( $id, $errors, $values );
+		$out .= self::form_fields( $id, $errors, $values, $animal );
 		$out .= Turnstile::widget();
 		$out .= '<button type="submit" class="homeward-contact__submit">' . esc_html( $attrs['button'] )
 			. '</button><p class="homeward-contact__privacy">' . esc_html( $attrs['privacy'] ) . '</p></form></section>';
@@ -435,8 +435,10 @@ class Contact_Form {
 		return $out;
 	}
 
-	private static function form_fields( $id, $errors, $values ) {
+	private static function form_fields( $id, $errors, $values, $animal = 0 ) {
 		$out = '';
+		// A grey hint in the empty message box when the visitor asks about one animal.
+		$hint = $animal ? Features::ask_hint( Messages::animal_name( $animal ) ) : '';
 		foreach ( array(
 			'contact_name' => array( __( 'Name (required)', 'homeward-rescue' ), 'text', 'name', 200 ),
 			'email'        => array( __( 'Email (required)', 'homeward-rescue' ), 'email', 'email', 254 ),
@@ -454,7 +456,8 @@ class Contact_Form {
 				. '</label>';
 			$common = ' id="' . $id . '-' . $key . '" name="' . $key . '" maxlength="' . $field[3] . '" aria-describedby="' . $id
 				. '-' . $key . '-error"' . ( $error ? ' aria-invalid="true"' : '' ) . ( 'phone' !== $key ? ' required' : '' );
-			$out .= 'textarea' === $field[1] ? '<textarea' . $common . ' rows="6" minlength="10">' . esc_textarea( $value )
+			$placeholder = 'message' === $key && '' !== $hint ? ' placeholder="' . esc_attr( $hint ) . '"' : '';
+			$out .= 'textarea' === $field[1] ? '<textarea' . $common . $placeholder . ' rows="6" minlength="10">' . esc_textarea( $value )
 				. '</textarea>' : '<input type="' . $field[1] . '"' . $common . ' autocomplete="' . $field[2] . '" value="'
 				. esc_attr( $value ) . '">';
 			$out .= '<p class="homeward-contact__error" id="' . $id . '-' . $key . '-error" data-contact-error="' . $key . '">'
