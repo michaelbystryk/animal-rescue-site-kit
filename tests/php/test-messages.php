@@ -489,7 +489,7 @@ try {
 }
 $_POST = array();
 $_SERVER['REQUEST_METHOD'] = 'POST';
-$_POST = array_merge(valid_input(), array('email' => 'bad', 'message' => 'Question kept intact'));
+$_POST = array_merge(valid_input(), array('email' => 'not-an-email', 'message' => 'Question kept intact'));
 try {
 	Contact_Form::handle();
 } catch (Test_Response $e) {}
@@ -507,7 +507,7 @@ check(
 	!str_contains(
 		$GLOBALS['response']['url'],
 		'Question',
-	) && !str_contains($GLOBALS['response']['url'], 'bad'),
+	) && !str_contains($GLOBALS['response']['url'], 'not-an-email'),
 );
 check(
 	'tampered ticket rejected',
