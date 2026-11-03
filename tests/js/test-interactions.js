@@ -93,7 +93,16 @@ const fields = Object.fromEntries(
 );
 const extra = el(),
   extraCount = el();
-const form = el({ '[data-homeward-extra]': [extra], '[data-homeward-extra-count]': [extraCount] });
+const filtersToggle = el(),
+  filtersBadge = el();
+filtersToggle.setAttribute('aria-expanded', 'false');
+filtersBadge.hidden = true;
+const form = el({
+  '[data-homeward-extra]': [extra],
+  '[data-homeward-extra-count]': [extraCount],
+  '[data-homeward-filters-toggle]': [filtersToggle],
+  '[data-homeward-filters-badge]': [filtersBadge],
+});
 form.elements = { namedItem: (k) => fields[k] };
 const dogs = Array.from({ length: 30 }, (_, i) => ({
   id: i + 1,
@@ -271,6 +280,26 @@ const { check } = checker;
     'shared query applies on load',
     !items[0].hidden && items[1].hidden && count.textContent === '1 animal'
   );
+  check('filters badge counts active filters', filtersBadge.textContent === '2' && !filtersBadge.hidden);
+  check(
+    'filters button is labelled with the active count',
+    filtersToggle.getAttribute('aria-label') === 'Filters, 2 active'
+  );
+  check(
+    'phone filters start closed',
+    filtersToggle.getAttribute('aria-expanded') === 'false' && !form.classList.contains('is-open')
+  );
+  extra.open = false;
+  await filtersToggle.click();
+  check(
+    'filters button opens every filter',
+    filtersToggle.getAttribute('aria-expanded') === 'true' && form.classList.contains('is-open') && extra.open
+  );
+  await filtersToggle.click();
+  check(
+    'filters button closes the panel again',
+    filtersToggle.getAttribute('aria-expanded') === 'false' && !form.classList.contains('is-open')
+  );
   check(
     'initial shared filters and sort saved and restored by back link',
     back.href.endsWith('?origin=local-bc&age=adult&sort=newest')
@@ -283,6 +312,7 @@ const { check } = checker;
   check('JS reveals filters', !form.hidden);
   await form.fire('reset');
   check('reset removes URL filters', !window.location.search);
+  check('reset hides the filters badge', filtersBadge.hidden && !filtersToggle.getAttribute('aria-label'));
   check(
     'reset clears advanced count without reopening disclosure',
     !extra.open && extraCount.textContent === ''

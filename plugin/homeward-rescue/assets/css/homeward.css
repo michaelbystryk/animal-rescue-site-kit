@@ -1511,6 +1511,127 @@ dd) a:not(:where(.homeward-animal-btn,
 	}
 }
 
+/* Phone filters: a Filters button next to Sort opens every other filter at once. Hidden on wider screens. */
+:where(.homeward-animals-filters__toggle) {
+	display: none;
+	align-items: center;
+	justify-content: center;
+	gap: .5rem;
+	min-height: 48px;
+	padding: .45rem .9rem;
+	color: var(--homeward-text);
+	background: var(--homeward-background);
+	border: 1px solid var(--homeward-control-border);
+	border-radius: .75rem;
+	font: inherit;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+:where(.homeward-animals-filters__toggle[aria-expanded="true"]) {
+	border-color: var(--homeward-text);
+}
+
+:where(.homeward-animals-filters__toggle:focus-visible) {
+	outline: 3px solid var(--homeward-text);
+	outline-offset: 2px;
+}
+
+:where(.homeward-animals-filters__icon) {
+	flex: none;
+}
+
+:where(.homeward-animals-filters__badge) {
+	display: inline-grid;
+	place-items: center;
+	min-width: 1.4rem;
+	height: 1.4rem;
+	padding: 0 .35rem;
+	border-radius: 999px;
+	background: var(--homeward-primary);
+	color: var(--homeward-primary-foreground);
+	font-size: .8rem;
+	line-height: 1;
+}
+
+:where(.homeward-animals-filters__badge[hidden]) {
+	display: none;
+}
+
+@media (max-width:639px) {
+	.homeward-animals-filters__toggle {
+		display: inline-flex;
+	}
+	.homeward-animals-filters {
+		display: block;
+		padding: .75rem;
+	}
+	.homeward-animals-filters>.homeward-animals-filters__row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: .75rem;
+	}
+	.homeward-animals-filters__row>.homeward-animals-filters__toggle {
+		order: 0;
+		flex: none;
+	}
+	.homeward-animals-filters__row>.homeward-animals-field--sort {
+		order: 1;
+		flex: 1 1 0;
+		position: relative;
+	}
+	.homeward-animals-filters__row>.homeward-animals-field--search {
+		order: 2;
+		flex: 1 1 100%;
+	}
+	.homeward-animals-filters__row>.homeward-animals-field:not(.homeward-animals-field--search):not(.homeward-animals-field--sort) {
+		order: 3;
+		flex: 1 1 calc(50% - .375rem);
+	}
+	/* "Sort:" sits inside the select. */
+	.homeward-animals-field--sort label {
+		position: absolute;
+		left: .75rem;
+		top: 50%;
+		transform: translateY(-50%);
+		margin: 0;
+		font-size: 1rem;
+		pointer-events: none;
+	}
+	.homeward-animals-field--sort label::after {
+		content: ":";
+	}
+	.homeward-animals-field--sort select {
+		padding-left: 3.5rem;
+	}
+	.homeward-animals-filters:not(.is-open)>:is(.homeward-animals-extra,.homeward-animals-reset),
+	.homeward-animals-filters:not(.is-open) .homeward-animals-field:not(.homeward-animals-field--sort) {
+		display: none;
+	}
+	/* Open: every filter at once, with no second "More filters" step. */
+	.homeward-animals-filters>.homeward-animals-extra {
+		margin-top: .75rem;
+		border-top: 0;
+	}
+	.homeward-animals-filters>.homeward-animals-extra>summary {
+		display: none;
+	}
+	.homeward-animals-filters>.homeward-animals-extra>.homeward-animals-extra__fields {
+		padding-top: 0;
+		gap: .75rem;
+	}
+	.homeward-animals-filters .homeward-animals-field label {
+		margin-bottom: .25rem;
+	}
+	.homeward-animals-filters .homeward-animals-field :is(input,select) {
+		min-height: 48px;
+	}
+	.homeward-animals-filters>.homeward-animals-reset {
+		min-height: 44px;
+		margin-top: .25rem;
+	}
+}
+
 @media print {
 	:where(.homeward-animal-actionbar),
 	:where(.homeward-animals-filters),

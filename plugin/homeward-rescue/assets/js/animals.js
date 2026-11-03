@@ -88,6 +88,8 @@
     const extraCount = form.querySelector('[data-homeward-extra-count]');
     const activeExtra = (filters) =>
       ['age', 'sex', 'breed', 'kids', 'dogs', 'cats', 'special'].filter((key) => filters.has(key)).length;
+    const toggle = form.querySelector('[data-homeward-filters-toggle]');
+    const badge = form.querySelector('[data-homeward-filters-badge]');
     let limit = 24;
     const read = () => {
       const params = new URLSearchParams();
@@ -111,6 +113,14 @@
       if (extraCount) {
         const active = activeExtra(filters);
         extraCount.textContent = active ? text('activeFilters', '(%d active)').replace('%d', active) : '';
+      }
+      if (badge && toggle) {
+        const active = filterKeys.filter((key) => filters.has(key)).length;
+        badge.textContent = active ? String(active) : '';
+        badge.hidden = !active;
+        if (active)
+          toggle.setAttribute('aria-label', text('filtersActive', 'Filters, %d active').replace('%d', active));
+        else toggle.removeAttribute('aria-label');
       }
       // Move real nodes so reading/tab order matches visual order. Courtesy stays separate.
       const ordered = groups.flatMap((group) => {
@@ -192,6 +202,16 @@
           form.elements.namedItem('q').focus();
         });
     });
+    // Phones only (CSS hides the button elsewhere): starts closed; opening shows every filter at once.
+    if (toggle)
+      toggle.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') !== 'true';
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (open) {
+          form.classList.add('is-open');
+          if (extra) extra.open = true;
+        } else form.classList.remove('is-open');
+      });
     more.addEventListener('click', () => {
       const previous = limit;
       limit += 24;
