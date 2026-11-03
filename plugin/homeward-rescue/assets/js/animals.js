@@ -222,6 +222,19 @@
     }
   });
 
+  // Photo loading spinner on cards: only shows if a photo is still loading after a moment.
+  document.querySelectorAll('.homeward-animal-card__media').forEach((box) => {
+    const image = box.querySelector('img');
+    if (!image || image.complete) return;
+    const slow = window.setTimeout(() => box.classList.add('is-loading'), 150);
+    const done = () => {
+      window.clearTimeout(slow);
+      box.classList.remove('is-loading');
+    };
+    image.addEventListener('load', done);
+    image.addEventListener('error', done);
+  });
+
   document.querySelectorAll('[data-homeward-carousel]').forEach((root) => {
     const track = root.querySelector('.homeward-animal-carousel__track');
     if (!track) return;
@@ -268,8 +281,151 @@
     const mainImage = main.querySelector('[data-homeward-main]');
     const backdrop = main.querySelector('[data-homeward-backdrop]');
     const thumbs = Array.from(root.querySelectorAll('.homeward-animal-gallery__thumb[data-index]'));
+    const strip = root.querySelector('.homeward-animal-gallery__thumbs');
     let index = 0;
     let trigger = main;
+    let swiped = 0;
+    const wrap = (n) => (n + photos.length) % photos.length;
+    const phone = () => window.matchMedia('(max-width: 639px)').matches;
+    // Feedback while a photo loads (slow connections): dim it and spin, only if loading takes a moment.
+    const watch = (image, box) => {
+      let slow = 0;
+      const done = () => {
+        window.clearTimeout(slow);
+        box.classList.remove('is-loading');
+        box.removeAttribute('aria-busy');
+      };
+      image.addEventListener('load', done);
+      image.addEventListener('error', done);
+      return (src) => {
+        if (image.src === src) return;
+        done();
+        image.src = src;
+        if (!image.complete)
+          slow = window.setTimeout(() => {
+            box.classList.add('is-loading');
+            box.setAttribute('aria-busy', 'true');
+          }, 120);
+      };
+    };
+    const preload = (n) => {
+      const pre = document.createElement('img');
+      pre.src = photos[wrap(n)];
+    };
+    const dotsFor = (host, cls) => {
+      const dots = make('span', cls);
+      dots.setAttribute('aria-hidden', 'true');
+      // A long gallery keeps just the "Photo 3 of 20" count.
+      const list = photos.length > 1 && photos.length <= 15 ? photos.map(() => make('span')) : [];
+      dots.append(...list);
+      if (list.length) host.append(dots);
+      return list;
+    };
+    const markDots = (list) =>
+      list.forEach((dot, i) => {
+        if (i === index) dot.classList.add('is-active');
+        else dot.classList.remove('is-active');
+      });
+    // Swipe like a photo app: the photo follows the finger; a long enough drag slides it out and the next one
+    // in, a short one springs back. The direction is decided in the first few pixels: mostly sideways holds the
+    // page still for the rest of the drag, mostly vertical scrolls as normal.
+    const drag = (box, image, go) => {
+      let x = 0,
+        y = 0,
+        dx = 0,
+        mode = '';
+      const move = (to, ease) => {
+        image.style.transition = ease || 'none';
+        image.style.transform = to;
+      };
+      box.addEventListener(
+        'touchstart',
+        (e) => {
+          mode = e.touches.length === 1 ? 'wait' : '';
+          if (!mode) return;
+          x = e.touches[0].clientX;
+          y = e.touches[0].clientY;
+          dx = 0;
+          preload(index + 1);
+          preload(index - 1);
+        },
+        { passive: true }
+      );
+      box.addEventListener(
+        'touchmove',
+        (e) => {
+          if (mode !== 'wait' && mode !== 'x') return;
+          const mx = e.touches[0].clientX - x,
+            my = e.touches[0].clientY - y;
+          if (mode === 'wait') {
+            if (Math.abs(mx) < 6 && Math.abs(my) < 6) return;
+            mode = Math.abs(mx) * 1.2 > Math.abs(my) ? 'x' : '';
+          }
+          if (mode === 'x') {
+            if (e.cancelable) e.preventDefault();
+            dx = mx;
+            move(`translateX(${dx}px)`);
+          }
+        },
+        { passive: false }
+      );
+      const cancel = () => {
+        if (mode === 'x') move('', 'transform .25s cubic-bezier(.2,.7,.2,1)');
+        mode = '';
+      };
+      box.addEventListener('touchcancel', cancel);
+      box.addEventListener('touchend', () => {
+        if (mode !== 'x') {
+          mode = '';
+          return;
+        }
+        mode = '';
+        const width = box.clientWidth || 1;
+        if (Math.abs(dx) < Math.min(60, width * 0.18)) {
+          move('', 'transform .25s cubic-bezier(.2,.7,.2,1)');
+          return;
+        }
+        swiped = Date.now();
+        const step = dx < 0 ? 1 : -1;
+        if (reduced()) {
+          move('');
+          go(step);
+          return;
+        }
+        move(`translateX(${-step * width}px)`, 'transform .16s ease-in');
+        window.setTimeout(() => {
+          move(`translateX(${step * width * 0.3}px)`);
+          go(step);
+          window.requestAnimationFrame(() =>
+            window.requestAnimationFrame(() => move('', 'transform .3s cubic-bezier(.2,.7,.2,1)'))
+          );
+        }, 160);
+      });
+    };
+    const setMain = watch(mainImage, main);
+    const mainDots = dotsFor(main, 'homeward-animal-gallery__dots');
+    if (mainDots.length) mainDots[0].classList.add('is-active');
+    const select = (n) => {
+      index = wrap(n);
+      setMain(photos[index]);
+      main.href = photos[index];
+      if (backdrop) backdrop.src = photos[index];
+      markDots(mainDots);
+      thumbs.forEach((t) => t.removeAttribute('aria-current'));
+      const thumb = thumbs.find((t) => Number(t.dataset.index) === index);
+      if (thumb) {
+        thumb.setAttribute('aria-current', 'true');
+        // Slide only the thumbnail strip; scrollIntoView would also scroll the page.
+        if (strip && strip.scrollTo && thumb.getBoundingClientRect) {
+          const box = strip.getBoundingClientRect(),
+            at = thumb.getBoundingClientRect();
+          strip.scrollTo({
+            left: strip.scrollLeft + at.left - box.left - (box.width - at.width) / 2,
+            behavior: reduced() ? 'auto' : 'smooth',
+          });
+        }
+      }
+    };
     const dialog = make('dialog', 'homeward-animal-lightbox');
     dialog.setAttribute('aria-label', root.getAttribute('aria-label'));
     const bar = make('div', 'homeward-animal-lightbox__bar');
@@ -291,22 +447,72 @@
     bar.append(counter, close);
     const viewer = make('div', 'homeward-animal-lightbox__viewer');
     viewer.append(prev, img, next);
-    dialog.append(bar, viewer);
+    // Position dots and a blurred copy of the photo behind it: styled on phones only.
+    const lightDots = make('div', 'homeward-animal-lightbox__dots');
+    lightDots.setAttribute('aria-hidden', 'true');
+    const lightDotList = photos.length > 1 && photos.length <= 15 ? photos.map(() => make('span')) : [];
+    lightDots.append(...lightDotList);
+    const soft = make('img', 'homeward-animal-lightbox__backdrop');
+    soft.alt = '';
+    soft.setAttribute('aria-hidden', 'true');
+    dialog.append(bar, viewer, lightDots, soft);
     document.body.append(dialog);
     prev.hidden = next.hidden = photos.length < 2;
+    const setLightbox = watch(img, viewer);
     const show = (n) => {
-      index = (n + photos.length) % photos.length;
-      img.src = photos[index];
+      index = wrap(n);
+      setLightbox(photos[index]);
+      soft.src = photos[index];
+      markDots(lightDotList);
       counter.textContent = text('counter', 'Photo %1$d of %2$d')
         .replace('%1$d', index + 1)
         .replace('%2$d', photos.length);
+      // Fetch the neighbours now so Next and Previous feel instant.
+      if (photos.length > 1) {
+        preload(index + 1);
+        preload(index - 1);
+      }
+    };
+    // Phones: tint the browser's status bar and bottom area (the page cannot draw there) with the viewer's own
+    // background while it is open, then restore the site's colours.
+    let themeMeta = document.querySelector('meta[name="theme-color"]');
+    let madeMeta = false;
+    let tinted = false;
+    let savedTheme = null;
+    const tint = () => {
+      if (!phone()) return;
+      const colour = window.getComputedStyle(dialog).backgroundColor;
+      if (!colour || colour === 'transparent' || colour === 'rgba(0, 0, 0, 0)') return;
+      if (!themeMeta) {
+        themeMeta = make('meta');
+        themeMeta.setAttribute('name', 'theme-color');
+        document.head.append(themeMeta);
+        madeMeta = true;
+      }
+      savedTheme = themeMeta.getAttribute('content');
+      themeMeta.setAttribute('content', colour);
+      document.documentElement.style.backgroundColor = colour;
+      tinted = true;
+    };
+    const untint = () => {
+      if (!tinted) return;
+      tinted = false;
+      document.documentElement.style.backgroundColor = '';
+      if (madeMeta) {
+        themeMeta.remove();
+        themeMeta = null;
+        madeMeta = false;
+      } else if (savedTheme !== null && savedTheme !== undefined) themeMeta.setAttribute('content', savedTheme);
+      else themeMeta.removeAttribute('content');
     };
     const open = (e) => {
       e.preventDefault();
+      if (Date.now() - swiped < 500) return; // A swipe on the main photo is not a tap.
       trigger = e.currentTarget;
       show(index);
       dialog.showModal();
       document.documentElement.classList.add('homeward-lightbox-open');
+      tint();
       close.focus();
     };
     main.addEventListener('click', open);
@@ -322,13 +528,10 @@
       thumb.setAttribute('role', 'button');
       thumb.addEventListener('click', (e) => {
         e.preventDefault();
-        index = Number(thumb.dataset.index);
-        mainImage.src = photos[index];
-        main.href = photos[index];
-        if (backdrop) backdrop.src = photos[index];
-        thumbs.forEach((t) => t.removeAttribute('aria-current'));
-        thumb.setAttribute('aria-current', 'true');
+        select(Number(thumb.dataset.index));
       });
+      // Start fetching on touch, a little before the click lands.
+      thumb.addEventListener('pointerdown', () => preload(Number(thumb.dataset.index)));
       thumb.addEventListener('keydown', (e) => {
         if (e.key === ' ') {
           e.preventDefault();
@@ -339,6 +542,10 @@
     close.addEventListener('click', () => dialog.close());
     prev.addEventListener('click', () => show(index - 1));
     next.addEventListener('click', () => show(index + 1));
+    if (photos.length > 1) {
+      drag(main, mainImage, (step) => select(index + step));
+      drag(viewer, img, (step) => show(index + step));
+    }
     dialog.addEventListener('click', (e) => {
       if (e.target === dialog) dialog.close();
     });
@@ -356,6 +563,7 @@
     });
     dialog.addEventListener('close', () => {
       document.documentElement.classList.remove('homeward-lightbox-open');
+      untint();
       trigger.focus({ preventScroll: true });
     });
   });

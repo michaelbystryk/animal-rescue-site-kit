@@ -1297,6 +1297,198 @@ dd) a:not(:where(.homeward-animal-btn,
 	}
 }
 
+/* Photo loading: dim the photo and spin until it has loaded (animals.js adds is-loading after a short wait). */
+:is(.homeward-animal-card__media,.homeward-animal-gallery__main,.homeward-animal-lightbox__viewer).is-loading::before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	z-index: 3;
+	width: 2.75rem;
+	height: 2.75rem;
+	margin: -1.375rem 0 0 -1.375rem;
+	border-radius: 50%;
+	border: 3px solid color-mix(in srgb,var(--homeward-background) 45%,transparent);
+	border-top-color: var(--homeward-background);
+	box-shadow: 0 2px 10px color-mix(in srgb,var(--homeward-text) 30%,transparent);
+	pointer-events: none;
+	animation: homeward-spin .8s linear infinite;
+}
+
+:is(.homeward-animal-card__media,.homeward-animal-gallery__main,.homeward-animal-lightbox__viewer).is-loading :is(img[data-homeward-main],.homeward-animal-lightbox__image,.homeward-animal-card__media>img) {
+	opacity: .55;
+	transition: opacity .15s ease;
+}
+
+@keyframes homeward-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* Swipe between photos; vertical page scrolling and pinch zoom still work. */
+:where(.homeward-animal-gallery__main),:where(.homeward-animal-lightbox__viewer) {
+	touch-action: pan-y pinch-zoom;
+}
+
+:where(.homeward-animal-lightbox__viewer) {
+	position: relative;
+}
+
+/* Position dots and the soft photo backdrop: phones only. */
+:where(.homeward-animal-gallery__dots),:where(.homeward-animal-lightbox__dots),:where(.homeward-animal-lightbox__backdrop) {
+	display: none;
+}
+
+/* Phones: a full-screen, app-style viewer in the site's own background colour. The photo runs edge to edge over a
+   soft, blurred copy of itself; glass controls sit at the top (count, close) and bottom (previous, dots, next). */
+@media (max-width:639px) {
+	.homeward-animal-gallery__main:has(.homeward-animal-gallery__dots) .homeward-animal-gallery__count {
+		display: none;
+	}
+	.homeward-animal-gallery__dots {
+		position: absolute;
+		z-index: 2;
+		left: 50%;
+		bottom: .85rem;
+		transform: translateX(-50%);
+		display: flex;
+		gap: 6px;
+		padding: 7px 9px;
+		border: 1px solid color-mix(in srgb,var(--homeward-background) 85%,transparent);
+		border-radius: 999px;
+		background: color-mix(in srgb,var(--homeward-background) 55%,transparent);
+		-webkit-backdrop-filter: blur(18px) saturate(1.6);
+		backdrop-filter: blur(18px) saturate(1.6);
+		box-shadow: 0 4px 14px color-mix(in srgb,var(--homeward-text) 15%,transparent);
+		pointer-events: none;
+	}
+	.homeward-animal-lightbox {
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		max-width: none;
+		max-height: none;
+		margin: 0;
+		padding: 0;
+		border-radius: 0;
+		overflow: hidden;
+	}
+	.homeward-animal-lightbox::backdrop {
+		background: var(--homeward-background,#fff);
+	}
+	.homeward-animal-lightbox__backdrop {
+		display: block;
+		position: fixed;
+		inset: -10%;
+		z-index: 0;
+		width: 120%;
+		height: 120%;
+		object-fit: cover;
+		filter: blur(32px) saturate(1.15);
+		opacity: .5;
+		pointer-events: none;
+	}
+	.homeward-animal-lightbox__viewer {
+		position: relative;
+		z-index: 1;
+		display: block;
+		height: 100%;
+	}
+	.homeward-animal-lightbox__image {
+		display: block;
+		width: 100%;
+		height: 100dvh;
+		filter: drop-shadow(0 10px 30px color-mix(in srgb,var(--homeward-text) 20%,transparent));
+	}
+	.homeward-animal-lightbox__bar {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 2;
+		padding: calc(env(safe-area-inset-top) + .75rem) 1rem 0;
+		pointer-events: none;
+	}
+	.homeward-animal-lightbox__bar>* {
+		pointer-events: auto;
+	}
+	.homeward-animal-lightbox__bar p,
+	.homeward-animal-lightbox .homeward-animal-iconbtn {
+		border: 1px solid color-mix(in srgb,var(--homeward-background) 85%,transparent);
+		background: color-mix(in srgb,var(--homeward-background) 55%,transparent);
+		-webkit-backdrop-filter: blur(18px) saturate(1.6);
+		backdrop-filter: blur(18px) saturate(1.6);
+		box-shadow: 0 6px 20px color-mix(in srgb,var(--homeward-text) 15%,transparent);
+	}
+	.homeward-animal-lightbox__bar p {
+		padding: .45rem .9rem;
+		border-radius: 999px;
+		font-size: .85rem;
+		font-weight: 600;
+		font-variant-numeric: tabular-nums;
+	}
+	.homeward-animal-lightbox .homeward-animal-iconbtn {
+		width: 48px;
+		height: 48px;
+		color: var(--homeward-text);
+		transition: transform .15s ease,background-color .15s ease;
+	}
+	.homeward-animal-lightbox .homeward-animal-iconbtn:active {
+		transform: scale(.92);
+	}
+	.homeward-animal-lightbox__viewer>button {
+		position: fixed;
+		z-index: 2;
+		bottom: calc(env(safe-area-inset-bottom) + 1rem);
+	}
+	.homeward-animal-lightbox__viewer>button:first-child {
+		left: 1rem;
+	}
+	.homeward-animal-lightbox__viewer>button:last-child {
+		right: 1rem;
+	}
+	.homeward-animal-lightbox__dots {
+		position: fixed;
+		z-index: 2;
+		left: 50%;
+		bottom: calc(env(safe-area-inset-bottom) + 1rem + 10px);
+		transform: translateX(-50%);
+		display: flex;
+		gap: 6px;
+		padding: 8px 10px;
+		border: 1px solid color-mix(in srgb,var(--homeward-background) 85%,transparent);
+		border-radius: 999px;
+		background: color-mix(in srgb,var(--homeward-background) 55%,transparent);
+		-webkit-backdrop-filter: blur(18px) saturate(1.6);
+		backdrop-filter: blur(18px) saturate(1.6);
+		box-shadow: 0 6px 20px color-mix(in srgb,var(--homeward-text) 15%,transparent);
+	}
+	.homeward-animal-lightbox__dots:empty {
+		display: none;
+	}
+	:is(.homeward-animal-gallery__dots,.homeward-animal-lightbox__dots)>span {
+		width: 6px;
+		height: 6px;
+		border-radius: 3px;
+		background: color-mix(in srgb,var(--homeward-text) 25%,transparent);
+		transition: width .2s ease,background-color .2s ease;
+	}
+	:is(.homeward-animal-gallery__dots,.homeward-animal-lightbox__dots)>span.is-active {
+		width: 18px;
+		background: var(--homeward-text);
+	}
+}
+
+@media (prefers-reduced-motion:reduce) {
+	:is(.homeward-animal-card__media,.homeward-animal-gallery__main,.homeward-animal-lightbox__viewer).is-loading::before {
+		animation: none;
+	}
+	:is(.homeward-animal-gallery__dots,.homeward-animal-lightbox__dots)>span {
+		transition: none;
+	}
+}
+
 @media(prefers-reduced-motion:reduce) {
 	:where(:is(.homeward-animals-main-region,
 	.homeward-animals-block,

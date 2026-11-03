@@ -144,10 +144,24 @@ const backdrop = el();
 backdrop.src = mainImg.src;
 const main = el({ '[data-homeward-main]': [mainImg], '[data-homeward-backdrop]': [backdrop] });
 main.dataset.index = '0';
+main.clientWidth = 400;
+const strip = el();
+strip.scrollLeft = 0;
+strip.getBoundingClientRect = () => ({ left: 0, width: 300 });
+strip.scrollTo = (opts) => {
+  strip.scrolled = opts;
+};
 const thumbs = [el(), el()];
 thumbs.forEach((t, i) => {
   t.dataset.index = String(i);
+  t.getBoundingClientRect = () => ({ left: 400 + i * 80, width: 72 });
+  t.scrollIntoView = () => {
+    t.pageScrolled = true;
+  };
 });
+const cardImage = el(),
+  cardMedia = el({ img: [cardImage] });
+cardImage.complete = false;
 const photos = el();
 photos.textContent = JSON.stringify([
   'https://bucket.s3.amazonaws.com/first.jpg',
@@ -158,6 +172,7 @@ const gallery = el({
   '.homeward-animal-gallery__main': [main],
   '[data-index]': [main, ...thumbs],
   '.homeward-animal-gallery__thumb[data-index]': thumbs,
+  '.homeward-animal-gallery__thumbs': [strip],
 });
 gallery.setAttribute('aria-label', 'Photos of Scout');
 const track = el();
@@ -183,7 +198,11 @@ share.dataset = { url: 'https://example.test/dogs/scout/', title: 'Scout' };
 share.closest = () => el({ '[data-homeward-share-status]': [shareStatus] });
 const body = el();
 const html = el();
+const themeMeta = el();
+themeMeta.setAttribute('content', '#ffffff');
 const document = el({
+  'meta[name="theme-color"]': [themeMeta],
+  '.homeward-animal-card__media': [cardMedia],
   '[data-homeward-animals-listing]': [listing],
   '[data-homeward-back]': [back],
   '[data-homeward-carousel]': [carousel],
@@ -194,13 +213,23 @@ const document = el({
 });
 document.body = body;
 document.documentElement = html;
-document.createElement = (tag) => new Element(tag);
+const created = [];
+document.createElement = (tag) => {
+  const node = new Element(tag);
+  created.push(node);
+  return node;
+};
+document.head = el();
 const storage = new Map();
 let copied = '';
 let reduced = true;
+let phone = false;
+const timers = [];
 const window = el();
 window.location = new URL('https://example.test/dogs/?origin=local-bc&age=adult&sort=newest');
-window.matchMedia = () => ({ matches: reduced });
+window.matchMedia = (query) => ({ matches: /max-width: 639px/.test(query) ? phone : reduced });
+window.getComputedStyle = () => ({ backgroundColor: 'rgb(250, 243, 237)' });
+window.requestAnimationFrame = (fn) => fn();
 window.HTMLDialogElement = Element;
 window.sessionStorage = { getItem: (k) => storage.get(k), setItem: (k, v) => storage.set(k, v) };
 window.history = {
@@ -211,8 +240,9 @@ window.history = {
 window.isSecureContext = true;
 window.innerHeight = 800;
 html.clientWidth = 1000;
-window.setTimeout = () => 1;
+window.setTimeout = (fn) => timers.push(fn);
 window.clearTimeout = () => {};
+const runTimers = () => timers.splice(0).forEach((fn) => fn());
 const navigator = {
   clipboard: {
     writeText: async (v) => {
@@ -220,7 +250,16 @@ const navigator = {
     },
   },
 };
-const context = { window, document, navigator, URL, URLSearchParams, HTMLDialogElement: Element };
+let now = 1000;
+const context = {
+  window,
+  document,
+  navigator,
+  URL,
+  URLSearchParams,
+  HTMLDialogElement: Element,
+  Date: { now: () => now },
+};
 vm.runInNewContext(
   fs.readFileSync(require.resolve('../../plugin/homeward-rescue/assets/js/animals.js'), 'utf8'),
   context
@@ -248,6 +287,11 @@ const { check } = checker;
     'reset clears advanced count without reopening disclosure',
     !extra.open && extraCount.textContent === ''
   );
+  check('card photo spinner waits before showing', !cardMedia.classList.contains('is-loading'));
+  runTimers();
+  check('slow card photo shows spinner', cardMedia.classList.contains('is-loading'));
+  await cardImage.fire('load');
+  check('loaded card photo clears spinner', !cardMedia.classList.contains('is-loading'));
   check('paging shows first 24', items.filter((i) => !i.hidden).length === 24 && !more.hidden);
   await more.click();
   check('load more reveals remainder', items.filter((i) => !i.hidden).length === 30 && more.hidden);
@@ -334,6 +378,72 @@ const { check } = checker;
   );
   check('backdrop follows selected main photo', backdrop.src === mainImg.src);
   check('lightbox focuses close', focus === dialog.children[0].children[1]);
+  const viewer = dialog.children[1];
+  viewer.clientWidth = 400; // A real photo width, so a 10px drag is too short to count.
+  const lightImg = viewer.children[1];
+  const lightDots = dialog.children[2];
+  const soft = dialog.children[3];
+  check('lightbox has a dot per photo', lightDots.children.length === 2);
+  check('lightbox dot follows selected photo', lightDots.children[1].classList.contains('is-active'));
+  check('blurred backdrop follows selected photo', soft.src.endsWith('second.jpg') && soft.alt === '');
+  check(
+    'neighbouring photos are preloaded',
+    created.some((n) => n.tagName === 'img' && String(n.src).endsWith('first.jpg'))
+  );
+  lightImg.complete = false;
+  await dialog.fire('keydown', { key: 'ArrowRight' });
+  runTimers();
+  check('slow viewer photo shows spinner', viewer.classList.contains('is-loading') && viewer.attrs['aria-busy']);
+  await lightImg.fire('load');
+  check('loaded viewer photo clears spinner', !viewer.classList.contains('is-loading'));
+  await viewer.children[2].click();
+  check('next button still works', lightImg.src.endsWith('second.jpg'));
+  await viewer.children[0].click();
+  check('previous button still works', lightImg.src.endsWith('first.jpg'));
+  await viewer.children[2].click();
+  const swipeOn = async (node, from, to, over = {}) => {
+    await node.fire('touchstart', { touches: [from] });
+    await node.fire('touchmove', { touches: [to], cancelable: true, ...over });
+    await node.fire('touchend', { changedTouches: [to] });
+    runTimers();
+  };
+  let held = false;
+  const hold = { preventDefault() { held = true; } };
+  await swipeOn(viewer, { clientX: 300, clientY: 200 }, { clientX: 120, clientY: 215 }, hold);
+  check('swiping left in the viewer shows the next photo', lightImg.src.endsWith('first.jpg') && held);
+  held = false;
+  await swipeOn(viewer, { clientX: 200, clientY: 100 }, { clientX: 230, clientY: 400 }, hold);
+  check('a vertical drag in the viewer neither swipes nor holds the page', !held && lightImg.src.endsWith('first.jpg'));
+  await viewer.fire('touchstart', { touches: [{ clientX: 300, clientY: 200 }] });
+  await viewer.fire('touchmove', { touches: [{ clientX: 280, clientY: 212 }], cancelable: true, ...hold });
+  check('an angled sideways drag holds the page still', held);
+  check('the photo follows the finger', lightImg.style.transform === 'translateX(-20px)');
+  held = false;
+  await viewer.fire('touchmove', { touches: [{ clientX: 290, clientY: 205 }], cancelable: true, ...hold });
+  await viewer.fire('touchend', { changedTouches: [{ clientX: 290, clientY: 205 }] });
+  check('a short drag springs back without changing photo', lightImg.style.transform === '' && lightImg.src.endsWith('first.jpg'));
+  await viewer.fire('touchstart', { touches: [{ clientX: 1, clientY: 1 }, { clientX: 5, clientY: 5 }] });
+  await viewer.fire('touchmove', { touches: [{ clientX: 200, clientY: 5 }], cancelable: true, ...hold });
+  check('a two finger gesture is left to pinch zoom', lightImg.style.transform === '');
+  reduced = false;
+  await swipeOn(viewer, { clientX: 100, clientY: 200 }, { clientX: 300, clientY: 190 });
+  reduced = true;
+  check('animated swipe ends at rest on the previous photo', lightImg.style.transform === '' && lightImg.src.endsWith('second.jpg'));
+  await thumbs[0].click();
+  check('thumbnail click selects that photo', mainImg.src.endsWith('first.jpg') && thumbs[0].attrs['aria-current'] === 'true');
+  now = 5000;
+  await swipeOn(main, { clientX: 300, clientY: 200 }, { clientX: 100, clientY: 205 });
+  check('swiping the main photo shows the next one', mainImg.src.endsWith('second.jpg') && backdrop.src === mainImg.src);
+  const mainDots = main.children.find((n) => n.className === 'homeward-animal-gallery__dots');
+  check('main photo dots follow the selected photo', mainDots.children[1].classList.contains('is-active'));
+  check(
+    'thumbnail strip slides to the photo without scrolling the page',
+    thumbs[1].attrs['aria-current'] === 'true' && strip.scrolled.left === 480 - 114 && !thumbs.some((t) => t.pageScrolled)
+  );
+  dialog.open = false;
+  await main.click();
+  check('a swipe on the main photo does not open the viewer', !dialog.open);
+  now = 6000;
   await dialog.fire('keydown', { key: 'Home' });
   check('Home selects first photo', dialog.children[1].children[1].src.endsWith('first.jpg'));
   await dialog.fire('keydown', { key: 'ArrowLeft' });
@@ -343,6 +453,19 @@ const { check } = checker;
     'closing returns focus and unlocks scroll',
     focus === main && !html.classList.contains('homeward-lightbox-open')
   );
+  phone = true;
+  await main.click();
+  check(
+    'phone viewer tints the status bar with the theme background',
+    themeMeta.getAttribute('content') === 'rgb(250, 243, 237)' &&
+      html.style.backgroundColor === 'rgb(250, 243, 237)'
+  );
+  await dialog.close();
+  check(
+    'closing restores the site colours',
+    themeMeta.getAttribute('content') === '#ffffff' && html.style.backgroundColor === ''
+  );
+  phone = false;
   check('carousel starts with previous disabled', previous.disabled && !next.disabled);
   await next.click();
   check(
