@@ -146,7 +146,7 @@ For self-hosted PostHog, use **Advanced: custom host** in settings. Enter your s
 **What is collected:** page views, clicks, page speed and error reports from visitors. Text on the page is masked.
 **What is not:** logged-in users and visitors who send Do Not Track are excluded, and session recording, heatmaps and surveys are always off.
 
-**Cookies:** by default PostHog keeps visitor identifiers in memory only. If you tick **Allow PostHog cookies** in settings, it stores cookies and local storage on visitors' devices to recognise return visits. Either way, mention PostHog in your privacy policy and cookie notice where your local rules require it, and collect any consent they ask for.
+**Cookies:** by default PostHog keeps visitor identifiers in memory only. If you tick **Recognize returning visitors** in settings, it stores cookies and local storage on visitors' devices to recognise return visits. Either way, mention PostHog in your privacy policy and cookie notice where your local rules require it, and collect any consent they ask for.
 
 For config files, the keys are `posthog_key` and `posthog_region` (`us` or `eu`). Leave the key blank to keep statistics off:
 
@@ -158,6 +158,8 @@ For config files, the keys are `posthog_key` and `posthog_region` (`us` or `eu`)
   }
 }
 ```
+
+**Profile features and A/B tests:** the donate card, fee explainer, adoption steps, waiting counter and household share card each have an on/off switch in settings, and PostHog can optionally split visitors to test them. See the [A/B test guide](docs/posthog-experiments.md).
 
 ## Customising
 

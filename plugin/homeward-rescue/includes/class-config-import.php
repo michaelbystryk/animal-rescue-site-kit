@@ -30,6 +30,7 @@ class Config_Import {
 		'color_surface',
 		'font_heading',
 		'font_body',
+		'posthog_cookies',
 	);
 
 	/**
@@ -116,6 +117,7 @@ class Config_Import {
 	 */
 	private static function typed() {
 		$typed = Features::defaults();
+		$typed['posthog_cookies'] = false;
 		return $typed;
 	}
 

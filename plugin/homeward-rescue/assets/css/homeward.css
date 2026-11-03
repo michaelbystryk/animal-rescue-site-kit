@@ -2381,7 +2381,7 @@ dd) a:not(:where(.homeward-animal-btn,
 	margin-block: 0 1rem;
 }
 
-/* Optional profile features (Settings > Profile features). */
+/* Optional profile features (Settings > Profile features and A/B tests). */
 .homeward-feature[hidden],
 .homeward-feature [hidden] {
 	display: none!important;

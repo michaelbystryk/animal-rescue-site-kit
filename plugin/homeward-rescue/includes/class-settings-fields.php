@@ -19,7 +19,7 @@ class Settings_Fields {
 			'donations'  => array( __( 'Donations', 'homeward-rescue' ), 3, self::donations() ),
 			'contact'    => array( __( 'Contact form', 'homeward-rescue' ), 0, self::contact() ),
 			'statistics' => array( __( 'Statistics', 'homeward-rescue' ), 6, self::statistics() ),
-			'features'   => array( __( 'Profile features', 'homeward-rescue' ), 0, self::features() ),
+			'features'   => array( __( 'Profile features and A/B tests', 'homeward-rescue' ), 0, self::features() ),
 			'search'     => array( __( 'Search and sharing', 'homeward-rescue' ), 0, self::search() ),
 			'advanced'   => array( __( 'Advanced', 'homeward-rescue' ), 0, self::advanced() ),
 		);
@@ -340,14 +340,14 @@ class Settings_Fields {
 			),
 			'posthog_cookies' => array(
 				__( 'Recognize returning visitors', 'homeward-rescue' ),
-				__( 'Off uses memory only. On allows local storage and cookies; obtain any consent your site requires.', 'homeward-rescue' ),
+				__( 'Off uses memory only. On allows local storage and cookies, which A/B tests need; obtain any consent your site requires.', 'homeward-rescue' ),
 				'checkbox',
 			),
 		);
 	}
 
 	/**
-	 * Field definitions for one feature: its switch, then its wording.
+	 * Field definitions for one feature: its switch, the A/B choice, then its wording.
 	 *
 	 * @param string $key   Feature key.
 	 * @param string $label Switch label.
@@ -359,7 +359,16 @@ class Settings_Fields {
 		$option = Features::option( $key );
 		return array_merge(
 			array(
-				$option => array( $label, $help, 'checkbox' ),
+				$option         => array( $label, $help, 'checkbox' ),
+				$option . '_ab' => array(
+					__( 'Let PostHog decide (A/B test)', 'homeward-rescue' ),
+					sprintf(
+						/* translators: %s: PostHog feature flag name. */
+						__( 'Needs a PostHog project key and Recognize returning visitors. PostHog flag %s with variants control and test picks who sees it; everyone else follows the switch above.', 'homeward-rescue' ),
+						'homeward-' . $key
+					),
+					'checkbox',
+				),
 			),
 			$extra
 		);

@@ -131,7 +131,7 @@ class Settings_Page {
 				. esc_html__( 'Review these choices in the setup guide', 'homeward-rescue' ) . '</a></p>';
 		}
 		if ( 'features' === $slug ) {
-			self::features_intro();
+			self::features_intro( $values );
 		}
 		echo '<table class="form-table" role="presentation"><tbody>';
 		foreach ( $fields as $key => $field ) {
@@ -158,9 +158,24 @@ class Settings_Page {
 		echo '</section>';
 	}
 
-	private static function features_intro() {
+	private static function features_intro( $values ) {
 		echo '<p>' . esc_html__( 'Each feature appears on animal profiles as soon as it is switched on. No statistics account is needed.', 'homeward-rescue' ) . '</p>';
 		echo '<p>' . esc_html__( 'Logged-in editors can preview every feature on a profile by adding ?homeward_preview=all to its address.', 'homeward-rescue' ) . '</p>';
+		echo '<p>' . esc_html__( 'To compare a feature with the page without it, tick Let PostHog decide. Half of your visitors then see it and half do not, and PostHog shows which half adopts, asks or donates more.', 'homeward-rescue' )
+			. ' <a href="' . esc_url( Features::DOCS_URL ) . '" target="_blank" rel="noopener">'
+			. esc_html__( 'Read the step-by-step A/B test guide', 'homeward-rescue' ) . '</a></p>';
+		echo '<p><strong>' . esc_html__( 'A/B tests need Recognize returning visitors turned on under Statistics.', 'homeward-rescue' ) . '</strong> '
+			. esc_html__( 'Without it, PostHog forgets each visitor between pages, so the same person can see both versions and the results are not reliable.', 'homeward-rescue' ) . '</p>';
+		$testing = array_filter( Features::KEYS, static fn ( $key ) => ! empty( $values[ Features::option( $key ) . '_ab' ] ) );
+		if ( $testing && ! Analytics::configured() ) {
+			echo '<div class="notice notice-warning inline"><p>'
+				. esc_html__( 'A feature is set to let PostHog decide, but no PostHog project key is saved, so the on/off switches are used instead.', 'homeward-rescue' )
+				. '</p></div>';
+		} elseif ( $testing && empty( $values['posthog_cookies'] ) ) {
+			echo '<div class="notice notice-warning inline"><p>'
+				. esc_html__( 'A/B tests are running without Recognize returning visitors. Turn it on under Statistics so each visitor keeps one version.', 'homeward-rescue' )
+				. '</p></div>';
+		}
 	}
 
 	private static function control( $key, $value, $name, $type ) {

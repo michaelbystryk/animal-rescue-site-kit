@@ -1,9 +1,12 @@
 <?php
 /**
- * Optional profile features, each with an on/off switch in Settings.
+ * Optional profile features, each with an on/off switch in Settings and an optional PostHog A/B test.
  *
  * A feature renders on the server when its switch is on, so visitors never wait for a network call.
- * Logged-in editors can preview features with ?homeward_preview=all or ?homeward_preview=key,key.
+ * When "Let PostHog decide" is ticked and PostHog is set up, the markup renders hidden and
+ * assets/js/features.js reads the flag homeward-{key} (variants control and test), showing the feature
+ * for test and removing it for control. Without an answer within 3 seconds, or without PostHog, the
+ * page follows the switch.
  *
  * @package Homeward
  */
@@ -23,6 +26,8 @@ class Features {
 		'adoption-path',
 		'waiting-counter',
 	);
+
+	const DOCS_URL = 'https://github.com/michaelbystryk/animal-rescue-site-kit/blob/main/docs/posthog-experiments.md';
 
 	/**
 	 * Settings that hold one line per entry.
@@ -51,16 +56,19 @@ class Features {
 	public static function defaults() {
 		return array(
 			'feature_donate_card'              => true,
+			'feature_donate_card_ab'           => false,
 			'feature_donate_card_heading'      => __( 'Can’t adopt {name} right now? You can still help.', 'homeward-rescue' ),
 			'feature_donate_card_text'         => __( 'Donations pay for food, vet care and foster supplies while {name} waits for a home.', 'homeward-rescue' ),
 			'feature_donate_card_button'       => __( 'Donate', 'homeward-rescue' ),
 			'feature_adopted_donate'           => true,
+			'feature_adopted_donate_ab'        => false,
 			'feature_adopted_donate_heading'   => __( '{name} found a home. The next one is still waiting.', 'homeward-rescue' ),
 			'feature_adopted_donate_text'      => __( 'Every adoption starts with care that donations pay for. A gift today helps the next {animal} get ready for a home.', 'homeward-rescue' ),
 			'feature_adopted_donate_button'    => __( 'Help the next one', 'homeward-rescue' ),
 			'feature_adopted_donate_secondary' => __( 'Meet the {animals} waiting', 'homeward-rescue' ),
 			'feature_donate_url'               => '',
 			'feature_fee_explainer'            => false,
+			'feature_fee_explainer_ab'         => false,
 			'feature_fee_explainer_button'     => __( 'What’s included?', 'homeward-rescue' ),
 			'feature_fee_explainer_items'      => array(
 				__( 'Vet check', 'homeward-rescue' ),
@@ -70,9 +78,11 @@ class Features {
 			),
 			'feature_fee_explainer_closing'    => __( 'The fee covers part of the cost of care. Donations make up the rest.', 'homeward-rescue' ),
 			'feature_household_share'          => false,
+			'feature_household_share_ab'       => false,
 			'feature_household_share_text'     => __( 'Deciding with someone?', 'homeward-rescue' ),
 			'feature_household_share_button'   => __( 'Share {name}’s page', 'homeward-rescue' ),
 			'feature_adoption_path'            => false,
+			'feature_adoption_path_ab'         => false,
 			'feature_adoption_path_heading'    => __( 'How adopting {name} works', 'homeward-rescue' ),
 			'feature_adoption_path_steps'      => array(
 				__( 'Get to know {name} | Read the profile and ask us anything.', 'homeward-rescue' ),
@@ -82,6 +92,7 @@ class Features {
 				__( 'Home | {name} comes home with you.', 'homeward-rescue' ),
 			),
 			'feature_waiting_counter'          => false,
+			'feature_waiting_counter_ab'       => false,
 			'feature_waiting_counter_text'     => __( 'Waiting for a home: {days} days', 'homeward-rescue' ),
 			'feature_waiting_counter_min_days' => 14,
 			'ask_hint'                         => __( 'What would you like to know about {name}?', 'homeward-rescue' ),
@@ -195,9 +206,18 @@ class Features {
 		return in_array( 'all', $keys, true ) || in_array( $key, $keys, true );
 	}
 
+	/**
+	 * Check whether PostHog decides this feature.
+	 *
+	 * @param string $key Feature key.
+	 * @return bool
+	 */
+	public static function ab_test( $key ) {
+		return (bool) Settings::get( self::option( $key ) . '_ab' ) && Analytics::configured();
+	}
 
 	/**
-	 * Decide how a feature renders: off or on.
+	 * Decide how a feature renders: off, on (visible) or ab (hidden until PostHog answers).
 	 *
 	 * @param string $key Feature key.
 	 * @return string
@@ -205,6 +225,9 @@ class Features {
 	public static function mode( $key ) {
 		if ( self::previewing( $key ) ) {
 			return 'on';
+		}
+		if ( self::ab_test( $key ) ) {
+			return 'ab';
 		}
 		return Settings::get( self::option( $key ) ) ? 'on' : 'off';
 	}
@@ -225,6 +248,10 @@ class Features {
 		Frontend::script( 'features' );
 		$attrs = ' class="homeward-feature homeward-feature--' . esc_attr( $key ) . '" data-homeward-feature="'
 			. esc_attr( $key ) . '"';
+		if ( 'ab' === $mode ) {
+			$attrs .= ' data-homeward-flag="' . esc_attr( 'homeward-' . $key ) . '" data-homeward-fallback="'
+				. ( Settings::get( self::option( $key ) ) ? 'on' : 'off' ) . '" hidden';
+		}
 		return '<' . $tag . $attrs . '>' . $html . '</' . $tag . '>';
 	}
 
