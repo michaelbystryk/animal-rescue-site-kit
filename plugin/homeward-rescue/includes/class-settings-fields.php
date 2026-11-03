@@ -19,6 +19,7 @@ class Settings_Fields {
 			'donations'  => array( __( 'Donations', 'homeward-rescue' ), 3, self::donations() ),
 			'contact'    => array( __( 'Contact form', 'homeward-rescue' ), 0, self::contact() ),
 			'statistics' => array( __( 'Statistics', 'homeward-rescue' ), 6, self::statistics() ),
+			'features'   => array( __( 'Profile features', 'homeward-rescue' ), 0, self::features() ),
 			'search'     => array( __( 'Search and sharing', 'homeward-rescue' ), 0, self::search() ),
 			'advanced'   => array( __( 'Advanced', 'homeward-rescue' ), 0, self::advanced() ),
 		);
@@ -336,6 +337,53 @@ class Settings_Fields {
 				__( 'Recognize returning visitors', 'homeward-rescue' ),
 				__( 'Off uses memory only. On allows local storage and cookies; obtain any consent your site requires.', 'homeward-rescue' ),
 				'checkbox',
+			),
+		);
+	}
+
+	/**
+	 * Field definitions for one feature: its switch, then its wording.
+	 *
+	 * @param string $key   Feature key.
+	 * @param string $label Switch label.
+	 * @param string $help  What the feature shows.
+	 * @param array  $extra Wording fields.
+	 * @return array
+	 */
+	private static function feature( $key, $label, $help, $extra ) {
+		$option = Features::option( $key );
+		return array_merge(
+			array(
+				$option => array( $label, $help, 'checkbox' ),
+			),
+			$extra
+		);
+	}
+
+	private static function features() {
+		$name = __( '{name} becomes the animal name.', 'homeward-rescue' );
+		return array_merge(
+			self::feature(
+				'donate-card',
+				__( 'Donate card on available profiles', 'homeward-rescue' ),
+				__( 'A short card after the story asking visitors who cannot adopt to donate.', 'homeward-rescue' ),
+				array(
+					'feature_donate_card_heading' => array( __( 'Donate card heading', 'homeward-rescue' ), $name, 'text' ),
+					'feature_donate_card_text'    => array( __( 'Donate card text', 'homeward-rescue' ), $name, 'text' ),
+					'feature_donate_card_button'  => array( __( 'Donate card button', 'homeward-rescue' ), $name, 'text' ),
+				)
+			),
+			self::feature(
+				'adopted-donate',
+				__( 'Donate prompt on adopted profiles', 'homeward-rescue' ),
+				__( 'When an animal has found a home, invite visitors to help the next one or meet the animals still waiting.', 'homeward-rescue' ),
+				array(
+					'feature_adopted_donate_heading'   => array( __( 'Adopted prompt heading', 'homeward-rescue' ), $name, 'text' ),
+					'feature_adopted_donate_text'      => array( __( 'Adopted prompt text', 'homeward-rescue' ), __( '{name} becomes the animal name and {animal} your name for one animal.', 'homeward-rescue' ), 'text' ),
+					'feature_adopted_donate_button'    => array( __( 'Adopted prompt donate button', 'homeward-rescue' ), $name, 'text' ),
+					'feature_adopted_donate_secondary' => array( __( 'Adopted prompt second button', 'homeward-rescue' ), __( 'Goes to your animal list; {animals} becomes your name for several animals.', 'homeward-rescue' ), 'text' ),
+					'feature_donate_url'               => array( __( 'Donate link for both prompts', 'homeward-rescue' ), __( 'A secure https:// link or a path on this site such as /donate/; leave blank for /donate/.', 'homeward-rescue' ), 'text' ),
+				)
 			),
 		);
 	}

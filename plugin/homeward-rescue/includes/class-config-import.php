@@ -31,6 +31,15 @@ class Config_Import {
 		'font_heading',
 		'font_body',
 	);
+
+	/**
+	 * Accepted settings: the fixed setup fields plus every feature setting.
+	 *
+	 * @return array
+	 */
+	public static function fields() {
+		return array_merge( self::FIELDS, array_keys( Features::defaults() ) );
+	}
 	/**
 	 * Register the configuration import command when WP-CLI is available.
 	 *
@@ -79,7 +88,7 @@ class Config_Import {
 		if ( ! is_array( $input ) ) {
 			return new \WP_Error( 'homeward_config', __( 'Settings must be a group of named fields.', 'homeward-rescue' ) );
 		}
-		$known = self::unknown( $input, self::FIELDS, 'settings' );
+		$known = self::unknown( $input, self::fields(), 'settings' );
 		if ( is_wp_error( $known ) ) {
 			return $known;
 		}
@@ -100,7 +109,33 @@ class Config_Import {
 		return $out;
 	}
 
+	/**
+	 * Defaults of the settings validated by type: the feature settings and on/off choices.
+	 *
+	 * @return array
+	 */
+	private static function typed() {
+		$typed = Features::defaults();
+		return $typed;
+	}
+
 	private static function validate_field( $key, $value ) {
+		$defaults = self::typed();
+		if ( is_bool( $defaults[ $key ] ?? null ) ) {
+			return is_bool( $value ) ? $value : self::field_error( $key );
+		}
+		if ( is_int( $defaults[ $key ] ?? null ) ) {
+			return is_int( $value ) && $value >= 0 && $value <= 3650 ? $value : self::field_error( $key );
+		}
+		if ( is_array( $defaults[ $key ] ?? null ) ) {
+			$valid = is_array( $value ) && count( $value ) <= 12
+				&& count( array_filter( $value, static fn ( $line ) => is_string( $line ) && strlen( $line ) <= 500 ) ) === count( $value );
+			return $valid ? array_values( array_map( array( Settings::class, 'text' ), $value ) ) : self::field_error( $key );
+		}
+		if ( 'feature_donate_url' === $key ) {
+			$valid = is_string( $value ) && ( '' === trim( $value ) || '' !== Features::sanitize_url( $value ) );
+			return $valid ? Features::sanitize_url( $value ) : self::field_error( $key );
+		}
 		$valid = is_string( $value );
 		if ( 'species' === $key ) {
 			$valid = is_array( $value ) && $value && count( array_filter( $value, 'is_string' ) ) === count( $value )
@@ -169,7 +204,18 @@ class Config_Import {
 			'donate_card_url' => __( 'Use a complete https:// card donation link, or leave it blank.', 'homeward-rescue' ),
 			'donate_etransfer_email' => __( 'Enter a complete e-Transfer email address, or leave it blank.', 'homeward-rescue' ),
 			'donate_etransfer_note'  => __( 'Keep the e-Transfer instructions under 2,000 characters.', 'homeward-rescue' ),
+			'feature_donate_url'     => __( 'Use a complete https:// donate link or a path on this site such as /donate/, or leave it blank.', 'homeward-rescue' ),
 		);
+		$default = self::typed()[ $key ] ?? null;
+		if ( is_bool( $default ) ) {
+			return new \WP_Error( 'homeward_config_value', __( 'Use true or false for on/off choices.', 'homeward-rescue' ) );
+		} elseif ( is_int( $default ) ) {
+			return new \WP_Error( 'homeward_config_value', __( 'Use a whole number of days from 0 to 3650.', 'homeward-rescue' ) );
+		} elseif ( is_array( $default ) ) {
+			return new \WP_Error( 'homeward_config_value', __( 'Use a list of up to 12 short lines of text.', 'homeward-rescue' ) );
+		} elseif ( null !== $default && 'feature_donate_url' !== $key ) {
+			return new \WP_Error( 'homeward_config_value', __( 'Keep feature wording under 2,000 characters.', 'homeward-rescue' ) );
+		}
 		$message = $messages[ $key ] ?? ( str_starts_with( $key, 'font_' )
 			? __( 'Choose one of the included fonts. The list is in config.example.json.', 'homeward-rescue' ) : __( 'Choose a colour. Settings files use a # followed by six colour digits.', 'homeward-rescue' ) );
 		return new \WP_Error( 'homeward_config_value', $message );

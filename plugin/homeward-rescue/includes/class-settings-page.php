@@ -42,7 +42,8 @@ class Settings_Page {
 			$value = trim( $input[ $key ] );
 			if ( '' === $value ) {
 				$input[ $key ] = array();
-			} elseif ( 'donate_order' === $key && ! in_array( $value[0], array( '[', '{' ), true ) ) {
+			} elseif ( ( 'donate_order' === $key || in_array( $key, Features::LINE_FIELDS, true ) )
+				&& ! in_array( $value[0], array( '[', '{' ), true ) ) {
 				$input[ $key ] = self::lines( $value );
 			} else {
 				// Accept saved forms from before the structured controls were introduced.
@@ -129,6 +130,9 @@ class Settings_Page {
 			echo '<p><a href="' . esc_url( admin_url( 'options-general.php?page=homeward-setup&step=' . $step ) ) . '">'
 				. esc_html__( 'Review these choices in the setup guide', 'homeward-rescue' ) . '</a></p>';
 		}
+		if ( 'features' === $slug ) {
+			self::features_intro();
+		}
 		echo '<table class="form-table" role="presentation"><tbody>';
 		foreach ( $fields as $key => $field ) {
 			$id = 'homeward-' . $key;
@@ -152,6 +156,11 @@ class Settings_Page {
 				. '</label></p>';
 		}
 		echo '</section>';
+	}
+
+	private static function features_intro() {
+		echo '<p>' . esc_html__( 'Each feature appears on animal profiles as soon as it is switched on. No statistics account is needed.', 'homeward-rescue' ) . '</p>';
+		echo '<p>' . esc_html__( 'Logged-in editors can preview every feature on a profile by adding ?homeward_preview=all to its address.', 'homeward-rescue' ) . '</p>';
 	}
 
 	private static function control( $key, $value, $name, $type ) {

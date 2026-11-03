@@ -3,6 +3,8 @@ namespace Homeward;
 
 defined( 'ABSPATH' ) || exit;
 
+require_once __DIR__ . '/class-features.php';
+
 /**
  * Validate rescue settings and coordinate source configuration changes.
  */
@@ -20,7 +22,12 @@ class Settings {
 	 * @return array
 	 */
 	public static function defaults() {
-		return array_merge( self::animal_defaults(), self::rescue_defaults(), self::service_defaults() );
+		return array_merge(
+			self::animal_defaults(),
+			self::rescue_defaults(),
+			self::service_defaults(),
+			Features::defaults()
+		);
 	}
 
 	private static function animal_defaults() {
@@ -319,6 +326,7 @@ class Settings {
 		self::sanitize_brand( $input, $out );
 		self::confirm_source( $input, $out );
 		self::sanitize_contact( $input, $out );
+		Features::sanitize( $input, $out );
 		return $out;
 	}
 

@@ -41,7 +41,7 @@ class Frontend {
 		wp_register_script(
 			'homeward-qr', HOMEWARD_URL . 'assets/js/qr.js', array(), HOMEWARD_VERSION, true
 		);
-		foreach ( array( 'animals', 'stories', 'donate' ) as $script ) {
+		foreach ( array( 'animals', 'stories', 'donate', 'features' ) as $script ) {
 			wp_register_script(
 				'homeward-' . $script,
 				HOMEWARD_URL . 'assets/js/' . $script . '.js',

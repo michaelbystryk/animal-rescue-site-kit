@@ -770,7 +770,7 @@ class Render {
 		if ( 'gone' === $animal['status'] ) {
 			/* translators: %s: animal name. The separate More %s heading uses the configured plural animal noun. */
 			return $out . '<h1>' . esc_html( sprintf( __( '%s has found a home', 'homeward-rescue' ), $name ) ) . '</h1>'
-				. Content_Render::linked_stories( $animal['id'] ) . Testimonials::render_linked( $animal['id'] ) . '</div>'
+				. Features::adopted_donate( $animal ) . Content_Render::linked_stories( $animal['id'] ) . Testimonials::render_linked( $animal['id'] ) . '</div>'
 				. self::carousel(
 				Animal::query( array( 'exclude' => array( $animal['id'] ), 'limit' => 8 ) ),
 				array(
@@ -788,6 +788,7 @@ class Render {
 		$out .= self::profile_glance( $animal, $id, $opts, $can_apply );
 		$out .= '<div class="homeward-animal-body">';
 		$out .= self::profile_story( $animal, $post, $opts );
+		$out .= Features::donate_card( $animal );
 		$out .= '</div></div>' . Content_Render::linked_stories( $animal['id'] )
 			. Testimonials::render_linked( $animal['id'] ) . '</div>';
 		if ( $opts['moreFromRegion'] ) {
@@ -859,7 +860,8 @@ class Render {
 		$out .= '<button type="button" class="homeward-animal-btn homeward-animal-btn--ghost homeward-js-only"'
 			. ' data-homeward-share data-title="'
 			. esc_attr( $name ) . '" data-url="' . esc_url( $animal['url'] ) . '">' . esc_html__( 'Share', 'homeward-rescue' )
-			. '</button><p role="status" data-homeward-share-status></p></div></div></aside>';
+			. '</button><p role="status" data-homeward-share-status></p></div>';
+		$out .= '</div></aside>';
 		return $out;
 	}
 
