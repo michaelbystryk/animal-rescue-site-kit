@@ -37,6 +37,7 @@ class Plugin {
 			'media',
 			'brand',
 			'render',
+			'features',
 			'kennel-print',
 			'content-render',
 			'donations',

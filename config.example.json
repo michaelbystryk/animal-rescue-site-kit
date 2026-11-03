@@ -21,6 +21,9 @@
     "font_body": "inter",
     "posthog_key": "",
     "posthog_region": "us",
+    "feature_donate_card": true,
+    "feature_adopted_donate": true,
+    "feature_donate_url": "/donate/",
     "species": [
       "dog",
       "cat"

@@ -2693,3 +2693,35 @@ dd) a:not(:where(.homeward-animal-btn,
 	line-height: 1.2;
 	margin-block: 0 1rem;
 }
+
+/* Optional profile features (Settings > Profile features). */
+.homeward-feature[hidden],
+.homeward-feature [hidden] {
+	display: none!important;
+}
+
+:where(.homeward-feature-card) {
+	margin-block: 2rem;
+	padding: clamp(1.25rem,3vw,2rem);
+	background: var(--homeward-surface);
+	border: 1px solid var(--homeward-border);
+	border-radius: var(--homeward-radius);
+	box-shadow: var(--homeward-preset-shadow-soft);
+}
+
+:where(.homeward-feature-card__heading) {
+	margin: 0 0 .75rem;
+	font: 600 var(--homeward-preset-font-size-large)/1.2 var(--homeward-heading-font);
+	overflow-wrap: break-word;
+}
+
+:where(.homeward-feature-card__actions) {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .75rem;
+	margin: 1rem 0 0;
+}
+
+:where(.homeward-feature-donate) {
+	border-left: 4px solid var(--homeward-accent);
+}

@@ -194,6 +194,8 @@ class Analytics {
 			window.posthog.capture(name, props || {});
 		}
 	};
+	// Shared with assets/js/features.js so feature events use this same path and privacy checks.
+	window.homewardAnalytics = { capture: send };
 	document.addEventListener('click', function (event) {
 		var el = event.target.closest ? event.target.closest('a, button') : null;
 		if (!el) { return; }
