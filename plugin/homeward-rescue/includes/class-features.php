@@ -18,12 +18,15 @@ class Features {
 	const KEYS = array(
 		'donate-card',
 		'adopted-donate',
+		'fee-explainer',
 	);
 
 	/**
 	 * Settings that hold one line per entry.
 	 */
-	const LINE_FIELDS = array();
+	const LINE_FIELDS = array(
+		'feature_fee_explainer_items',
+	);
 
 	/**
 	 * Counter for heading ids when a page renders several profiles.
@@ -53,6 +56,15 @@ class Features {
 			'feature_adopted_donate_button'    => __( 'Help the next one', 'homeward-rescue' ),
 			'feature_adopted_donate_secondary' => __( 'Meet the {animals} waiting', 'homeward-rescue' ),
 			'feature_donate_url'               => '',
+			'feature_fee_explainer'            => false,
+			'feature_fee_explainer_button'     => __( 'What’s included?', 'homeward-rescue' ),
+			'feature_fee_explainer_items'      => array(
+				__( 'Vet check', 'homeward-rescue' ),
+				__( 'Vaccinations', 'homeward-rescue' ),
+				__( 'Spay or neuter', 'homeward-rescue' ),
+				__( 'Microchip', 'homeward-rescue' ),
+			),
+			'feature_fee_explainer_closing'    => __( 'The fee covers part of the cost of care. Donations make up the rest.', 'homeward-rescue' ),
 			'ask_hint'                         => __( 'What would you like to know about {name}?', 'homeward-rescue' ),
 		);
 	}
@@ -240,6 +252,30 @@ class Features {
 			. '<a class="homeward-animal-btn homeward-animal-btn--secondary" href="' . esc_url( Render::archive_url() ) . '">'
 			. esc_html( self::fill( self::text( 'feature_adopted_donate_secondary' ), $name ) ) . '</a></p></section>';
 		return self::wrap( 'adopted-donate', $html );
+	}
+
+	/**
+	 * "What's included?" disclosure under the adoption fee.
+	 *
+	 * @param array $animal Public animal view model.
+	 * @return string
+	 */
+	public static function fee_explainer( $animal ) {
+		$fee = $animal['fee'] ?? '';
+		if ( ! is_numeric( $fee ) || (float) $fee <= 0 || 'gone' === ( $animal['status'] ?? '' ) ) {
+			return '';
+		}
+		$items = '';
+		foreach ( (array) self::text( 'feature_fee_explainer_items' ) as $item ) {
+			$items .= '<li>' . Render::icon( 'check' ) . '<span>' . esc_html( self::fill( $item, $animal['name'] ?? '' ) ) . '</span></li>';
+		}
+		$closing = trim( (string) Settings::get( 'feature_fee_explainer_closing' ) );
+		$html = '<details class="homeward-fee-explainer" data-homeward-fee-explainer><summary class="homeward-fee-explainer__toggle">'
+			. Render::icon( 'info' ) . '<span>' . esc_html( self::text( 'feature_fee_explainer_button' ) ) . '</span></summary>'
+			. '<div class="homeward-fee-explainer__panel"><ul class="homeward-fee-explainer__list" role="list">' . $items . '</ul>'
+			. ( '' !== $closing ? '<p class="homeward-fee-explainer__closing">' . esc_html( self::fill( $closing, $animal['name'] ?? '' ) ) . '</p>' : '' )
+			. '</div></details>';
+		return self::wrap( 'fee-explainer', $html );
 	}
 
 	/**

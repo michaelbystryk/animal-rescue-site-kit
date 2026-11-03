@@ -62,6 +62,7 @@ foreach ($off_by_default as $key) {
 	equals("$key defaults off", false, $defaults[Features::option($key)]);
 }
 equals('donate link defaults to the donate page', 'https://example.invalid/donate/', Features::donate_url());
+equals('fee checklist has four generic items', array('Vet check', 'Vaccinations', 'Spay or neuter', 'Microchip'), $defaults['feature_fee_explainer_items']);
 
 // Each feature on and off.
 $animal = fx_animal();
@@ -70,6 +71,7 @@ $renders = array(
 	'donate-card' => fn() => Features::donate_card($animal),
 	'adopted-donate' => fn() => Features::adopted_donate($gone),
 );
+$renders['fee-explainer'] = fn() => Features::fee_explainer($animal);
 fx_settings(array_map(fn() => false, $all_on));
 foreach ($renders as $key => $render) {
 	equals("$key off renders nothing", '', $render());
@@ -113,6 +115,20 @@ equals('secure external donate link kept', 'https://give.example.invalid/now', F
 fx_settings(array_merge($all_on, array('feature_donate_card_heading' => '')));
 contains('empty wording falls back to the default', Features::donate_card($animal), 'right now? You can still help.');
 
+$fee = Features::fee_explainer($animal);
+contains('fee explainer is a native disclosure', $fee, '<details class="homeward-fee-explainer" data-homeward-fee-explainer>');
+contains('fee explainer button', $fee, 'What’s included?');
+foreach (array('Vet check', 'Vaccinations', 'Spay or neuter', 'Microchip') as $item) {
+	contains("fee explainer lists $item", $fee, '<span>' . $item . '</span>');
+}
+equals('no fee, no explainer', '', Features::fee_explainer(fx_animal(array('fee' => ''))));
+equals('zero fee, no explainer', '', Features::fee_explainer(fx_animal(array('fee' => '0'))));
+fx_settings(array_merge($all_on, array('feature_fee_explainer_items' => array('Food <i>bag</i>', '', 'Collar'), 'feature_fee_explainer_closing' => '')));
+$fee = Features::fee_explainer($animal);
+check('fee items are cleaned and blank lines dropped', str_contains($fee, '<span>Food bag</span>') && 2 === substr_count($fee, '<li>'));
+check('empty closing line is left out', !str_contains($fee, 'homeward-fee-explainer__closing'));
+$form = Settings_Page::sanitize_form(array('feature_fee_explainer_items' => "One\n\nTwo\r\nThree"));
+equals('settings form splits checklist lines', array('One', 'Two', 'Three'), $form['feature_fee_explainer_items']);
 
 
 
@@ -145,6 +161,7 @@ foreach ($off_by_default as $key) {
 check('donate card comes after the story', strpos($page, 'homeward-animal-story') < strpos($page, 'data-homeward-feature="donate-card"'));
 fx_settings(array_merge($all_on, array('feature_waiting_counter_min_days' => 0, 'adopt_url' => 'https://apply.example.invalid/form')));
 $page = Render::animal_page($profile_animal, $post);
+check('fee explainer follows the facts', strpos($page, 'homeward-animal-facts') < strpos($page, 'data-homeward-feature="fee-explainer"'));
 list($gone_animal, $gone_post) = fx_profile(array('name' => 'Juniper'), 'gone');
 $gone_page = Render::animal_page($gone_animal, $gone_post);
 contains('adopted profile shows the prompt', $gone_page, 'data-homeward-feature="adopted-donate"');
@@ -186,6 +203,8 @@ check('feature config validates', is_array($valid) && false === $valid['feature_
 check('feature switch must be true or false', is_wp_error(Config_Import::validate_settings(array('feature_donate_card' => 'yes'))));
 check('feature donate link must be safe', is_wp_error(Config_Import::validate_settings(array('feature_donate_url' => 'http://x.invalid'))));
 check('ask hint imports', is_array(Config_Import::validate_settings(array('ask_hint' => 'Questions about {name}?'))));
+equals('fee checklist imports', array('Vet check', 'Microchip'), Config_Import::validate_settings(array('feature_fee_explainer_items' => array('Vet check', 'Microchip')))['feature_fee_explainer_items']);
+check('feature lines must be text', is_wp_error(Config_Import::validate_settings(array('feature_fee_explainer_items' => array(1, 2)))));
 
 // No reference rescue names, no em dashes and no dog-only wording in the new files.
 foreach (array(

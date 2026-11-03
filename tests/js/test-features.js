@@ -133,6 +133,23 @@ function setup(nodes, options = {}) {
 }
 
 
+// Fee explainer: first open only, Escape closes.
+{
+  const summary = new El();
+  summary.tag = 'summary';
+  const details = new El({ 'data-homeward-fee-explainer': '' }, [summary]);
+  const { events, advance } = setup([feature('fee-explainer', [details])]);
+  advance(0);
+  details.open = true;
+  details.fire('toggle');
+  details.open = false;
+  details.fire('toggle');
+  details.open = true;
+  details.fire('toggle');
+  equals('fee_explainer_opened fires once', events.map((e) => e[0]), ['fee_explainer_opened']);
+  details.fire('keydown', { key: 'Escape' });
+  check('Escape closes and returns focus', !details.open && summary.focused);
+}
 
 
 

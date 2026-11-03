@@ -51,6 +51,24 @@
   const behaviours = {
     'donate-card': donate,
     'adopted-donate': donate,
+    'fee-explainer': (el, key) => {
+      const details = el.querySelector('[data-homeward-fee-explainer]');
+      if (!details) return;
+      let sent = false;
+      details.addEventListener('toggle', () => {
+        if (details.open && !sent) {
+          sent = true;
+          capture(key, 'fee_explainer_opened', {});
+        }
+      });
+      details.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && details.open) {
+          details.open = false;
+          const summary = details.querySelector('summary');
+          if (summary) summary.focus();
+        }
+      });
+    },
   };
 
   function donate(el, key) {

@@ -390,6 +390,16 @@ class Settings_Fields {
 					'feature_donate_url'               => array( __( 'Donate link for both prompts', 'homeward-rescue' ), __( 'A secure https:// link or a path on this site such as /donate/; leave blank for /donate/.', 'homeward-rescue' ), 'text' ),
 				)
 			),
+			self::feature(
+				'fee-explainer',
+				__( 'Explain the adoption fee', 'homeward-rescue' ),
+				__( 'A What is included? button under the fee that opens a checklist.', 'homeward-rescue' ),
+				array(
+					'feature_fee_explainer_button'  => array( __( 'Fee button wording', 'homeward-rescue' ), __( 'The small button under the adoption fee.', 'homeward-rescue' ), 'text' ),
+					'feature_fee_explainer_items'   => array( __( 'What the fee covers', 'homeward-rescue' ), __( 'One item per line; each gets a check mark.', 'homeward-rescue' ), 'lines' ),
+					'feature_fee_explainer_closing' => array( __( 'Line under the checklist', 'homeward-rescue' ), __( 'Leave blank to show only the checklist.', 'homeward-rescue' ), 'text' ),
+				)
+			),
 		);
 	}
 
