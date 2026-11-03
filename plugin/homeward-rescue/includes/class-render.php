@@ -302,6 +302,13 @@ class Render {
 		$out = '<form class="homeward-animals-filters" data-homeward-filters hidden role="search" aria-label="'
 			. esc_attr__( 'Filter animals', 'homeward-rescue' ) . '">';
 		$out .= '<div class="homeward-animals-filters__row">';
+		// Phones: this button sits next to Sort and opens every other filter (CSS hides it on wider screens).
+		$out .= '<button type="button" class="homeward-animals-filters__toggle" aria-expanded="false" data-homeward-filters-toggle>'
+			. '<svg class="homeward-animals-filters__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"'
+			. ' stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/>'
+			. '<circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>'
+			. '<span>' . esc_html__( 'Filters', 'homeward-rescue' ) . '</span>'
+			. '<span class="homeward-animals-filters__badge" data-homeward-filters-badge hidden></span></button>';
 		$out .= '<div class="homeward-animals-field homeward-animals-field--search"><label for="' . esc_attr( $id ) . '-q">'
 			. esc_html__( 'Search by name', 'homeward-rescue' ) . '</label><input type="search" id="' . esc_attr( $id )
 			. '-q" name="q" autocomplete="off" enterkeyhint="search"></div>';

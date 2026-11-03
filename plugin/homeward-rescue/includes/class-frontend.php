@@ -99,6 +99,10 @@ class Frontend {
 					__( 'Scan to meet this %s. Save the code for an adoption poster.', 'homeward-rescue' ),
 					Settings::get( 'noun_singular' )
 				),
+				/* translators: %d: number of active filters, inserted by JavaScript. */
+				'activeFilters' => __( '(%d active)', 'homeward-rescue' ),
+				/* translators: %d: number of active filters, inserted by JavaScript. */
+				'filtersActive' => __( 'Filters, %d active', 'homeward-rescue' ),
 				'close' => __( 'Close photo viewer', 'homeward-rescue' ),
 				'prev'  => __( 'Previous photo', 'homeward-rescue' ),
 				'next'  => __( 'Next photo', 'homeward-rescue' ),

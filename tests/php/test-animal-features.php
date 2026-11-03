@@ -141,6 +141,20 @@ check(
 );
 $html = Render::listing(array($bully, $terrier), array('filters' => true, 'courtesy' => array($other)));
 check('dog-only filter defaults on', str_contains($html, 'name="breed"'));
+check(
+	'phone Filters button is a labelled toggle that starts closed',
+	str_contains($html, 'data-homeward-filters-toggle')
+		&& str_contains($html, 'aria-expanded="false" data-homeward-filters-toggle')
+		&& str_contains($html, '<span>Filters</span>')
+		&& str_contains($html, 'data-homeward-filters-badge hidden'),
+);
+check(
+	'Filters button sits inside the filter row before Search',
+	strpos($html, 'data-homeward-filters-toggle') < strpos($html, 'homeward-animals-field--search')
+		&& strpos($html, 'homeward-animals-filters__row') < strpos($html, 'data-homeward-filters-toggle'),
+);
+check('Filters button icon is decorative', str_contains($html, 'aria-hidden="true" focusable="false"'));
+check('listing without filters has no Filters button', !str_contains(Render::listing(array($bully)), 'data-homeward-filters-toggle'));
 preg_match('/<details[^>]*>(.*?)<\/details>/s', $html, $details);
 check(
 	'breed is an advanced filter with mix hint',
