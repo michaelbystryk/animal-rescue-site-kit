@@ -51,6 +51,8 @@ class Animal {
 	const M_DETAIL = '_homeward_detail';
 	const M_GONE = '_homeward_gone';
 	const M_CREATED = '_homeward_created';
+	/** When the sync saw a known animal come back to available after adoption, a hold or delisting. */
+	const M_RELISTED = '_homeward_relisted';
 	// Overrides (written by volunteers only; sync never touches them).
 	const M_NAME = 'homeward_display_name';
 	const M_ORIGIN = 'homeward_region';
@@ -64,7 +66,7 @@ class Animal {
 	const M_LISTED = '_homeward_listed';
 	const M_IS_COURT = '_homeward_is_courtesy';
 	const M_ORIGIN_FX = '_homeward_origin_effective';
-	const CACHE_KEY = 'homeward_listed_v3';
+	const CACHE_KEY = 'homeward_listed_v4';
 
 	/**
 	 * Invalidate animal caches when records or settings change.
@@ -205,8 +207,13 @@ class Animal {
 		$first_synced = (int) get_post_meta( $id, self::M_FIRST_SYNCED, true );
 		// Legacy animal posts were created by their first sync, never by the last refresh.
 		$first_synced = $first_synced ?: (int) get_post_time( 'U', true, $post );
-		$waiting_since = Pet_Data::date_timestamp( $d['date_received'] ?? '' )
+		// Intake: the date staff enter (date_aquired), else the received date, else the created date, else our first sync.
+		$intake = Pet_Data::date_timestamp( $d['date_aquired'] ?? '' )
+			?: Pet_Data::date_timestamp( $d['date_received'] ?? '' )
 			?: Pet_Data::date_timestamp( $d['created_at'] ?? '' ) ?: $first_synced;
+		$relisted = (int) get_post_meta( $id, self::M_RELISTED, true );
+		// A relisted animal waits from its return, not from an intake date that may be years old.
+		$waiting_since = max( $intake, $relisted );
 		$blurb = trim( (string) get_post_meta( $id, self::M_BLURB, true ) );
 		$species = get_post_meta( $id, self::M_SPECIES, true ) ?: ( $d['species'] ?? self::default_species() );
 		$animal = array_merge(
@@ -225,6 +232,8 @@ class Animal {
 				'sort_weight'   => (int) get_post_meta( $id, self::M_WEIGHT, true ),
 				'created'       => $created ? $created : (int) get_post_time( 'U', true, $post ),
 				'first_synced'  => $first_synced,
+				'intake'        => $intake,
+				'relisted'      => $relisted,
 				'waiting_since' => $waiting_since,
 			),
 			self::profile_view( $d, $origin, $special, $bonded ),
@@ -401,6 +410,19 @@ class Animal {
 	}
 
 	/**
+	 * Whether a wait start is believable: not in the future and not older than the limit.
+	 * Older dates usually mean an animal was adopted and relisted before relisting was tracked.
+	 * Filter `homeward_max_waiting_years` (default 3).
+	 *
+	 * @param int $since Unix time.
+	 * @return bool
+	 */
+	private static function plausible_wait( $since ) {
+		$years = (float) apply_filters( 'homeward_max_waiting_years', 3 );
+		return $since > 0 && $since <= time() && $since >= time() - (int) round( $years * 365.25 * DAY_IN_SECONDS );
+	}
+
+	/**
 	 * Oldest 10% (rounded up) of visible, available animals; stable ties by id.
 	 */
 	private static function longest_waiting_ids( $animals = null ) {
@@ -413,7 +435,7 @@ class Animal {
 			fn ( $d ) => 'available' === $d['status'] && $d['listed'] && ( ! $d['courtesy'] || self::show_courtesy() )
 			&& ( ! Settings::get( 'badge_long_wait_days' )
 				|| time() - $d['waiting_since'] >= Settings::get( 'badge_long_wait_days' ) * DAY_IN_SECONDS )
-			&& $d['waiting_since'] > 0 && $d['waiting_since'] <= time()
+			&& self::plausible_wait( $d['waiting_since'] )
 		);
 		usort(
 			$available,
@@ -435,7 +457,7 @@ class Animal {
 		if ( 'available' !== $animal['status'] || ! $animal['listed'] || 'available' !== $animal['badge'][ 1 ] ) {
 			return $animal;
 		}
-		// "New" means new to the rescue: prefer Petstablished's received/created date (waiting_since).
+		// "New" means new to the rescue: Petstablished's intake date, never a relisting.
 		// When that falls back to our own first-sync time, ignore dogs present when tracking began,
 		// so the first sync after install or launch doesn't mark every dog as new.
 		$baseline = (int) get_option( 'homeward_badge_baseline', 0 );
@@ -443,7 +465,7 @@ class Animal {
 			$baseline = time();
 			add_option( 'homeward_badge_baseline', $baseline, '', false );
 		}
-		$arrived = (int) $animal['waiting_since'];
+		$arrived = (int) $animal['intake'];
 		$fallback = $arrived === (int) $animal['first_synced'];
 		$elapsed = time() - $arrived;
 		$is_new = $arrived > 0 && $elapsed >= 0 && $elapsed < Settings::get( 'badge_new_days' ) * DAY_IN_SECONDS

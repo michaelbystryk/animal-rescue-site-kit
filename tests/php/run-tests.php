@@ -327,6 +327,8 @@ $map = Animal::ps_map();
 $first = $map[910001];
 $special = $map[910002];
 $cat = $map[910003];
+// The fixture arrival dates are from 2020; widen the plausible-wait window (default tested in test-wait-dates.php).
+add_filter('homeward_max_waiting_years', fn() => 100);
 equals('old arrival longest waiting', 'longest-waiting', Animal::get($first)['badge'][1]);
 equals('special needs wins', 'special', Animal::get($special)['badge'][1]);
 check('first-import fallback is not New', 'new' !== Animal::get($cat)['badge'][1]);

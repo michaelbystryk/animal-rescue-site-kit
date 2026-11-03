@@ -83,6 +83,7 @@ class Animal_Post_Type {
 			Animal::M_CREATED,
 			Animal::M_DETAIL,
 			Animal::M_GONE,
+			Animal::M_RELISTED,
 			Animal::M_LISTED,
 			Animal::M_DERIVED_BADGE,
 			Animal::M_SORT,
