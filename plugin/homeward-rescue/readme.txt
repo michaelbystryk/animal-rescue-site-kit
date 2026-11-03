@@ -2,7 +2,7 @@
 Requires at least: 6.7
 Tested up to: 6.7
 Requires PHP: 8.1
-Stable tag: 0.2.0
+Stable tag: 0.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -93,6 +93,12 @@ To remove everything, tick "Delete all Homeward data when the plugin is
 deleted" in Settings > Homeward Rescue before you delete the plugin.
 
 == Changelog ==
+
+= 0.3.0 =
+Waiting time counts from the intake date and restarts when an animal is relisted. The home carousel fills up after featured animals.
+Phones: swipe between photos in a full screen viewer, and a Filters button next to Sort.
+Profile features you can switch on in Settings: donate prompts, an adoption fee explainer, a household share card, adoption steps and a waiting counter. A hint in the ask form.
+Optional PostHog A/B tests for each profile feature. See docs/posthog-experiments.md.
 
 = 0.2.0 =
 Printable kennel cards and full page adoption posters with a QR code to each animal, from the profile or in bulk from the Animals list.

@@ -14,7 +14,7 @@ function define_once($name, $value) {
 define_once('ABSPATH', dirname(__DIR__) . '/');
 define_once('HOMEWARD_DIR', dirname(__DIR__, 3) . '/plugin/homeward-rescue/');
 define_once('HOMEWARD_URL', 'https://example.invalid/plugins/homeward-rescue/');
-define_once('HOMEWARD_VERSION', '0.2.0');
+define_once('HOMEWARD_VERSION', '0.3.0');
 define_once('MINUTE_IN_SECONDS', 60);
 define_once('HOUR_IN_SECONDS', 3600);
 define_once('DAY_IN_SECONDS', 86400);
