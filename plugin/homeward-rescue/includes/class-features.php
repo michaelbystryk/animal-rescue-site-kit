@@ -53,6 +53,7 @@ class Features {
 			'feature_adopted_donate_button'    => __( 'Help the next one', 'homeward-rescue' ),
 			'feature_adopted_donate_secondary' => __( 'Meet the {animals} waiting', 'homeward-rescue' ),
 			'feature_donate_url'               => '',
+			'ask_hint'                         => __( 'What would you like to know about {name}?', 'homeward-rescue' ),
 		);
 	}
 
@@ -241,4 +242,14 @@ class Features {
 		return self::wrap( 'adopted-donate', $html );
 	}
 
+	/**
+	 * Placeholder for the message box when a visitor asks about one animal.
+	 *
+	 * @param string $name Animal name.
+	 * @return string Empty when the rescue cleared the hint.
+	 */
+	public static function ask_hint( $name ) {
+		$hint = trim( (string) Settings::get( 'ask_hint' ) );
+		return '' === $hint ? '' : self::fill( $hint, $name );
+	}
 }

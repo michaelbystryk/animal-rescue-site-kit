@@ -77,6 +77,22 @@
 	cursor: wait;
 }
 
+/* A gentle lift on Send so it reads as the next step. */
+.homeward-contact .homeward-contact__submit {
+	transition: background-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.homeward-contact .homeward-contact__submit:not(:disabled):hover {
+	background: color-mix(in srgb, var(--homeward-primary, #345a48) 88%, #000);
+	transform: translateY(-2px);
+	box-shadow: 0 8px 18px -10px var(--homeward-primary, #345a48);
+}
+
+.homeward-contact .homeward-contact__submit:not(:disabled):active {
+	transform: translateY(0);
+	box-shadow: none;
+}
+
 .homeward-contact :is(input, textarea, button, [tabindex]):focus-visible {
 	outline: 3px solid var(--homeward-primary, #345a48);
 	outline-offset: 3px;
@@ -137,6 +153,10 @@
 		scroll-behavior: auto;
 		animation: none;
 		transition: none;
+	}
+
+	.homeward-contact .homeward-contact__submit:not(:disabled):hover {
+		transform: none;
 	}
 }
 

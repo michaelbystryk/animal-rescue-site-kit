@@ -163,6 +163,18 @@ contains('settings render the features section', $screen, 'id="homeward-section-
 contains('settings explain previews', $screen, '?homeward_preview=all');
 check('settings page has no em dash', !str_contains($screen, "\u{2014}"));
 
+// Contact form: the hint shows only when asking about one animal, and can be cleared.
+setup_reset();
+list($ask_animal) = fx_profile(array('name' => 'Juniper'));
+$form = Contact_Form::render(array('topic' => 'animal', 'animal' => $ask_animal['id'], '_return' => 'https://example.invalid/contact/'));
+contains('animal question shows the hint', $form, 'placeholder="What would you like to know about Juniper?"');
+check('general form has no hint', !str_contains(Contact_Form::render(array('_return' => 'https://example.invalid/contact/')), 'placeholder='));
+fx_settings(array('ask_hint' => 'Ask about {name} <b>now</b>'));
+contains('custom hint is cleaned and filled', Contact_Form::render(array('topic' => 'animal', 'animal' => $ask_animal['id'], '_return' => 'https://example.invalid/contact/')), 'placeholder="Ask about Juniper now"');
+fx_settings(array('ask_hint' => ''));
+check('empty hint shows none', !str_contains(Contact_Form::render(array('topic' => 'animal', 'animal' => $ask_animal['id'], '_return' => 'https://example.invalid/contact/')), 'placeholder='));
+$css = file_get_contents(HOMEWARD_DIR . 'assets/css/contact-form.css');
+check('Send has a subtle hover', str_contains($css, '.homeward-contact__submit:not(:disabled):hover'));
 
 // Config import accepts the feature settings, and the example uses them.
 $example = json_decode(file_get_contents(dirname(__DIR__, 2) . '/config.example.json'), true)['settings'];
@@ -173,6 +185,7 @@ $valid = Config_Import::validate_settings(array('feature_donate_card' => false, 
 check('feature config validates', is_array($valid) && false === $valid['feature_donate_card'] && '/donate/' === $valid['feature_donate_url']);
 check('feature switch must be true or false', is_wp_error(Config_Import::validate_settings(array('feature_donate_card' => 'yes'))));
 check('feature donate link must be safe', is_wp_error(Config_Import::validate_settings(array('feature_donate_url' => 'http://x.invalid'))));
+check('ask hint imports', is_array(Config_Import::validate_settings(array('ask_hint' => 'Questions about {name}?'))));
 
 // No reference rescue names, no em dashes and no dog-only wording in the new files.
 foreach (array(
