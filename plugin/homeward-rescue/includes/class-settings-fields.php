@@ -418,6 +418,15 @@ class Settings_Fields {
 					'feature_adoption_path_steps'   => array( __( 'Adoption steps', 'homeward-rescue' ), __( 'One step per line, written as Title | short line. {name} becomes the animal name.', 'homeward-rescue' ), 'lines' ),
 				)
 			),
+			self::feature(
+				'waiting-counter',
+				__( 'Waiting counter', 'homeward-rescue' ),
+				__( 'A small Waiting for a home: N days note under the name of available animals.', 'homeward-rescue' ),
+				array(
+					'feature_waiting_counter_text'     => array( __( 'Waiting counter wording', 'homeward-rescue' ), __( '{days} becomes the number of days; 1 days is written as 1 day.', 'homeward-rescue' ), 'text' ),
+					'feature_waiting_counter_min_days' => array( __( 'Days before the counter shows', 'homeward-rescue' ), __( 'Animals who arrived more recently show no counter.', 'homeward-rescue' ), 'number' ),
+				)
+			),
 		);
 	}
 
